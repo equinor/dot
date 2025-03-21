@@ -1,0 +1,114 @@
+@import "https://cdn.eds.equinor.com/font/equinor-font.css";
+
+:root {
+  --danger: #ff1243;
+  --secondary: #243746;
+  --primary: #007079;
+}
+
+body {
+  margin: 0;
+  font-family: "Equinor";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: "Equinor";
+}
+
+iframe {
+  display: none;
+}
+
+.equinorHeading {
+  color: var(--primary);
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+  margin-right: auto;
+}
+
+.equinorHeading2 {
+  color: var(--secondary);
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.paragraph {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  margin: 20px auto;
+  line-height: 1.8;
+}
+
+#logo {
+  width: 100px;
+  height: 80px;
+  display: flex;
+  float: right;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+/* .homeButton {
+  display: flex;
+  width: 100px;
+  height: 100px;
+} */
+
+.projectTable {
+  margin-top: 50px;
+  border-spacing: 5em;
+}
+
+#projectButton {
+  width: 100px;
+  height: 50px;
+}
+
+#wrapper {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  margin-top: 70px;
+}
+
+#leftContainer {
+  float: left;
+  margin-left: 20px;
+  margin-right: 20px;
+  width: 40%;
+}
+
+.textInputNewProject {
+  margin-top: 20px;
+}
+
+#rightContainer {
+  float: right;
+  margin-right: 20px;
+  margin-left: 20px;
+  width: 40%;
+}
+
+.createButton {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.framingTab {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}

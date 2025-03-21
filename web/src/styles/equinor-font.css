@@ -1,0 +1,79 @@
+/*
+ * The fonts included in this stylesheet are to be used by
+ Equinor ASA and its subsidiaries and appointed suppliers
+ only.
+ * The fonts are protected under domestic and international
+ trademark and copyright law. You are prohibited from
+ modifying, reverse engineering, duplicating, or distributing
+ this font software.
+ *
+ * Contact the EDS Core Team <fg_eds@equinor.com>
+ for more information.
+ *
+ * (c) 2020 Equinor ASA
+ */
+
+@font-face {
+  font-family: Equinor;
+  src: url(//cdn.eds.equinor.com/font/Equinor-Light.woff2) format("woff2"),
+    url(//cdn.eds.equinor.com/font/Equinor-Light.woff) format("woff");
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: Equinor;
+  src: url(//cdn.eds.equinor.com/font/Equinor-Regular.woff2) format("woff2"),
+    url(//cdn.eds.equinor.com/font/Equinor-Regular.woff) format("woff");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: Equinor;
+  src: url(//cdn.eds.equinor.com/font/Equinor-Medium.woff2) format("woff2"),
+    url(//cdn.eds.equinor.com/font/Equinor-Medium.woff) format("woff");
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: Equinor;
+  src: url(//cdn.eds.equinor.com/font/Equinor-Bold.woff2) format("woff2"),
+    url(//cdn.eds.equinor.com/font/Equinor-Bold.woff) format("woff");
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: Equinor;
+  src: url(//cdn.eds.equinor.com/font/Equinor-LightItalic.woff2) format("woff2"),
+    url(//cdn.eds.equinor.com/font/Equinor-LightItalic.woff) format("woff");
+  font-style: italic;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: Equinor;
+  src: url(//cdn.eds.equinor.com/font/Equinor-Italic.woff2) format("woff2"),
+    url(//cdn.eds.equinor.com/font/Equinor-Italic.woff) format("woff");
+  font-style: italic;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: Equinor;
+  src: url(//cdn.eds.equinor.com/font/Equinor-MediumItalic.woff2)
+      format("woff2"),
+    url(//cdn.eds.equinor.com/font/Equinor-MediumItalic.woff) format("woff");
+  font-style: italic;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: Equinor;
+  src: url(//cdn.eds.equinor.com/font/Equinor-BoldItalic.woff2) format("woff2"),
+    url(//cdn.eds.equinor.com/font/Equinor-BoldItalic.woff) format("woff");
+  font-style: italic;
+  font-weight: 700;
+}

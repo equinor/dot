@@ -1,0 +1,38 @@
+.addNewIssue {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.addNewIssue #issueTextField {
+  width: 30%;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.addNewIssue #issueTextField #issueTextFieldInput {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.addNewIssue #categorySelect {
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.addNewIssue #labelTextField {
+  width: 30%;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.addNewIssue #saveButton {
+  padding: auto;
+  margin-top: 7px;
+  margin-left: 10px;
+}

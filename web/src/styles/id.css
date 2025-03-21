@@ -1,0 +1,47 @@
+div.ioMenu {
+  margin-left: 15px;
+}
+
+div.EditMenu {
+  margin-left: 15px;
+}
+
+.idActionButton {
+  margin-top: 15px !important;
+  padding: 10px !important;
+  margin-bottom: 15px !important;
+  display: flex !important;
+}
+
+.idVis {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #f7f7f7;
+}
+.editMenu {
+  margin-top: 15%;
+  margin-left: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: white;
+  border-color: lightgray;
+  border-radius: 4px !important;
+  box-shadow: 5px 5px rgb(240, 240, 240);
+  z-index: 200 !important;
+  position: absolute;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.vis-tooltip {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+  padding: 10px !important;
+  border-radius: 4px !important;
+}

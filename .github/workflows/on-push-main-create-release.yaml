@@ -1,0 +1,13 @@
+name: Update version and CHANGELOG
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "CHANGELOG.md"
+
+jobs:
+
+  release-please:
+    uses: ./.github/workflows/create-release-pr.yaml

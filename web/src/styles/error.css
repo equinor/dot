@@ -1,0 +1,34 @@
+.errorPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.errorMessage {
+  font-size: 2em;
+  font-weight: bold;
+  color: #243746;
+  text-align: center;
+  padding: 10px;
+  width: 40%;
+}
+
+.errorMessage .errorHeading {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #243746;
+}
+
+.errorMessage .backButton {
+  margin: 20px;
+}
+
+.errorMessage .errorContext {
+  font-size: 0.7em;
+  margin: 40px;
+}
+
+.errorMessage .errorContextDetail {
+  font-size: 0.5em;
+}

@@ -1,0 +1,102 @@
+[tool.poetry]
+name = "dot-api"
+version = "0.1.0"
+description = ""
+authors = ["Equinor"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.115.0"
+networkx = "^3.2.1"
+uvicorn = {extras = ["standard"], version = "^0.22.0"}
+gremlinpython = "^3.7.1"
+pydantic-settings = "^2.1.0"
+azure-cosmos = "^4.5.1"
+pyagrum = "^1.12.1"
+cairosvg = "^2.7.1"
+xarray = "^2024.3.0"
+click = "^8.1.7"
+pypandoc-binary = "^1.13"
+pypandoc = "^1.13"
+fastapi-versionizer = "^4.0.1"
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^7.1.2"
+sphinx-argparse = "*"
+furo = "^2024.8.6"
+sphinxcontrib-mermaid = "^0.9.2"
+sphinxcontrib-plantuml = "^0.29"
+# autodoc-pydantic = {version="^2.1.0", extras=["erdantic"]}
+autodoc-pydantic = {version="^2.1.0"}
+myst-parser = "^3.0.1"
+
+[tool.poetry.group.test]
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.2.0"
+httpx = "*"
+pytest-cov = ">=4"
+pytest-asyncio = "^0.23.5"
+# coverage = {version=">=7", extras=["toml"]}
+
+[tool.poetry.group.dev]
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = ">=3"
+isort = ">=5.13"
+black = ">=23.12"
+pygraphviz = ">=1.12"
+mypy = "^1.9.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+addopts = "--cov=api/src --cov-report term-missing --cov-fail-under=100"
+testpaths = [
+    "./tests",
+]
+markers =[
+    "slow: marker for slow tests",
+    "integration: mark a test as integration test."
+]
+
+[tool.ruff]
+src = ["."]
+target-version = "py310"
+line-length = 89
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "S",  # flake8-bandit
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+    "UP", # automatically upgrade syntax for newer versions of the language
+]
+ignore = [
+    "B904",  # TODO: Within an except clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
+    "B008",  # do not perform function calls in argument defaults. Ignored to allow dependencies in FastAPI
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402"]  # Ignore `E402` (import violations) in all `__init__.py` files
+"./tests/*.py" = ["S101"]  # Allow the use of ´assert´ in tests
+"./tests/v0/mockers/*.py" = ["C901"]  # Allow high code complexity in mockers
+"./src/v0/database/client.py" = ["B024"]  # Allow Abstract class without abstractmethod
+"./src/v0/services/base.py" = ["B024"]  # Allow Abstract class without abstractmethod
+"./src/services/classes/directed_graph.py" = ["B024"]  # Allow Abstract class without abstractmethod
+
+[tool.codespell]
+skip = "*.lock"
+ignore-words-list = "bothe,ser,afterall,radify"  # need to be in lower font -> bothE

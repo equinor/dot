@@ -1,0 +1,169 @@
+@import "https://cdn.eds.equinor.com/font/equinor-font.css";
+
+.displayTable {
+  margin-top: 20px;
+}
+
+.clusterTable {
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+}
+
+.displayTable #issueListSearch {
+  width: 40%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.oppTable {
+  margin-top: 40px;
+  margin-right: auto;
+  margin-left: auto;
+  table-layout: fixed;
+}
+
+.oppTable .oppCell {
+  min-width: 800px;
+  max-width: 800px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.oppTable .oppCell .removeButton {
+  display: none;
+  align-items: "center";
+  justify-content: "center";
+}
+
+.oppTable .oppCell:hover .removeButton {
+  float: right;
+  width: 20px;
+  display: flex;
+}
+
+Table {
+  margin-top: 40px;
+  margin-right: auto;
+  margin-left: auto;
+  table-layout: fixed;
+}
+
+.commentTable {
+  margin-top: 5px;
+  margin-right: auto;
+  margin-left: auto;
+  table-layout: fixed;
+}
+
+.issueListTable .issueTableCell {
+  align-items: center;
+  justify-content: center;
+  white-space: pre-wrap;
+  max-width: 700px;
+  min-width: 300px;
+  word-break: break-word;
+}
+
+Table #tableTextInput {
+  outline: 0.5px dashed;
+  border: none;
+  background-color: transparent;
+  font-family: "Equinor";
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+  width: 200px;
+}
+
+Table #tableTextInput:focus {
+  border: 1px dashed;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+Table #newIssueRow {
+  outline: 0.5px dashed;
+  border: none;
+  background-color: transparent;
+  font-family: "Equinor";
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+}
+
+Table #newIssueRow #tableNewInput {
+  border: none;
+  background-color: transparent;
+  font-family: "Equinor";
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+}
+
+Table #tableNewInput {
+  border: none;
+  background-color: transparent;
+  font-family: "Equinor";
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 14px;
+}
+
+#actionButton {
+  margin-left: 3px;
+  margin-right: 3px;
+  width: 10px;
+}
+
+.sortingButton {
+  margin-left: auto;
+  float: right;
+  width: 58px;
+}
+
+.sortingButton #sortingActionButton {
+  height: 0.1px;
+}
+
+.issueSelect {
+  word-wrap: break-word;
+}
+
+.uncertaintyDialog {
+  max-height: 1000px;
+  min-width: 1000px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.probabilityTable {
+  table-layout: fixed;
+  min-width: 700px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.probabilityTable .probTableCell {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 300px !important;
+}
+
+.totalSumCell {
+  font-weight: bold !important;
+  font-size: large !important;
+  margin: 10px;
+}
+
+.greenTotal {
+  color: #007079 !important;
+}
+
+.redTotal {
+  color: #ff1243 !important;
+}
+
+.saveButton {
+  margin: 10px !important;
+}

@@ -1,0 +1,50 @@
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# api/__pycache__/main.cpython-39.pyc
+# api/src/services/__pycache__
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Dependency directories
+web/node_modules
+web/.pnp
+.pnp.js
+
+# docs
+docs/_build/
+docs/build/
+docs/_static/
+docs/_templates/
+
+# debug tools
+db/bin
+db/lib
+db/ext
+db/conf/gremlin-dot-docker.yaml
+
+# docs
+**/docs/build
+**/docs/_build
+
+# Pytest coverage
+.coverage
+
+# Environments
+.env
+.venv
+.kenv
+env/
+venv/
+kenv/
+ENV/
+env.bak/
+venv.bak/
+kenv.bak/
+dot.env
