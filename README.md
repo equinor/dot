@@ -1,5 +1,4 @@
 # DOT - The Decision Optimization Tool
-Test
 
 ## Description
 
