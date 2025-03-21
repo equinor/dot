@@ -37,7 +37,10 @@ repos:
         stages: [commit-msg]
       - id: check-added-large-files  # Prevent giant files from being committed
         args: ['--maxkb=200']
-        exclude: "poetry.lock"
+        exclude: (?x)^(
+          poetry.lock |
+          web/package-lock.json
+          )$
 
   # Check poetry validity
   - repo: https://github.com/python-poetry/poetry
