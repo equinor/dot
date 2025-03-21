@@ -1,0 +1,75 @@
+.newProjectButton {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  margin-top: 40px;
+  margin-left: 20px;
+  position: relative;
+  height: 100px;
+}
+
+.newProjectButton #projectButton {
+  justify-content: center;
+  margin: 30px;
+  position: relative;
+}
+
+.existingProjectButton {
+  margin-top: 40px;
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.existingProjectButton #projectButton {
+  justify-content: center;
+  margin: 30px;
+  position: relative;
+  padding: 10px;
+}
+
+.existingButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+}
+
+.projectCard {
+  background-color: green;
+  text-align: left;
+  align-items: left;
+  min-width: 400px;
+  max-width: 400px;
+  margin: 20px;
+  height: 150px;
+  box-shadow: 2px 2px 2px 2px lightgray;
+  text-decoration: none;
+}
+
+.projectDescription {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+
+.projectCard .removeButton {
+}
+
+.projectDeleteDialog {
+  min-width: 400px;
+  min-height: 250px;
+}
+
+.projectDeleteDialog .buttonContainer {
+  display: inline-block;
+}
+.projectDeleteDialog .deleteButton {
+  margin: 10px;
+  background-color: #ff1243;
+}
+.projectDeleteDialog .cancelButton {
+  margin: 10px;
+}

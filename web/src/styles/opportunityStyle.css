@@ -1,0 +1,30 @@
+@import "https://cdn.eds.equinor.com/font/equinor-font.css";
+
+/* opportunity */
+.addNewOpportunity {
+  width: 70%;
+  height: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.addNewOpportunity #oppoTextField {
+  width: 70%;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.addNewOpportunity #oppoTextField #oppoTextFieldInput {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.addNewOpportunity #saveButton {
+  padding: auto;
+  margin-top: 7px;
+  margin-left: 10px;
+}

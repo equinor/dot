@@ -1,0 +1,46 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "hostRequirements": {
+    "cpus": 4
+  },
+  "waitFor": "onCreateCommand",
+  "updateContentCommand": "npm install --prefix web",
+  "postCreateCommand": "bash ./.devcontainer/scripts/install_api_dependencies.sh",
+  "postAttachCommand": "docker compose up --build --detach",
+  "customizations": {
+    "codespaces": {
+      "openFiles": [
+        "App.js"
+      ]
+    },
+    "vscode": {
+        "extensions": [
+          "vsls-contrib.codetour",
+          "ms-azuretools.vscode-docker",
+          "ms-python.python",
+          "jebbs.plantuml",
+          "ms-edgedevtools.vscode-edge-devtools",
+          "njpwerner.autodocstring",
+          "searKing.preview-vscode",
+          "redhat.vscode-xml",
+          "wfnuser.vscode-ruff"
+        ]
+    }
+  },
+  "portsAttributes": {
+    "3000": {
+      "label": "Application",
+      "onAutoForward": "openPreview"
+    },
+   "8000": {
+      "label": "Uvicorn",
+      "onAutoForward": "openPreview"
+    },
+    "8182": {
+      "label": "DataBase",
+      "onAutoForward": "openPreview"
+    }
+
+  },
+  "forwardPorts": [3000, 8000, 8182]
+}

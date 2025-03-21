@@ -1,0 +1,121 @@
+fail_fast: true
+default_stages: [pre-commit]
+default_install_hook_types: [pre-commit, commit-msg]
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-ast
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-json
+      - id: check-toml
+      - id: check-yaml
+      - id: trailing-whitespace
+        exclude: |
+          (?x)^(
+            ^web/api/generated/|^.*\.(lock)$ |
+            db/data/dot_graph.graphml
+            )$
+      - id: end-of-file-fixer
+        exclude: |
+          (?x)^(
+          ^web/api/generated/|^.*\.(lock)$ |
+          db/data/dot_graph.graphml
+            )$
+      - id: mixed-line-ending
+        exclude: |
+          (?x)^(
+          ^.*\.(lock)$ |
+          db/data/dot_graph.graphml
+            )$
+      - id: detect-private-key
+        exclude: |
+          api/tests/integration/mock_authentication.py
+      - id: no-commit-to-branch
+        args: [--branch, main, --branch, master]
+        stages: [commit-msg]
+      - id: check-added-large-files  # Prevent giant files from being committed
+        args: ['--maxkb=200']
+        exclude: "poetry.lock"
+
+  # Check poetry validity
+  - repo: https://github.com/python-poetry/poetry
+    rev: "1.8.5"
+    hooks:
+     - id: poetry-check
+       args: ["--directory", "./api"]
+
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v3.4.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: "v0.6.3"
+    hooks:
+      - id: ruff
+        name: Python lint
+        files: ^api/.*\.py$
+        args: ["--fix"]
+
+      - id: ruff-format
+        name: Python format
+        files: ^api/.*\.py$
+
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.4
+    hooks:
+      - id: bandit
+        args: [-l, --recursive, -x, tests]
+        files: ^api/.*\.py$
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v2.7.1
+    hooks:
+      - id: prettier
+        files: ^web/.*\.(ts|tsx|js|jsx|css|html|json)$
+        args:
+          ["--config=web/.prettierrc.js", "--ignore-path=web/.prettierignore"]
+
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: "v9.18.0"
+    hooks:
+      - id: eslint
+        files: \.[j]sx?$ # *.js, *.jsx
+        types: [file]
+        additional_dependencies:
+          - eslint@9.18.0
+          - eslint-config-react-app
+          - eslint-config-prettier # turns off all rules that might conflict with prettier
+          - eslint-plugin-jsx-a11y # checks accessibility rules on jsx elements
+          - eslint-plugin-prettier # runs prettier as an eslint rule
+          - eslint-plugin-react # react specific linting rules
+          - eslint-plugin-react-hooks # enforces the rules of hooks
+        args:
+          ["--config=web/eslint.config.mjs", "--ignore-pattern=web/.eslintignore"]
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.5
+    hooks:
+      - id: codespell
+        name: codespell
+        description: Checks for common misspellings in text files.
+        entry: codespell --toml=api/pyproject.toml
+        exclude: |
+          (?x)^(
+            db/data/dot_graph.graphml |
+            db/data/dot_graph.graphson |
+            db/conf/gremlin-dot-docker.yaml |
+            db/conf/gremlin-dot.yaml |
+            db/migrations/001_initial_simple_examples.graphml |
+            web/package-lock.json |
+            api/poetry.lock |
+            api/pyproject.toml |
+            CHANGELOG.md
+            )$
+        language: python
+        types: [text]
+        additional_dependencies:
+          - tomli

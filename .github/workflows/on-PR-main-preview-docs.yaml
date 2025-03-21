@@ -1,0 +1,50 @@
+name: Preview documentation at PR
+concurrency: preview-${{ github.ref }}
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+    branches: [ 'main' ]
+    paths: [ 'docs/**' ]
+  workflow_dispatch:
+
+env:
+  page_name: fictional-adventure-eyq51g5
+
+jobs:
+  build-and-preview:
+    concurrency: publish-${{ github.ref }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install graphviz
+          sudo apt-get -y install graphviz-dev
+          sudo apt-get -y install plantuml
+
+          python -m pip install --upgrade pip
+          python -m pip install poetry==1.8.5
+          python -m poetry install --with docs --directory ./api
+
+      - name: Run docs
+        run: python -m poetry --directory ./api run sphinx-build -b html docs docs/build/html/
+
+      - name: Deploy preview
+        if: github.repository_owner == 'equinor'
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: docs/build/html
+          custom-url: ${{ env.page_name }}.pages.github.io

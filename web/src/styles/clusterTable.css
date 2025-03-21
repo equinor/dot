@@ -1,0 +1,132 @@
+@import "https://cdn.eds.equinor.com/font/equinor-font.css";
+
+.clusterContainer {
+  display: flex;
+  justify-content: center;
+  width: 80%;
+  margin: 0 auto; /*centers the container*/
+}
+
+.containerHead {
+  display: flex;
+  border-bottom: 2px solid rgba(220, 220, 220, 1);
+  background-color: rgba(247, 247, 247, 1);
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+.catContainer {
+  justify-content: center;
+  width: 30%;
+  height: 650px; /*might need to be changed*/
+  flex-direction: row;
+  justify-content: space-between;
+  box-shadow: 1px 1px 1px 1px lightgray;
+  overflow-x: hidden;
+}
+.catContainer::-webkit-scrollbar {
+  display: none; /*Safari, Opera, Chrome...*/
+}
+
+.containerHeading {
+  vertical-align: middle;
+  text-indent: initial;
+  margin-top: 5px;
+  padding-left: 16px;
+  vertical-align: middle;
+  font-family: Equinor;
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 3.429em;
+  color: rgba(61, 61, 61, 1);
+  min-height: 48px;
+}
+
+.scrollContainer {
+  margin-top: 5px;
+  height: 650px;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.dropContainer {
+  padding-right: 100%;
+  padding-bottom: 350px;
+  display: inline;
+  justify-content: center;
+  /*background-color: #d3e1e2;*/
+}
+
+.itemContainer {
+  margin: auto;
+  margin-bottom: 5px;
+  box-shadow: 2px 2px 2px 1px lightgray;
+  width: 90% !important;
+  word-wrap: break-word;
+  border: 1px solid lightgray;
+}
+
+.itemContainer .issueLabels {
+  position: absolute;
+  right: 10px;
+}
+
+.itemContainer .removeButton {
+  vertical-align: middle;
+  display: flex;
+}
+
+/* .itemContainer:hover .removeButton {
+
+  width: 10px;
+  display: flex;
+  vertical-align: middle;
+} */
+
+#actionButton {
+  margin-left: 3px;
+  margin-right: 3px;
+  width: 10px;
+}
+
+.pyramid {
+  width: 800px;
+  margin: 40px auto;
+  color: white;
+}
+
+.policyLayer {
+  position: relative;
+  text-align: center;
+  background-color: #007179ab;
+  padding: 5px;
+  vertical-align: middle;
+  /* clip-path: polygon(16.5% 66%, 83.5% 66%, 100% 100%, 0% 100%);*/
+}
+
+.focusLayer {
+  position: relative;
+  text-align: center;
+  background-color: #007079;
+  padding: 5px;
+  vertical-align: middle;
+  /* clip-path: polygon(33% 33%, 66% 33%, 83.5% 66%, 16.5% 66%); */
+}
+
+.tacticalLayer {
+  position: relative;
+  text-align: center;
+  background-color: #01565c;
+  padding: 5px;
+  vertical-align: middle;
+  /* clip-path: polygon(50% 0%, 33% 33%, 66% 33%); */
+  text-align: center;
+}
+
+.pyramidButton {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}

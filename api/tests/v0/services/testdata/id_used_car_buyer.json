@@ -1,0 +1,192 @@
+{
+    "vertices": [
+      {
+        "tag": ["State"],
+        "category": "Uncertainty",
+        "index": "0",
+        "shortname": "State",
+        "description": "Joe does not know the state of the car",
+        "keyUncertainty": "true",
+        "decisionType": "",
+        "alternatives": ["Peach", "Lemon"],
+        "probabilities": {
+          "dtype": "DiscreteUnconditionalProbability",
+          "probability_function": [
+            [
+              0.8,
+              0.2
+            ]
+          ],
+          "variables": {
+            "State": [
+              "Peach",
+              "Lemon"
+            ]
+          }
+        },
+        "influenceNodeUUID": "",
+        "boundary": "in",
+        "comments": null,
+        "uuid": "51cd8e4f-aa04-48e2-8cdf-83a3c9ef978e",
+        "timestamp": "1712648453.1573343",
+        "date": "2024-04-09 07:40:53.157336",
+        "ids": "test",
+        "id": "51cd8e4f-aa04-48e2-8cdf-83a3c9ef978e",
+        "label": "issue"
+      },
+      {
+        "tag": ["Test Result"],
+        "category": "Uncertainty",
+        "index": "0",
+        "description": "The result of the test is currently unknown",
+        "shortname": "Test Result",
+        "keyUncertainty": "true",
+        "decisionType": "",
+        "alternatives": ["no Test", "Peach", "Lemon"],
+        "probabilities": {
+          "dtype": "DiscreteConditionalProbability",
+          "probability_function": [
+            [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "variables": {
+            "Test Result": [
+              "no Test",
+              "Peach",
+              "Lemon"
+            ],
+            "Test": [
+              "yes",
+              "no"
+            ],
+            "State": [
+              "Peach",
+              "Lemon"
+            ]
+          }
+        },
+        "influenceNodeUUID": "ad651f50-22de-4f85-a560-bf5fb2d9f706",
+        "boundary": "in",
+        "comments": null,
+        "uuid": "72a8cf93-7400-4511-ae64-f72c2de2c16c",
+        "timestamp": "1712648489.467934",
+        "date": "2024-04-09 07:41:29.467935",
+        "ids": "test",
+        "id": "72a8cf93-7400-4511-ae64-f72c2de2c16c",
+        "label": "issue"
+      },
+      {
+        "tag": ["Buy"],
+        "category": "Decision",
+        "index": "0",
+        "description": "We can buy the car",
+        "shortname": "Buy",
+        "keyUncertainty": "false",
+        "decisionType": "Focus",
+        "alternatives": ["Buy with guarantee", "Buy without guarantee", "Do not buy"],
+        "probabilities": null,
+        "influenceNodeUUID": "",
+        "boundary": "in",
+        "comments": null,
+        "uuid": "98e3d193-d830-452f-9fe8-c21d258ef603",
+        "timestamp": "1712648530.228483",
+        "date": "2024-04-09 07:42:10.228485",
+        "ids": "test",
+        "id": "98e3d193-d830-452f-9fe8-c21d258ef603",
+        "label": "issue"
+      },
+      {
+        "tag": ["Test"],
+        "category": "Decision",
+        "index": "0",
+        "description": "Joe can test the car",
+        "shortname": "Test",
+        "keyUncertainty": "false",
+        "decisionType": "Focus",
+        "alternatives": ["Test", "no Test"],
+        "probabilities": null,
+        "influenceNodeUUID": "",
+        "boundary": "in",
+        "comments": null,
+        "uuid": "ad651f50-22de-4f85-a560-bf5fb2d9f706",
+        "timestamp": "1712648468.41026",
+        "date": "2024-04-09 07:41:08.410262",
+        "ids": "test",
+        "id": "ad651f50-22de-4f85-a560-bf5fb2d9f706",
+        "label": "issue"
+      },
+      {
+        "tag": ["Value"],
+        "category": "Value Metric",
+        "index": "0",
+        "description": "Value",
+        "shortname": "Value",
+        "keyUncertainty": "false",
+        "decisionType": "",
+        "alternatives": ["Test"],
+        "probabilities": null,
+        "influenceNodeUUID": "",
+        "boundary": "in",
+        "comments": null,
+        "uuid": "d52cadfd-c3b8-4531-8e3b-b7e966271edb",
+        "timestamp": "1712648501.9647892",
+        "date": "2024-04-09 07:41:41.964793",
+        "ids": "test",
+        "id": "d52cadfd-c3b8-4531-8e3b-b7e966271edb",
+        "label": "issue"
+      }
+    ],
+    "edges": [
+      {
+        "id": "a6ab145e-2ca9-49e2-8c4f-9607688e57a9",
+        "outV": "98e3d193-d830-452f-9fe8-c21d258ef603",
+        "inV": "d52cadfd-c3b8-4531-8e3b-b7e966271edb",
+        "uuid": "a6ab145e-2ca9-49e2-8c4f-9607688e57a9",
+        "label": "influences"
+      },
+      {
+        "id": "44e4aed1-ec53-4d9c-9401-5204d913d7a5",
+        "outV": "51cd8e4f-aa04-48e2-8cdf-83a3c9ef978e",
+        "inV": "72a8cf93-7400-4511-ae64-f72c2de2c16c",
+        "uuid": "44e4aed1-ec53-4d9c-9401-5204d913d7a5",
+        "label": "influences"
+      },
+      {
+        "id": "8e690c5f-8b0b-4163-a436-ff6b4d324737",
+        "outV": "51cd8e4f-aa04-48e2-8cdf-83a3c9ef978e",
+        "inV": "d52cadfd-c3b8-4531-8e3b-b7e966271edb",
+        "uuid": "8e690c5f-8b0b-4163-a436-ff6b4d324737",
+        "label": "influences"
+      },
+      {
+        "id": "3149fabe-41f4-4f5f-8d7c-514624094099",
+        "outV": "72a8cf93-7400-4511-ae64-f72c2de2c16c",
+        "inV": "98e3d193-d830-452f-9fe8-c21d258ef603",
+        "uuid": "3149fabe-41f4-4f5f-8d7c-514624094099",
+        "label": "influences"
+      },
+      {
+        "id": "1293a923-8a8a-47c7-a08b-1f0f409dc858",
+        "outV": "ad651f50-22de-4f85-a560-bf5fb2d9f706",
+        "inV": "72a8cf93-7400-4511-ae64-f72c2de2c16c",
+        "uuid": "1293a923-8a8a-47c7-a08b-1f0f409dc858",
+        "label": "influences"
+      }
+    ]
+  }
