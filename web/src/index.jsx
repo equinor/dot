@@ -5,16 +5,26 @@ import "./styles/equinor-font.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ProjectProvider } from "./components/context";
+import { msalInstance } from "./auth";
+import { MsalProvider } from "@azure/msal-react";
+import { InteractionType } from "@azure/msal-browser";
+import { MsalAuthenticationTemplate } from "@azure/msal-react";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-root.render(
-  //<React.StrictMode>
-  <ProjectProvider>
-    <App />
-  </ProjectProvider>
-  //</React.StrictMode>
-);
+msalInstance.initialize().then(() => {
+  root.render(
+    <React.StrictMode>
+      <MsalProvider instance={msalInstance}>
+        <MsalAuthenticationTemplate interactionType={InteractionType.Redirect}>
+          <ProjectProvider>
+            <App />
+          </ProjectProvider>
+        </MsalAuthenticationTemplate>
+      </MsalProvider>
+    </React.StrictMode>
+  );
+});
 
 // If you want to start measuring performance in your
 // app, pass a function to log results (for example:
