@@ -15,6 +15,7 @@ import IssueClustering from "./pages/issueClustering";
 import DecisionHierarchy from "./pages/decisionHierarchy";
 import Uncertainties from "./pages/uncertainties";
 import Synthesis from "./pages/synthesis";
+
 import ProjectPage from "./pages/project";
 import Analysis from "./pages/analysis";
 import { useProjectContext } from "./components/context";
@@ -26,139 +27,137 @@ import { FilterListProvider } from "./components/data_grid/gridFilterContext";
 function App() {
   useProjectContext();
   return (
-    <>
-      <Router>
-        <Header />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <ErrorBoundary>
-                <Home />
-              </ErrorBoundary>
-            }
-          />
-          <Route
-            path="/project"
-            element={
-              <ErrorBoundary>
-                <ProjectPage />
-              </ErrorBoundary>
-            }
-          />
-          <Route
-            path="/framing"
-            element={
-              <ErrorBoundary>
-                <Opportunity />
-              </ErrorBoundary>
-            }
-          />
-          <Route
-            path="/framing/opportunity"
-            element={
-              <ErrorBoundary>
-                <Opportunity />
-              </ErrorBoundary>
-            }
-          />
-          <Route
-            path="/framing/objectives"
-            element={
-              <ErrorBoundary>
-                <Objectives />
-              </ErrorBoundary>
-            }
-          />
-          <Route
-            path="/framing/issuelist"
-            element={
-              <ErrorBoundary>
-                <IssueListProvider>
-                  <FilterListProvider>
-                    <Framing />
-                  </FilterListProvider>
-                </IssueListProvider>
-              </ErrorBoundary>
-            }
-          />
-          <Route
-            path="/framing/clustering"
-            element={
-              <ErrorBoundary>
-                <IssueClustering />
-              </ErrorBoundary>
-            }
-          />
-          <Route
-            path="/framing/decisionHierarchy"
-            element={
-              <ErrorBoundary>
-                <IssueListProvider>
-                  <FilterListProvider>
-                    <DecisionHierarchy />
-                  </FilterListProvider>
-                </IssueListProvider>
-              </ErrorBoundary>
-            }
-          />
-          <Route
-            path="/framing/uncertainties"
-            element={
-              <ErrorBoundary>
-                <IssueListProvider>
-                  <FilterListProvider>
-                    <Uncertainties />
-                  </FilterListProvider>
-                </IssueListProvider>
-              </ErrorBoundary>
-            }
-          />
-          <Route
-            path="/framing/synthesis"
-            element={
-              <ErrorBoundary>
-                <Synthesis />
-              </ErrorBoundary>
-            }
-          />
-          <Route
-            path="/structuring"
-            element={
-              <ErrorBoundary>
-                <InfluenceDiagram />
-              </ErrorBoundary>
-            }
-          />
-          <Route
-            path="/structuring/id"
-            element={
-              <ErrorBoundary>
-                <InfluenceDiagram />
-              </ErrorBoundary>
-            }
-          />
-          <Route
-            path="/structuring/dt"
-            element={
-              <ErrorBoundary>
-                <DecisionTree />
-              </ErrorBoundary>
-            }
-          />
-          <Route
-            path="/analysis"
-            element={
-              <ErrorBoundary>
-                <Analysis />
-              </ErrorBoundary>
-            }
-          />
-          <Route path="/error/:code" element={<ErrorPage />}></Route>
-          <Route path="*" element={<ErrorPage />}></Route>
-        </Routes>
-      </Router>
-    </>
+    <Router>
+      <Header />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <ErrorBoundary>
+              <Home />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/project"
+          element={
+            <ErrorBoundary>
+              <ProjectPage />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/framing"
+          element={
+            <ErrorBoundary>
+              <Opportunity />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/framing/opportunity"
+          element={
+            <ErrorBoundary>
+              <Opportunity />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/framing/objectives"
+          element={
+            <ErrorBoundary>
+              <Objectives />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/framing/issuelist"
+          element={
+            <ErrorBoundary>
+              <IssueListProvider>
+                <FilterListProvider>
+                  <Framing />
+                </FilterListProvider>
+              </IssueListProvider>
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/framing/clustering"
+          element={
+            <ErrorBoundary>
+              <IssueClustering />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/framing/decisionHierarchy"
+          element={
+            <ErrorBoundary>
+              <IssueListProvider>
+                <FilterListProvider>
+                  <DecisionHierarchy />
+                </FilterListProvider>
+              </IssueListProvider>
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/framing/uncertainties"
+          element={
+            <ErrorBoundary>
+              <IssueListProvider>
+                <FilterListProvider>
+                  <Uncertainties />
+                </FilterListProvider>
+              </IssueListProvider>
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/framing/synthesis"
+          element={
+            <ErrorBoundary>
+              <Synthesis />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/structuring"
+          element={
+            <ErrorBoundary>
+              <InfluenceDiagram />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/structuring/id"
+          element={
+            <ErrorBoundary>
+              <InfluenceDiagram />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/structuring/dt"
+          element={
+            <ErrorBoundary>
+              <DecisionTree />
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="/analysis"
+          element={
+            <ErrorBoundary>
+              <Analysis />
+            </ErrorBoundary>
+          }
+        />
+        <Route path="/error/:code" element={<ErrorPage />}></Route>
+        <Route path="*" element={<ErrorPage />}></Route>
+      </Routes>
+    </Router>
   );
 }
 
