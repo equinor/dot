@@ -3,6 +3,19 @@ from gremlin_python.driver import client, serializer
 
 from config import settings
 
+from ..database.builders.queries.gremlin_queries_edge import (
+    GremlinStringQueryBuilderEdge,
+)
+from ..database.builders.queries.gremlin_queries_vertex import (
+    GremlinStringQueryBuilderVertex,
+)
+from ..database.builders.responses.gremlin_responses_edge import (
+    GremlinResponseBuilderEdge,
+)
+from ..database.builders.responses.gremlin_responses_vertex import (
+    GremlinResponseBuilderVertex,
+)
+
 from ..database.client import (
     BuilderABC,
     DatabaseClient,
@@ -15,15 +28,15 @@ from ..database.client import (
 class Query(QueryABC):
     def __init__(self):
         super().__init__()
-        self.vertex = None
-        self.edge = None
+        self.vertex = GremlinStringQueryBuilderVertex()
+        self.edge = GremlinStringQueryBuilderEdge()
 
 
 class Response(ResponseABC):
     def __init__(self):
         super().__init__()
-        self.vertex = None
-        self.edge = None
+        self.vertex = GremlinResponseBuilderVertex()
+        self.edge = GremlinResponseBuilderEdge()
 
 
 class Builder(BuilderABC):
@@ -38,7 +51,7 @@ class AzureCosmosClient(DatabaseClient):
         super().__init__(connection)
         self.credential = credential  # primary key from Secret
         self.database_name = database_name  # settings.DATABASE_NAME
-        self.database_container = "decisionItems"
+        self.database_container = settings.COSMOS_CONTAINER
         self._gremlin_client = None
         self._graph = None
         self.builder = Builder()
@@ -94,6 +107,6 @@ class AzureCosmosClient(DatabaseClient):
 def get_client():
     return AzureCosmosClient(
         settings.DATABASE_CONNECTION,
-        credential="myKey",
-        database_name="decisionDB",
+        credential=settings.DB_PRIMARY_KEY,
+        database_name=settings.COSMOS_DB_NAME,
     )
