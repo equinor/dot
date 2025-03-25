@@ -30,6 +30,18 @@
       "console": "integratedTerminal",
       "env": {"PYTEST_ADDOPTS": "--no-cov"},
       "justMyCode": false
-    }
+    },
+    {
+      "name": "Python: Uvicorn",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+          "main:app",
+          "--reload"
+      ],
+      "cwd": "${workspaceFolder}/api",
+      "justMyCode":true
+  }
   ]
 }
