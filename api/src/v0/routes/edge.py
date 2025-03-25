@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Query
 from fastapi_versionizer.versionizer import api_version
 
 from .. import database_version
-from ..database.gremlin import get_client
+from ..database.adapter import get_client
 from ..models.edge import EdgeResponse
 from ..repositories.edge import EdgeRepository
 from ..services.edge import EdgeService

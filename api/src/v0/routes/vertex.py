@@ -3,7 +3,7 @@ from fastapi_versionizer.versionizer import api_version
 
 from .. import database_version
 from ..database.client import DatabaseClient
-from ..database.gremlin import get_client
+from ..database.adapter import get_client
 from ..models.filter import Filter
 from ..models.vertex import VertexCreate, VertexResponse, VertexUpdate
 from ..repositories.vertex import VertexRepository
