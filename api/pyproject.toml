@@ -34,6 +34,7 @@ sphinxcontrib-plantuml = "^0.29"
 # autodoc-pydantic = {version="^2.1.0", extras=["erdantic"]}
 autodoc-pydantic = {version="^2.1.0"}
 myst-parser = "^3.0.1"
+sphinxcontrib-openapi = "^0.8.4"
 
 [tool.poetry.group.test]
 

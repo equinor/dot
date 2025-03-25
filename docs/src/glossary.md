@@ -1,4 +1,4 @@
-# Terminology
+# Glossary
 
 The terminology found in the literature may not be unique and we explain here the main terms used in the DOT.
 

@@ -34,7 +34,19 @@ def create(
     in_vertex_uuid: str,
     edge_label: str,
     service: EdgeService = Depends(get_service),
-):
+) -> EdgeResponse:
+    """Create a new edge between two vertices
+
+    Args:
+        out_vertex_uuid (str): id of the vertex where the edge goes out
+        in_vertex_uuid (str): id of the vertex where the edge goes in
+        edge_label (str): label of the edge ("contains" or "influences")
+
+    Return:
+        EdgeResponse: Edge (with properties id, outV, inV, uuid, label),
+                        where id == uuid
+
+    """
     return service.create(out_vertex_uuid, in_vertex_uuid, edge_label)
 
 
@@ -49,7 +61,16 @@ def read_all_edges_from_project(
     project_uuid: str,
     edge_label: str,
     service: EdgeService = Depends(get_service),
-):
+) -> list[EdgeResponse]:
+    """Method to return all edges with the specified edge label
+
+    Args:
+        project_uuid (str): id of the project vertex
+        edge_label (str): label of the edge ("contains" or "influences")
+
+    Returns:
+        List[EdgeResponse]: List of Edges
+    """
     return service.read_all_edges_from_project(project_uuid, edge_label)
 
 
@@ -68,7 +89,18 @@ def read_all_edges_from_sub_project(
     edge_label: str,
     vertex_uuid: list[str] = Query(None),
     service: EdgeService = Depends(get_service),
-):
+) -> list[EdgeResponse]:
+    """Method to return all edges with the specified edge label and linking vertices
+        with given properties
+
+    Args:
+        project_uuid (str): id of the project vertex
+        edge_label (str): label of the edge ("contains" or "influences")
+        vertex_uuid (list[str]): list of vertices uuid of the sub-project
+
+    Returns:
+        List[EdgeResponse]: List of Edges
+    """
     return service.read_all_edges_from_sub_project(project_uuid, edge_label, vertex_uuid)
 
 
@@ -84,7 +116,15 @@ def read_out_edge_from_vertex(
     vertex_uuid: str,
     edge_label: str,
     service: EdgeService = Depends(get_service),
-):
+) -> list[EdgeResponse]:
+    """Returns edges going out of the specified vertex
+
+    Args:
+        vertex_uuid (str): id of the vertex
+        edge_label (str): label of the edge
+    Return:
+        List of edges
+    """
     return service.read_out_edge_from_vertex(vertex_uuid, edge_label)
 
 
@@ -100,7 +140,15 @@ def read_in_edge_to_vertex(
     vertex_uuid: str,
     edge_label: str,
     service: EdgeService = Depends(get_service),
-):
+) -> list[EdgeResponse]:
+    """Returns edges going in to the specified vertex
+
+    Args:
+        vertex_uuid (str): id of the vertex
+        edge_label (str): label of the edge
+    Return:
+        List of edges
+    """
     return service.read_in_edge_to_vertex(vertex_uuid, edge_label)
 
 
@@ -111,7 +159,15 @@ def read_in_edge_to_vertex(
     response_model=EdgeResponse,
     summary="Get an edge by its UUID",
 )
-def read(edge_id: str, service: EdgeService = Depends(get_service)):
+def read(edge_id: str, service: EdgeService = Depends(get_service)) -> EdgeResponse:
+    """Method to read one edge based on the id
+
+    Args:
+        edge_uuid (str): id of the edge
+
+    Returns:
+        EdgeResponse: Edge
+    """
     return service.read(edge_id)
 
 
@@ -136,7 +192,15 @@ def read(edge_id: str, service: EdgeService = Depends(get_service)):
     response_model=None,
     summary="Delete an edge by its UUID",
 )
-def delete(edge_id: str, service: EdgeService = Depends(get_service)):
+def delete(edge_id: str, service: EdgeService = Depends(get_service)) -> None:
+    """Deletes edges going in and out of the specified vertex
+
+    Args:
+        vertex_uuid (str): id of the vertex
+
+    Return:
+        None
+    """
     return service.delete(edge_id)
 
 

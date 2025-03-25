@@ -10,6 +10,20 @@ class IssueService:
         self.repository = repository
 
     def create(self, project_uuid: str, issue_data: IssueCreate) -> IssueResponse:
+        """Method to create a new issue connected to a project vertex
+
+            Creates vertex with the label "issue" and the properties of issue_data
+            Creates an edge between the project vertex specified by project_uuid and
+            the newly create issue vertex
+
+        Args:
+            project_uuid (str): id of the project vertex the new issue will be
+                                connected to
+            issue_data (IssueCreate): contains all properties for the issue
+
+        Returns:
+            IssueResponse: Created Issue with the issue_data as IssueCreate
+        """
         return self.repository.create(
             project_uuid=project_uuid,
             issue_data=issue_data,
@@ -20,6 +34,24 @@ class IssueService:
         project_uuid: str,
         filter_model: Filter,
     ) -> list[IssueResponse]:
+        """Read all issues connected to one project with filter possibilities
+
+        Args:
+            project_uuid (str): id of the project vertex
+            vertex_label (str): label of the vertices of interest
+            edge_label (str): edge_label to clarify the connection between the project
+                              node and issue node, should always be "contains" in this
+                              method (default "contains")
+            filter_model (Filter(BaseModel)): contains a dict with different properties
+                                              for filtering, like category, tag,
+                                              shortname
+
+        Returns:
+            List[IssueResponse]: List of Issues which satisfy the condition to be
+                                 connected to the Project vertex with a "contains" edge
+                                 and have the label "issue" and satisfy the filters
+                                 when given in filter_model
+        """
         return self.repository.read_issues_all(
             project_uuid=project_uuid,
             vertex_label="issue",
@@ -28,12 +60,38 @@ class IssueService:
         )
 
     def read(self, issue_uuid: str) -> IssueResponse:
+        """Method to read one issue based on the id
+
+        Args:
+            issue_uuid (str): id of the vertex with the label "issue"
+
+        Returns:
+            IssueResponse: Issue with all properties
+        """
         return self.repository.read(issue_uuid)
 
     def update(self, issue_uuid: str, modified_fields: IssueUpdate) -> IssueResponse:
+        """Updates the specified issue based on the id with the new issue_data
+
+        Args:
+            issue_uuid (str): id of the issue vertex
+            modified_fields (IssueUpdate): contains properties of the issue
+
+        Returns:
+            IssueResponse: Issue with the issue_data as IssueCreate
+        """
         return self.repository.update(issue_uuid, modified_fields)
 
     def delete(self, issue_uuid: str) -> None:
+        """Deletes the issue vertex based on the id and also all in and outgoing edges
+            from this vertex
+
+        Args:
+            issue_uuid (str): id of the issue vertex
+
+        Returns:
+            None
+        """
         return self.repository.delete(issue_uuid)
 
     def merge(
