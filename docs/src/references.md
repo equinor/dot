@@ -2,7 +2,25 @@
 
 
 ## Research Papers and Books
-- **"Making Good Decisions" by Reidar B Bratvold and Steve H Begg**: _Society of Petroleum Engineers_, vol. 207,  2010. ISBN 9781555632588.
+
+### Papers and conferences
+
+- Nyberg, E. P., Nicholson, A. E., Korb, K. B., Wybrow, M., Zukerman, I., Mascaro, S., Thakur, S., Oshni Alvandi, A., Riley, J., Pearson, R., Morris, S., Herrmann, M., Azad, A. K. M., Bolger, F., Hahn, U., & Lagnado, D. (2022). BARD: a structured technique for group elicitation of Bayesian networks to support analytic reasoning. Risk Analysis, 42(6), 1155-1178. https://doi.org/10.1111/risa.13759
+
+
+### Books
+
+- **"Making Good Decisions" by Reidar B Bratvold and Steve H Begg**: _Society of Petroleum Engineers_, vol. 207,  2010. ISBN 9781555632588, https://doi.org/10.2118/9781555632588.
+
+- **"Bayesian Networks and Influence Diagrams: A Guide to Construction and Analysis" by Uffe B. Kjærulff, Anders L. Madsen**: _Information Science and Statistics_, Springer New York, NY, 2nd edition, 2013. https://doi.org/10.1007/978-1-4614-5104-4
+
+
+
+### Web sites
+
+- https://en.wikipedia.org/wiki/Decision_model
+- https://en.wikipedia.org/wiki/Decision-making_models
+
 
 
 ## External Libraries and Tools
@@ -34,6 +52,10 @@
     decision problems under uncertainty, modeled using influence diagrams, and leveraging the
     power of mixed-integer linear programming.
     [DecisionProgramming Documentation](https://gamma-opt.github.io/DecisionProgramming.jl/dev/)
+
+- **BARD: Bayesian ARgumentation via Delphi**: Bayesian reasoning for better thinking. [BARD blogg](https://bayesiandelphi.wordpress.com/)
+
+- **SilverDecision**: A free and open source decision tree software. [SilverDecision documentation](https://silverdecisions.pl/)
 
 
 ## Documentation Links
