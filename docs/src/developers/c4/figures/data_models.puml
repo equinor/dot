@@ -1,0 +1,167 @@
+@startuml Class Diagram: Data models
+
+title Description of data models for database v1 - Not up-to-date diagram!
+
+
+class Metadata {
+    + uuid
+    + version
+    + creation_date
+    + last_modified_date
+}
+
+class Edge {
+    + outV: str
+    + inV: str
+    + id: str
+    + label: str
+}
+
+class Project {
+    + team_list
+    + facilitator
+    + project_owner
+    + delete(access)
+}
+
+class Opportunity {
+
+}
+
+class Objective {
+
+}
+
+class Issue {
+    + variable_name: str
+    + category
+    + visible_on_ID: Bool
+    + DecisionData
+    + UncertaintyData
+    + ValueMetricData
+    + boundaries: in|out|on
+    + comments: CommentData
+}
+
+class DecisionData {
+    + states
+    + hierarchy
+}
+
+' That is ok only for discrete probabilities
+class UncertaintyData {
+    + probability: ProbabilityABC
+    ' + states
+    ' + values
+    ' + discrete: Bool
+    ' + conditional: Bool
+    + key: Bool
+    ' + coordinates_meaning_the_states_of_the_node_and_of_the_parents
+    ' + conditioned_variables
+    ' + conditioning_variables
+    + source_of_data
+}
+
+
+abstract class ProbabilityABC{
+
+}
+
+class DiscreteConditionalProbability {
+    + states
+    + values
+    + conditioned_variables
+    + conditioning_variables
+}
+
+class DiscreteUnconditionalProbability {
+    + states
+    + values
+}
+
+class ValueMetricData{
+    + expected_result
+    + decision_path
+}
+
+class CommentData {
+    + date
+    + author
+    + value
+}
+
+class DT {
+    + edited/fromID
+}
+
+class StrategyTable {
+
+}
+
+class VertexABC {
+
+}
+
+class Session {
+    + user/team
+    + share/do not share
+    + database
+    + who?
+    + approval: DMApproval | None
+    + create_from_scratch()
+    + create_from_given(owner, date)
+    + create_from_official()
+}
+
+class DMApproval {
+    + approved: Bool
+    + comments: CommentData
+    + date: date
+}
+
+
+
+abstract class UtilityABC {
+    + unit
+}
+
+class DiscreteUtility {
+    + ValueTable
+    + coordinates_meaning_the_states_of_the_parents
+}
+
+
+Project "1" *-- "many" Session : contains
+Session "1" *-- "many" Opportunity : contains
+Session "1" *-- "many" Objective : contains
+Session "1" *-- "many" Issue : contains
+Session "1" *-- "1" DT : contains
+Project *-- DMApproval : contains
+
+VertexABC <|-- Project
+VertexABC <|-- Session
+VertexABC <|-- Opportunity
+VertexABC <|-- Objective
+VertexABC <|-- Issue
+VertexABC <|-- UtilityABC
+VertexABC <|-- StrategyTable
+VertexABC *-- Metadata : contains
+
+
+Issue *-- DecisionData : contains
+Issue *-- UncertaintyData : contains
+Issue *-- CommentData : contains
+
+
+UncertaintyData <- ProbabilityABC
+
+
+ProbabilityABC <|-- DiscreteConditionalProbability
+ProbabilityABC <|-- DiscreteUnconditionalProbability
+
+UtilityABC <|-- DiscreteUtility
+
+UtilityABC "many" *-- "many" Issue: contains
+UtilityABC "many" *-- "many" ValueMetricData: contains
+
+@enduml
