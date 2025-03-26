@@ -104,10 +104,10 @@ class GremlinResponseBuilderVertex:
 
         for key, value in data.items():
             str_key = str(key)
-            if str_key == 'id':
-                result_dict[str_key] = parse_map['T.id'](value)
-            elif str_key == 'label':
-                result_dict[str_key] = parse_map['T.label'](value)
+            if str_key == "id":
+                result_dict[str_key] = parse_map["T.id"](value)
+            elif str_key == "label":
+                result_dict[str_key] = parse_map["T.label"](value)
             elif str_key in parse_map:
                 result_dict[str_key] = parse_map[str_key](value)
             elif isinstance(value, list) and len(value) == 1:

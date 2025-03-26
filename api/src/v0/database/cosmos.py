@@ -15,7 +15,6 @@ from ..database.builders.responses.gremlin_responses_edge import (
 from ..database.builders.responses.gremlin_responses_vertex import (
     GremlinResponseBuilderVertex,
 )
-
 from ..database.client import (
     BuilderABC,
     DatabaseClient,

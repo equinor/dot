@@ -90,6 +90,7 @@ def test_vertex_response_build_item():
         "version": "v0",
     }
 
+
 def test_vertex_response_build_item_without_T_variables():
     data = [
         {

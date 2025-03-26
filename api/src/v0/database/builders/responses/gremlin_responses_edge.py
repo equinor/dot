@@ -8,7 +8,7 @@ class GremlinResponseBuilderEdge:
     Class for building edge data model Responses from a Gremlin payload.
     """
 
-    def _parse_edge(self, edge_results: list|dict) -> dict:
+    def _parse_edge(self, edge_results: list | dict) -> dict:
         """parse edge information returned from the DataBase
 
         The Edge information is a string structured as
