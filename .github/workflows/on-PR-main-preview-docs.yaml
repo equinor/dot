@@ -12,9 +12,6 @@ on:
     paths: [ 'docs/**' ]
   workflow_dispatch:
 
-env:
-  page_name: fictional-adventure-9j75q5p
-
 jobs:
   build-and-preview:
     concurrency: publish-${{ github.ref }}
@@ -47,4 +44,4 @@ jobs:
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: docs/build/html
-          custom-url: ${{ env.page_name }}.pages.github.io
+          custom-url: equinor.github.io/dot
