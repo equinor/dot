@@ -6,7 +6,6 @@
   "waitFor": "onCreateCommand",
   "updateContentCommand": "npm install --prefix web",
   "postCreateCommand": "bash ./.devcontainer/scripts/install_api_dependencies.sh",
-  "postAttachCommand": "docker compose up --build --detach",
   "customizations": {
     "codespaces": {
       "openFiles": [

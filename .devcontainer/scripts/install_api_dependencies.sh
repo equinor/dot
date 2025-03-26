@@ -7,4 +7,4 @@ sudo apt-get -y install plantuml
 
 python -m pip install --upgrade pip
 python -m pip install poetry==1.8.5
-python -m poetry install --directory ./api
+poetry --directory ./api install

@@ -30,11 +30,29 @@ git clone https://github.com/equinor/dot.git
 ```
 
 
+#### Tinkerpop&trade;
+
+You can download Tinkerpop&trade; at the [download website](https://tinkerpop.apache.org/download.html) and extract the files. 
+
+
 #### Backend - API
 
 Installation
 
+The backend installation depends on `graphviz` and for some of the documentation of `plantuml`. Those need to be installed first as, for example
+
+
 ```bash
+sudo apt update
+sudo apt -y install graphviz
+sudo apt -y install graphviz-dev
+sudo apt-get -y install plantuml
+```
+
+Then
+
+```bash
+python -m pip install --upgrade pip
 pip install poetry==1.8.5
 poetry --directory ./api install
 ```
@@ -70,7 +88,7 @@ npm start --prefix web
 ### Docker
 
 ```bash
-docker-compose up --build
+docker compose up --build --detach
 ```
 
 The suffix ` -d` can be added to run the containers in detached mode.
@@ -78,6 +96,49 @@ The suffix ` -d` can be added to run the containers in detached mode.
 ### Codespace
 
 Github codespace is set up for the project. Be aware the database is available only if running the codespace locally and not from vscode browser version.
+
+The `devcontainer.json` file installs the frontend and the backend (including dependencies), but does not start the database. This needs to be first installed
+
+1. Go to [Tinkerpop&trade;](https://tinkerpop.apache.org/download.html)
+1. Select the server version (alternatively console if you want to also install it) you are interested and inspect the network element to get the cookie from the request header
+1. From the codespace terminal (assuming `cookie=1`)
+
+    ```bash
+    curl -b cookie=1 -o gremlin.bin.zip https://archive.apache.org/dist/tinkerpop/3.6.2/apache-tinkerpop-gremlin-server-3.6.2-bin.zip
+    ```
+
+1. Make sure the file is a compressed file
+
+    ```bash
+    file gremlin.bin.zip
+    ```
+    Expected output:
+    
+    gremlin.bin.zip: Zip archive data, at least v1.0 to extract
+
+1. Extract files and copy files
+
+    ```bash
+    unzip gremlin.bin.zip
+    rm gremlin.bin.zip
+    cp -r apache-tinkerpop-gremlin-server-3.6.2/bin db/
+    cp -r apache-tinkerpop-gremlin-server-3.6.2/ext db/
+    cp -r apache-tinkerpop-gremlin-server-3.6.2/lib db/
+    ```
+
+1. Start the database
+
+    ```bash
+    cd db
+    bash bin/gremlin-server.sh ../db/conf/gremlin-dot.yaml
+    ```
+
+1. Either use the uvicorn debugger, or start manually uvicorn by
+
+    ```bash
+    export DATABASE_HOST=localhost
+    poetry run --directory ./api uvicorn api.main:app --reload
+    ```
 
 
 ### Docs
