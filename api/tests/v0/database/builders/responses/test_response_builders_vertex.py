@@ -67,7 +67,50 @@ def test_vertex_response_build_item():
             "ids": ["test"],
             "T.id": "134a1f4a-2c11-46a2-b5cf-8498ef99aa08",
             "T.label": "vertex",
-            "id": "something to be ignored",
+            "id": "134a1f4a-2c11-46a2-b5cf-8498ef99aa08",
+            "version": ["v0"],
+        }
+    ]
+    assert GremlinResponseBuilderVertex().build_item(data).model_dump() == {
+        "tag": ["a tag"],
+        "alternatives": ["red", "green", "blue"],
+        "description": "John Doe",
+        "probabilities": {
+            "dtype": "DiscreteUnconditionalProbability",
+            "probability_function": [[1.0]],
+            "variables": {"variable": ["outcome"]},
+        },
+        "comments": [{"comment": "a comment", "author": "an author"}],
+        "uuid": "134a1f4a-2c11-46a2-b5cf-8498ef99aa08",
+        "timestamp": "1622477127.0",
+        "date": "2024-06-01 00:00:00",
+        "id": "134a1f4a-2c11-46a2-b5cf-8498ef99aa08",
+        "label": "vertex",
+        "ids": "test",
+        "version": "v0",
+    }
+
+
+def test_vertex_response_build_item_without_T_variables():
+    data = [
+        {
+            "tag": ['["a tag"]'],
+            "alternatives": ['["red", "green", "blue"]'],
+            "description": ["John Doe"],
+            "probabilities": [
+                (
+                    '{"dtype": "DiscreteUnconditionalProbability",'
+                    '"probability_function": [[1.0]],'
+                    '"variables": {"variable": ["outcome"]}}'
+                )
+            ],
+            "comments": ['[{"comment": "a comment", "author": "an author"}]'],
+            "timestamp": ["1622477127.0"],
+            "date": ["2024-06-01 00:00:00"],
+            "uuid": ["134a1f4a-2c11-46a2-b5cf-8498ef99aa08"],
+            "ids": ["test"],
+            "label": "vertex",
+            "id": "134a1f4a-2c11-46a2-b5cf-8498ef99aa08",
             "version": ["v0"],
         }
     ]

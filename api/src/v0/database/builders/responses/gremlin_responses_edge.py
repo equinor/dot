@@ -8,7 +8,7 @@ class GremlinResponseBuilderEdge:
     Class for building edge data model Responses from a Gremlin payload.
     """
 
-    def _parse_edge(self, edge_results: list) -> dict:
+    def _parse_edge(self, edge_results: list | dict) -> dict:
         """parse edge information returned from the DataBase
 
         The Edge information is a string structured as
@@ -25,6 +25,16 @@ class GremlinResponseBuilderEdge:
                 outV
                 inV
         """
+        if type(edge_results) is dict:
+            # return subset
+            return {
+                "id": edge_results["id"],
+                "label": edge_results["label"],
+                "outV": edge_results["outV"],
+                "inV": edge_results["inV"],
+                "uuid": edge_results["id"],
+            }
+
         match = re.match(r"e\[(.+)\]\[(.+)-(.+)->(.+)\]", str(edge_results))
         return {
             "id": match.group(1),

@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from fastapi_versionizer.versionizer import api_version
 
 from .. import database_version
-from ..database.gremlin import get_client
+from ..database.adapter import get_client
 from ..models.filter import Filter
 from ..models.objective import ObjectiveCreate, ObjectiveResponse, ObjectiveUpdate
 from ..repositories.objective import ObjectiveRepository
