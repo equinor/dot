@@ -34,7 +34,7 @@ class GremlinResponseBuilderEdge:
                 "inV": edge_results["inV"],
                 "uuid": edge_results["id"],
             }
-        
+
         match = re.match(r"e\[(.+)\]\[(.+)-(.+)->(.+)\]", str(edge_results))
         return {
             "id": match.group(1),
