@@ -2,7 +2,6 @@ import pytest
 
 from src.v0.database.client import DatabaseClient
 
-
 def test_database_client_methods(monkeypatch):
     monkeypatch.setattr(
         DatabaseClient,

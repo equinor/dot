@@ -12,6 +12,21 @@ def test_edge_response_builder_parse_edge():
         "uuid": "A",
     }
 
+def test_edge_response_builder_parse_edge_dictionary():
+    assert GremlinResponseBuilderEdge()._parse_edge({
+        "id": "A",
+        "label": "C",
+        "outV": "B",
+        "inV": "D",
+        "uuid": "A",
+    }) == {
+        "id": "A",
+        "label": "C",
+        "outV": "B",
+        "inV": "D",
+        "uuid": "A",
+    }
+
 
 def test_edge_response_builder_item():
     assert GremlinResponseBuilderEdge().build_item(["e[A][B-C->D]"]).model_dump() == {

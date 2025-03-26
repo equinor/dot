@@ -14,7 +14,7 @@ class Settings(BaseSettings):
 
     # static cosmos parameters
     COSMOS_DB_NAME: str = "decisionDB"
-    COSMOS_CONTAINER: str = "prototype"
+    COSMOS_CONTAINER: str = "decisionItems"
 
     @computed_field
     def FRONTEND_URL(self) -> AnyHttpUrl:
