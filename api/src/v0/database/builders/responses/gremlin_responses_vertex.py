@@ -1,13 +1,31 @@
 import ast
 import json
 
-from ....models.issue import CommentData, ProbabilityData
+from ....models.issue import (
+    CommentData,
+    DecisionData,
+    ProbabilityData,
+    UncertaintyData,
+    ValueMetricData,
+)
 from ....models.vertex import VertexResponse
 
 
 class FieldParserVertex:
     """Class for parsing the different types of fields existing in the vertices of
     the DataBase"""
+
+    def null_data(self, data):
+        if data is None:
+            return None
+        if data[0] is None or data[0] == "":
+            return None
+        if data[0] == "null":
+            return None
+        # if data[0] != "null" and data[0] != "":  # TODO: this depends on how we
+        #       store the None dataalues
+        #       in the DB
+        return data
 
     def id(self, data):
         # The id and labels from Gremlins are strings and not list
@@ -32,27 +50,15 @@ class FieldParserVertex:
             return None
 
     def probability(self, data):
-        # default_probability by default. Cannot be empty, but legacy tests...
-        if data is None:
+        if self.null_data(data) is None:
             return None
-        if data[0] is None or data[0] == "":
-            return None
-        if data[0] == "null":
-            return None
-        # if data[0] != "null" and data[0] != "":  # TODO: this depends on how we
-        #       store the None data values
-        #       in the DB
         try:
             return ProbabilityData.model_validate_json(data[0]).model_dump()
         except Exception:
             raise TypeError("Probability in DataBase is not in a ProbabilityData format")
 
     def comments(self, data):
-        if data is None:
-            return None
-        if data[0] is None or data[0] == "":
-            return None
-        if data[0] == "null":
+        if self.null_data(data) is None:
             return None
         validated_comments = []
         if not isinstance(data, list):
@@ -70,6 +76,30 @@ class FieldParserVertex:
                 )
 
         return validated_comments
+
+    def uncertainty(self, data):
+        if self.null_data(data) is None:
+            return None
+        try:
+            return UncertaintyData.model_validate_json(data[0]).model_dump()
+        except Exception:
+            raise TypeError("Uncertainty in DataBase is not in a UncertaintyData format")
+
+    def decision(self, data):
+        if self.null_data(data) is None:
+            return None
+        try:
+            return DecisionData.model_validate_json(data[0]).model_dump()
+        except Exception:
+            raise TypeError("Decision in DataBase is not in a DecisionData format")
+
+    def value_metric(self, data):
+        if self.null_data(data) is None:
+            return None
+        try:
+            return ValueMetricData.model_validate_json(data[0]).model_dump()
+        except Exception:
+            raise TypeError("ValueMetric in DataBase is not in a ValueMetricData format")
 
 
 class GremlinResponseBuilderVertex:
@@ -100,6 +130,9 @@ class GremlinResponseBuilderVertex:
             "tag": field_parser.list,
             "probabilities": field_parser.probability,
             "comments": field_parser.comments,
+            "uncertainty": field_parser.uncertainty,
+            "decision": field_parser.decision,
+            "value_metric": field_parser.value_metric,
         }
 
         for key, value in data.items():

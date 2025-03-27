@@ -69,6 +69,9 @@ def graph():
         "comments": None,
         "uuid": "11-aa",
         "id": "11-aa",
+        "uncertainty": None,
+        "decision": None,
+        "value_metric": None,
     }
 
     decision = {
@@ -86,6 +89,9 @@ def graph():
         "comments": None,
         "uuid": "22-bb",
         "id": "22-bb",
+        "uncertainty": None,
+        "decision": None,
+        "value_metric": None,
     }
 
     value_metric = {
@@ -103,6 +109,9 @@ def graph():
         "comments": None,
         "uuid": "33-cc",
         "id": "33-cc",
+        "uncertainty": None,
+        "decision": None,
+        "value_metric": None,
     }
 
     metadata = {

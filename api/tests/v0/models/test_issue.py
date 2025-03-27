@@ -1,6 +1,12 @@
 import pytest
 
-from src.v0.models.issue import CommentData, IssueCreate, ProbabilityData
+from src.v0.models.issue import (
+    CommentData,
+    DecisionData,
+    IssueCreate,
+    ProbabilityData,
+    UncertaintyData,
+)
 
 
 def test_CommentData_success():
@@ -21,8 +27,8 @@ def test_CommentData_fail():
     assert (
         "1 validation error for CommentData\nauthor\n  Field required [type=missing, "
         "input_value={'comment': 'a comment'}, input_type=dict]\n    For further "
-        "information visit https://errors.pydantic.dev/2.10/v/missing" in str(exc.value)
-    )
+        "information visit https://errors.pydantic.dev/2.10/v/missing"
+    ) in str(exc.value)
 
 
 def test_ProbabilityData_default():
@@ -45,8 +51,10 @@ def test_ProbabilityData_fail():
             variables={"var": ["state 1", "state 2"]},
         )
     assert (
-        "must be in ['DiscreteUnconditionalProbability', "
-        "'DiscreteConditionalProbability']"
+        "1 validation error for ProbabilityData\ndtype\n  "
+        "Input should be 'DiscreteUnconditionalProbability' or 'DiscreteConditionalProbability' "
+        "[type=literal_error, input_value='my_own_typ', input_type=str]\n    "
+        "For further information visit https://errors.pydantic.dev/2.10/v/literal_error"
     ) in str(exc.value)
 
 
@@ -78,6 +86,9 @@ def test_IssueData_default():
         "index": None,
         "shortname": None,
         "description": "a description",
+        "uncertainty": None,
+        "decision": None,
+        "value_metric": None,
         "keyUncertainty": None,
         "decisionType": None,
         "alternatives": None,
@@ -101,6 +112,9 @@ def test_IssueData_update_states():
         "index": None,
         "shortname": None,
         "description": "a description",
+        "uncertainty": None,
+        "decision": None,
+        "value_metric": None,
         "keyUncertainty": None,
         "decisionType": None,
         "alternatives": None,
@@ -123,6 +137,9 @@ def test_IssueData_probability_empty_shortname():
         "index": None,
         "shortname": "",
         "description": "a description",
+        "uncertainty": None,
+        "decision": None,
+        "value_metric": None,
         "keyUncertainty": None,
         "decisionType": None,
         "alternatives": None,
@@ -135,3 +152,40 @@ def test_IssueData_probability_empty_shortname():
         "boundary": None,
         "comments": None,
     }
+
+
+def test_UncertaintyData():
+    uncertainty_data = UncertaintyData()
+    assert uncertainty_data.probability is None
+    assert uncertainty_data.key == "False"
+    assert uncertainty_data.source == ""
+
+    pdf = ProbabilityData(
+        dtype="DiscreteUnconditionalProbability",
+        probability_function=[[0.6], [0.4]],
+        variables={"variable": ["s1", "s2"]},
+    )
+    uncertainty_data = UncertaintyData(
+        probability=pdf, key="True", source="my own guess"
+    )
+    assert uncertainty_data.key == "True"
+    assert uncertainty_data.source == "my own guess"
+
+
+def test_DecisionData():
+    decision_data = DecisionData()
+    assert decision_data.states is None
+    assert decision_data.decision_type is None
+
+    decision_data = DecisionData(states=["yes", "no"], decision_type="Focus")
+    assert decision_data.states == ["yes", "no"]
+    assert decision_data.decision_type == "Focus"
+
+    with pytest.raises(Exception) as exc:
+        DecisionData(decision_type="not defined")
+    assert (
+        "1 validation error for DecisionData\ndecision_type\n  "
+        "Input should be 'Focus', 'Tactical' or 'Strategic' "
+        "[type=literal_error, input_value='not defined', input_type=str]\n    "
+        "For further information visit https://errors.pydantic.dev/2.10/v/literal_error"
+        ) in str(exc.value)

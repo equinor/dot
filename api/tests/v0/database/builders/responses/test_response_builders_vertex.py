@@ -7,6 +7,10 @@ from src.v0.database.builders.responses.gremlin_responses_vertex import (
 
 
 def test_FieldParser():
+    assert FieldParserVertex().null_data(None) is None
+    assert FieldParserVertex().null_data([None]) is None
+    assert FieldParserVertex().null_data([""]) is None
+    assert FieldParserVertex().null_data(["null"]) is None
     assert FieldParserVertex().id("an id") == "an id"
     assert FieldParserVertex().label("a label") == "a label"
     assert FieldParserVertex().string(["a string"]) == "a string"
@@ -44,6 +48,34 @@ def test_FieldParser():
         FieldParserVertex().comments(['["a comment"]'])
     assert str(exc.value) == (
         "Comment in DataBase is not in a CommentData format: a comment"
+    )
+    assert FieldParserVertex().uncertainty(
+        [
+            (
+                '{"probability": '
+                '{"dtype": "DiscreteUnconditionalProbability", '
+                '"probability_function": [[1.0]], '
+                '"variables": {"variable": ["outcome"]}},'
+                '"key": "True","source": "my own guess"}'
+            )
+        ]
+    )
+    with pytest.raises(Exception) as exc:
+        FieldParserVertex().uncertainty(['["a comment"]'])
+    assert str(exc.value) == (
+        "Uncertainty in DataBase is not in a UncertaintyData format"
+    )
+    assert FieldParserVertex().decision(
+        [('{"states": ["yes","no"],' '"decision_type": "Focus"}')]
+    )
+    with pytest.raises(Exception) as exc:
+        FieldParserVertex().decision(['["a comment"]'])
+    assert str(exc.value) == ("Decision in DataBase is not in a DecisionData format")
+    assert FieldParserVertex().value_metric(['{"cost_function": "maximize_expected_utility"}'])
+    with pytest.raises(Exception) as exc:
+        FieldParserVertex().value_metric(['["a comment"]'])
+    assert str(exc.value) == (
+        "ValueMetric in DataBase is not in a ValueMetricData format"
     )
 
 

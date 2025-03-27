@@ -61,6 +61,9 @@ def issue():
         "influenceNodeUUID": [""],
         "boundary": ["in"],
         "comments": [('[{"comment": "question","author": "John Doe"}]')],
+        "uncertainty": [None],
+        "decision": [None],
+        "value_metric": [None],
     }
 
 

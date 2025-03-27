@@ -10,3 +10,4 @@ class Filter(DOTModel):
     decisionType: str | None = None
     keyUncertainty: str | None = None
     boundary: str | None = None
+    decision_type: str | None = None

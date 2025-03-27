@@ -184,6 +184,9 @@ def test_from_db_uncertainty_node_2d_unconditional():
         "ids": "test",
         "id": "51cd8e4f-aa04-48e2-8cdf-83a3c9ef978e",
         "label": "issue",
+        "uncertainty": None,
+        "decision": None,
+        "value_metric": None,
     }
 
     response = IssueResponse(**json_object)
@@ -228,6 +231,9 @@ def test_from_db_uncertainty_node_1d_unconditional():
         "ids": "test",
         "id": "51cd8e4f-aa04-48e2-8cdf-83a3c9ef978e",
         "label": "issue",
+        "uncertainty": None,
+        "decision": None,
+        "value_metric": None,
     }
 
     response = IssueResponse(**json_object)
@@ -265,6 +271,9 @@ def test_from_db_decision_node():
         "ids": "test",
         "id": "ad651f50-22de-4f85-a560-bf5fb2d9f706",
         "label": "issue",
+        "uncertainty": None,
+        "decision": None,
+        "value_metric": None,
     }
     response = IssueResponse(**json_object)
     result = NodeABC.from_db(response)
@@ -300,6 +309,9 @@ def test_from_db_utility_node():
         "ids": "test",
         "id": "d52cadfd-c3b8-4531-8e3b-b7e966271edb",
         "label": "issue",
+        "uncertainty": None,
+        "decision": None,
+        "value_metric": None,
     }
     response = IssueResponse(**json_object)
     result = NodeABC.from_db(response)
@@ -333,6 +345,9 @@ def test_from_db_fail_node_type():
         "ids": "test",
         "id": "d52cadfd-c3b8-4531-8e3b-b7e966271edb",
         "label": "issue",
+        "uncertainty": None,
+        "decision": None,
+        "value_metric": None,
     }
     response = IssueResponse(**json_object)
     with pytest.raises(Exception) as exc:

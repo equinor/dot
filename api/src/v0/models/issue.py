@@ -1,61 +1,16 @@
+from typing import Literal
+
 import numpy as np
 from pydantic import (
     AliasChoices,
     ConfigDict,
     Field,
     constr,
-    field_validator,
     model_validator,
 )
 
 from ... import DOTModel
 from .meta import VertexMetaDataResponse
-
-
-class CommentData(DOTModel):
-    """Model for comments on issues"""
-
-    comment: str
-    """Comment itself"""
-    author: str
-    """Author of the comment"""
-    # date: datetime = Field(default_factory=lambda: datetime.now())
-
-
-class ProbabilityData(DOTModel):
-    """Model for the probability description"""
-
-    dtype: str
-    """Type of probability (Discrete conditional/unconditional)"""
-    probability_function: list[list[float]] | list[list[None]]
-    """Values of the probability itself"""
-    variables: dict[str, list[str]]
-    """variables and their outcomes"""
-
-    @field_validator("dtype")
-    @classmethod
-    def check_type(cls, v: str) -> str:
-        allowed_probability_types = [
-            "DiscreteUnconditionalProbability",
-            "DiscreteConditionalProbability",
-        ]
-        if v not in allowed_probability_types:
-            raise ValueError("must be in " + str(allowed_probability_types))
-        return v
-
-    @model_validator(mode="before")
-    @classmethod
-    def nullify_probability_function(cls, values):
-        variables = values["variables"]
-        array_size = tuple([len(v) for v in variables.values()])
-        probability_function = values["probability_function"]
-        if np.asarray(array_size).prod() != np.asarray(probability_function).size:
-            probability_function = np.reshape(
-                np.full(array_size, None), (array_size[0], -1)
-            ).tolist()
-        values["variables"] = variables
-        values["probability_function"] = probability_function
-        return values
 
 
 class IssueValidator(DOTModel):
@@ -73,31 +28,69 @@ class IssueValidator(DOTModel):
             values["probabilities"] = ProbabilityData.model_validate(pdf)
         return values
 
-    # @field_validator("category")
-    # @classmethod
-    # def check_category(cls, v: str) -> str:
-    #     allowed_category = [
-    #         "Uncertainty",
-    #         "Decision",
-    #         "Value Metric",
-    #         "Fact",
-    #         "Action Item",
-    #     ]
-    #     if v not in allowed_category and v is not None:
-    #         raise ValueError("must be None or in " + str(allowed_category))
-    #     return v
 
-    # @field_validator("boundary")
-    # @classmethod
-    # def check_bounday(cls, v: str) -> str:
-    #     allowed_boundary = [
-    #         "in",
-    #         "out",
-    #         "on"
-    #     ]
-    #     if v not in allowed_boundary and v is not None:
-    #         raise ValueError("must be None or in " + str(allowed_boundary))
-    #     return v
+class ProbabilityData(DOTModel):
+    """Model for the probability description"""
+
+    dtype: Literal["DiscreteUnconditionalProbability", "DiscreteConditionalProbability"]
+    """Type of probability (Discrete conditional/unconditional)"""
+    probability_function: list[list[float]] | list[list[None]]
+    """Values of the probability itself"""
+    variables: dict[str, list[str]]
+    """variables and their outcomes"""
+
+    @model_validator(mode="before")
+    @classmethod
+    def nullify_probability_function(cls, values):
+        variables = values["variables"]
+        array_size = tuple([len(v) for v in variables.values()])
+        probability_function = values["probability_function"]
+        if np.asarray(array_size).prod() != np.asarray(probability_function).size:
+            probability_function = np.reshape(
+                np.full(array_size, None), (array_size[0], -1)
+            ).tolist()
+        values["variables"] = variables
+        values["probability_function"] = probability_function
+        return values
+
+
+class UncertaintyData(DOTModel):
+    """Model gathering information about uncertainty"""
+
+    probability: ProbabilityData | None = None
+    """Probability data"""
+    key: str = "False"
+    """Is the uncertainty a key uncertainty or not"""
+    source: str = ""
+    """Source of uncertainty information (subjective, data driven, literature...)"""
+
+
+class DecisionData(DOTModel):
+    """Model gathering information about decision"""
+
+    states: list[str] | None = None
+    """Possible alternatives (states) to the decision"""
+    decision_type: Literal["Focus", "Tactical", "Strategic"] | None = None
+    """Type of decision ("Focus", "Tactical", "Strategic")"""
+
+
+class ValueMetricData(DOTModel):
+    """Model gathering information about value metric"""
+
+    cost_function: Literal["minimize_expected_utility", "maximize_expected_utility"] = "maximize_expected_utility"
+    """Type of cost function for the value metric"""
+    weigth: float = 1.0
+    """Weight of the value metric for the global decision"""
+
+
+class CommentData(DOTModel):
+    """Model for comments on issues"""
+
+    comment: str
+    """Comment itself"""
+    author: str
+    """Author of the comment"""
+    # date: datetime = Field(default_factory=lambda: datetime.now())
 
 
 class IssueCreate(IssueValidator):
@@ -126,10 +119,16 @@ class IssueCreate(IssueValidator):
     """In case the issue is an uncertainty, probability description"""
     alternatives: list[str] | None = None
     """In case the issue is a decision, list of alternatives"""
-    boundary: str | None = None
+    boundary: Literal["in", "on", "out"] | None = None
     """Boundary of the issue (in, on, or out)"""
     comments: list[CommentData] | None = None
     """List of comments added to the issue"""
+    uncertainty: UncertaintyData | None = None
+    """In case the issue is an uncertainty, Uncertainty information"""
+    decision: DecisionData | None = None
+    """In case the issue is a decision, Decision information"""
+    value_metric: ValueMetricData | None = None
+    """In case the issue is a value metric, Value Metric information"""
     influenceNodeUUID: str | None = None
     """Deprecated"""
     index: str | None = None  # TODO: automatic assignment of index through API?
@@ -159,7 +158,6 @@ class IssueCreate(IssueValidator):
                         "comment": "Question: is this correct?",
                         "author": "John Doe",
                     },
-                    "influenceNodeUUID": "123",
                     "index": "0",
                 }
             ]
@@ -180,6 +178,9 @@ class IssueUpdate(IssueValidator):
     influenceNodeUUID: str | None = None
     boundary: str | None = None
     comments: list[CommentData] | None = None
+    uncertainty: UncertaintyData | None = None
+    decision: DecisionData | None = None
+    value_metric: ValueMetricData | None = None
 
     model_config = ConfigDict(
         json_schema_extra={
@@ -226,6 +227,9 @@ class IssueResponse(VertexMetaDataResponse):
     influenceNodeUUID: str | None
     boundary: str | None
     comments: list[CommentData] | None
+    uncertainty: UncertaintyData | None = None
+    decision: DecisionData | None = None
+    value_metric: ValueMetricData | None = None
 
     id: str = Field(validation_alias=AliasChoices("T.id", "id"))
     label: constr(to_lower=True) = Field(

@@ -32,7 +32,10 @@
         "date": "2024-04-09 07:40:53.157336",
         "ids": "test",
         "id": "51cd8e4f-aa04-48e2-8cdf-83a3c9ef978e",
-        "label": "issue"
+        "label": "issue",
+        "uncertainty": null,
+        "decision": null,
+        "value_metric": null
       },
       {
         "tag": ["Test Result"],
@@ -89,7 +92,10 @@
         "date": "2024-04-09 07:41:29.467935",
         "ids": "test",
         "id": "72a8cf93-7400-4511-ae64-f72c2de2c16c",
-        "label": "issue"
+        "label": "issue",
+        "uncertainty": null,
+        "decision": null,
+        "value_metric": null
       },
       {
         "tag": ["Buy"],
@@ -109,7 +115,10 @@
         "date": "2024-04-09 07:42:10.228485",
         "ids": "test",
         "id": "98e3d193-d830-452f-9fe8-c21d258ef603",
-        "label": "issue"
+        "label": "issue",
+        "uncertainty": null,
+        "decision": null,
+        "value_metric": null
       },
       {
         "tag": ["Test"],
@@ -129,7 +138,10 @@
         "date": "2024-04-09 07:41:08.410262",
         "ids": "test",
         "id": "ad651f50-22de-4f85-a560-bf5fb2d9f706",
-        "label": "issue"
+        "label": "issue",
+        "uncertainty": null,
+        "decision": null,
+        "value_metric": null
       },
       {
         "tag": ["Value"],
@@ -149,7 +161,10 @@
         "date": "2024-04-09 07:41:41.964793",
         "ids": "test",
         "id": "d52cadfd-c3b8-4531-8e3b-b7e966271edb",
-        "label": "issue"
+        "label": "issue",
+        "uncertainty": null,
+        "decision": null,
+        "value_metric": null
       }
     ],
     "edges": [
