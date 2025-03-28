@@ -18,18 +18,6 @@ class ProjectRepository:
         self._client = client
         self.builder = client.builder
 
-    def read(self, project_uuid: str) -> ProjectResponse:
-        """Method to read one project based on the id
-
-        Args:
-            project_uuid (str): id of the vertex with the label "project"'
-
-        Returns
-            ProjectResponse: Project with all properties
-        """
-        vertex = VertexRepository(self._client).read(project_uuid)
-        return ProjectResponse.convert_api_payload_to_response(vertex)
-
     def create(self, project_data: ProjectCreate) -> ProjectResponse:
         """Method to create a new project vertex
 
@@ -44,54 +32,6 @@ class ProjectRepository:
         vertex = VertexRepository(self._client).create("project", project_data)
         return ProjectResponse.convert_api_payload_to_response(vertex)
 
-    def update(
-        self, project_uuid: str, modified_fields: ProjectUpdate
-    ) -> ProjectResponse:
-        """Updates the specified project based on the id with the new project_data
-
-        Args:
-            project_uuid (str): id of the project vertex
-            modified_fields (ProjectUpdate): contains properties of the project
-
-        Returns
-            ProjectResponse: Project with the project_data as ProjectUpdate
-        """
-        vertex = VertexRepository(self._client).update(project_uuid, modified_fields)
-        return ProjectResponse.convert_api_payload_to_response(vertex)
-
-    def delete(self, project_uuid: str):
-        """Gets all vertices connected (via edge with label "contains") to the project
-             vertex with the id = project_uuid
-
-            Deletes all edges from these vertices and deletes afterwards all vertices
-            connected to the project
-            Deletes the project vertex based on the id
-
-        Args
-            project_uuid (str): id of the project vertex
-
-        Returns
-            None
-        """
-        vertex_list = VertexRepository(self._client).read_out_vertex(
-            project_uuid, edge_label="contains"
-        )
-
-        # merged issues of the project, through "merged_into" edge into one of the nodes
-        merged_issues = []
-        for issue in vertex_list:
-            merged_issues.extend(
-                VertexRepository(self._client).read_in_vertex(
-                    issue.id, edge_label="merged_into"
-                )
-            )
-        vertex_list.extend(merged_issues)
-        for v in vertex_list:
-            EdgeRepository(self._client).delete_edge_from_vertex(v.id)
-            VertexRepository(self._client).delete(v.id)
-        VertexRepository(self._client).delete(project_uuid)
-        return
-
     def all(self) -> list[ProjectResponse]:
         """Reads all project vertices
 
@@ -104,7 +44,34 @@ class ProjectRepository:
         vertex_list = VertexRepository(self._client).all("project")
         return ProjectResponse.convert_list_api_payloads_to_responses(vertex_list)
 
-    def _filter_non_empty_fields(self, data, exclude_keys=None):
+    def read(self, project_uuid: str) -> ProjectResponse:
+        """Method to read one project based on the id
+
+        Args:
+            project_uuid (str): id of the vertex with the label "project"'
+
+        Returns
+            ProjectResponse: Project with all properties
+        """
+        vertex = VertexRepository(self._client).read(project_uuid)
+        return ProjectResponse.convert_api_payload_to_response(vertex)
+
+    def _filter_non_empty_fields(
+        self, data: list[dict] | dict, exclude_keys: None | list[str] = None
+    ) -> list[dict] | dict:
+        """Filter non empty data from dictionaries
+
+            Remove items for which the value is either None or an empty string
+            and is not specified as to be kept.
+
+        Args:
+            data (list[dict] | dict): data to filter
+            exclude_keys (None | list[str], optional): list of keys to be kept
+            even when empty. Defaults to None.
+
+        Returns:
+            list[dict] | dict: input data without filtered items.
+        """
         if exclude_keys is None:
             exclude_keys = []
         if isinstance(data, dict):
@@ -118,7 +85,7 @@ class ProjectRepository:
         else:
             return data
 
-    def export_project(self, project_uuid: str):
+    def export_project(self, project_uuid: str) -> dict:
         """Method to export one project based on the id in JSON format
 
         Args
@@ -221,7 +188,15 @@ class ProjectRepository:
 
         return json_dict
 
-    def _remove_contains_edge(self, uuid):
+    def _remove_contains_edge(self, uuid: str) -> None:
+        """Remove incoming edges with labels "contains" to a vertex
+
+        Args:
+            uuid (str): UUID of the vertex
+
+        Returns:
+            None
+        """
         contains_edge = EdgeRepository(self._client).read_in_edge_to_vertex(
             edge_label="contains", vertex_uuid=uuid
         )  # EdgeResponse
@@ -230,8 +205,19 @@ class ProjectRepository:
         return None
 
     def _create_project_components_vertices(
-        self, vertices, label, project_uuid, project_json
-    ):
+        self, vertices: list | dict, label: str, project_uuid: str, project_json: dict
+    ) -> None:
+        """Create vertices contained in a project and update uuids of edges
+
+        Args:
+            vertices (list | dict): vertices to be created as json
+            label (str): label of the vertice to create
+            project_uuid (str): UUID of the project
+            project_json (dict): The full project data as json
+
+        Returns:
+            None
+        """
         for vertex in vertices:
             vertex.pop("label")
             id = vertex.pop("id")
@@ -299,4 +285,52 @@ class ProjectRepository:
                     out_vertex_uuid=edge["outV"],
                     in_vertex_uuid=edge["inV"],
                 )
+        return
+
+    def update(
+        self, project_uuid: str, modified_fields: ProjectUpdate
+    ) -> ProjectResponse:
+        """Updates the specified project based on the id with the new project_data
+
+        Args:
+            project_uuid (str): id of the project vertex
+            modified_fields (ProjectUpdate): contains properties of the project
+
+        Returns
+            ProjectResponse: Project with the project_data as ProjectUpdate
+        """
+        vertex = VertexRepository(self._client).update(project_uuid, modified_fields)
+        return ProjectResponse.convert_api_payload_to_response(vertex)
+
+    def delete(self, project_uuid: str):
+        """Gets all vertices connected (via edge with label "contains") to the project
+             vertex with the id = project_uuid
+
+            Deletes all edges from these vertices and deletes afterwards all vertices
+            connected to the project
+            Deletes the project vertex based on the id
+
+        Args
+            project_uuid (str): id of the project vertex
+
+        Returns
+            None
+        """
+        vertex_list = VertexRepository(self._client).read_out_vertex(
+            project_uuid, edge_label="contains"
+        )
+
+        # merged issues of the project, through "merged_into" edge into one of the nodes
+        merged_issues = []
+        for issue in vertex_list:
+            merged_issues.extend(
+                VertexRepository(self._client).read_in_vertex(
+                    issue.id, edge_label="merged_into"
+                )
+            )
+        vertex_list.extend(merged_issues)
+        for v in vertex_list:
+            EdgeRepository(self._client).delete_edge_from_vertex(v.id)
+            VertexRepository(self._client).delete(v.id)
+        VertexRepository(self._client).delete(project_uuid)
         return

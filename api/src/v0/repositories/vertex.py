@@ -82,8 +82,6 @@ class VertexRepository:
                 and other properties of the vertices defined in the database
                 If filter_model is None, no filter will be applied and all vertices will
                 be returned.
-
-
         """
         filter_dict = None if filter_model is None else filter_model.model_dump()
         query = self.builder.query.vertex.read_out_vertex(
@@ -139,7 +137,14 @@ class VertexRepository:
     # Not sure if this is needed
     # def all(self, vertex_label: str, filter_dict: dict = None) -> List[VertexResponse]:
     def all(self, vertex_label: str) -> list[VertexResponse]:
-        """ """
+        """Read all vertices given a label
+
+        Args:
+            vertex_label (str): label of vertices to read (e.g. opportunity)
+
+        Returns:
+            list[VertexResponse]: list of vertices with the given label
+        """
         query = self.builder.query.vertex.list_all_vertices(vertex_label)
         with self._client as c:
             results = c.execute_query(query)

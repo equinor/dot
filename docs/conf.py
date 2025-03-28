@@ -14,7 +14,7 @@ import os
 import sys
 
 
-sys.path.insert(0, os.path.abspath("."))
+sys.path.insert(0, os.path.abspath("../api/src"))
 
 # -- Project information -----------------------------------------------------
 
@@ -39,7 +39,8 @@ extensions = [
     "sphinxcontrib.plantuml",
     "sphinxcontrib.autodoc_pydantic",
     "myst_parser",
-]
+    "sphinxcontrib.openapi",
+    ]
 
 source_suffix = {
     ".rst": "restructuredtext",
@@ -59,6 +60,7 @@ autodoc_default_options = {
     "member-order": "bysource",
     "ignore-module-all": True,
 }
+add_module_names = False
 
 
 # Add any paths that contain templates here, relative to this directory.
@@ -82,6 +84,10 @@ language = "en"
 # The theme to use for HTML and HTML Help pages.
 # See the documentation for a list of builtin themes.
 html_theme = "furo"
+html_logo = "images/dot-logo.png"
+html_theme_options = {
+    "announcement": "The code is under development!",
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

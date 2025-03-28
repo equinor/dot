@@ -10,16 +10,31 @@ class ObjectiveRepository:
         self._client = client
         self.builder = client.builder
 
-    def read(self, objective_uuid: str) -> ObjectiveResponse:
-        """Method to read one objective based on the id
+    def create(
+        self, project_uuid: str, objective_data: ObjectiveCreate
+    ) -> ObjectiveResponse:
+        """Method to create a new objective connected to a project vertex
+
+            Creates vertex with the label "objective" and the properties of
+            objective_data
+            Creates an edge between the project vertex specified by project_uuid
+            and the newly create objective vertex
 
         Args:
-           objective_uuid (str): id of the vertex with the label "objective"
+            project_uuid (str): id of the project vertex the new objective will be
+                                connected to
+            objective_data (ObjectiveCreate): contains all properties for the objective
 
-        Returns
-            ObjectiveResponse: Objective with all properties
+        Returns:
+            ObjectiveResponse: Created Objective with the objective_data as
+                               ObjectiveData
         """
-        vertex = VertexRepository(self._client).read(objective_uuid)
+        vertex = VertexRepository(self._client).create("objective", objective_data)
+        EdgeRepository(self._client).create(
+            out_vertex_uuid=project_uuid,
+            in_vertex_uuid=vertex.uuid,
+            edge_label="contains",
+        )
         return ObjectiveResponse.convert_api_payload_to_response(vertex)
 
     def read_objectives_all(
@@ -55,31 +70,16 @@ class ObjectiveRepository:
         )
         return ObjectiveResponse.convert_list_api_payloads_to_responses(vertex_list)
 
-    def create(
-        self, project_uuid: str, objective_data: ObjectiveCreate
-    ) -> ObjectiveResponse:
-        """Method to create a new objective connected to a project vertex
-
-            Creates vertex with the label "objective" and the properties of
-            objective_data
-            Creates an edge between the project vertex specified by project_uuid
-            and the newly create objective vertex
+    def read(self, objective_uuid: str) -> ObjectiveResponse:
+        """Method to read one objective based on the id
 
         Args:
-            project_uuid (str): id of the project vertex the new objective will be
-                                connected to
-            objective_data (ObjectiveCreate): contains all properties for the objective
+           objective_uuid (str): id of the vertex with the label "objective"
 
-        Returns:
-            ObjectiveResponse: Created Objective with the objective_data as
-                               ObjectiveData
+        Returns
+            ObjectiveResponse: Objective with all properties
         """
-        vertex = VertexRepository(self._client).create("objective", objective_data)
-        EdgeRepository(self._client).create(
-            out_vertex_uuid=project_uuid,
-            in_vertex_uuid=vertex.uuid,
-            edge_label="contains",
-        )
+        vertex = VertexRepository(self._client).read(objective_uuid)
         return ObjectiveResponse.convert_api_payload_to_response(vertex)
 
     def update(

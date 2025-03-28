@@ -88,6 +88,13 @@ cd docs
 make html
 ```
 
+In case of modifications of endpoints, the openapi spec files needs to be updated before building the documentation
+
+```bash
+uvicorn main:app --reload
+curl -X GET "http://127.0.0.1:8000/openapi.json" -o docs/src/developers/apiopenapi.json
+```
+
 
 ## Usage
 

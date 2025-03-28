@@ -8,18 +8,20 @@ This flowchart provides an overview of the communication between the different m
 
     sequenceDiagram
         participant Frontend
-        participant Router
+        participant Route
+        participant Service
         participant Repository
         participant Vertex- & Edge Repository
-        participant Schema
+        participant Data model
         participant Database
-        Frontend->>Router: Send API request
-        Router->>Repository: Call specific repository methods
+        Frontend->>Route: Send API request
+        Route->>Service: Call specific service methods
+        Service->>Repository: Call specific repository methods
         Repository->>Vertex- & Edge Repository: Call vertex and edge methods
         Vertex- & Edge Repository->>Database: Execute Gremlin queries
         Database->>Vertex- & Edge Repository: Return query results
-        Vertex- & Edge Repository-->>Schema: Validate data
+        Vertex- & Edge Repository-->>Data model: Validate data
         Vertex- & Edge Repository->>Repository: Return data as VertexResponse or EdgeResponse
-        Repository-->>Schema: Validate data
-        Repository->>Router: Return ResponseModel
-        Router->>Frontend: Send API response
+        Repository-->>Data model: Validate data
+        Service->>Route: Return ResponseModel
+        Route->>Frontend: Send API response

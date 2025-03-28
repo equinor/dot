@@ -26,7 +26,20 @@ def create_vertex(
     vertex_label: str,
     vertex_data: VertexCreate,
     client: DatabaseClient = Depends(get_client),
-):
+) -> VertexResponse:
+    """Creates a new vertex based on vertex data
+
+    Args:
+        vertex_label (str): given vertex label for gremlin DB, e.g. "issue",
+                            "project", "opportunity", "objective"
+        vertex (VertexCreate): data for properties in vertex
+            provides generated uuid
+            provides uuid will also be set as the id in the DB
+
+    Return:
+        VertexResponse: dict of the created vertex
+
+    """
     with client as c:
         return VertexRepository(c).create(
             vertex_label, VertexCreate.model_validate(vertex_data.model_dump())
@@ -39,7 +52,17 @@ def create_vertex(
     response_model=list[VertexResponse],
     summary="Get all vertices by their label",
 )
-def read_vertex_all(vertex_label: str, client: DatabaseClient = Depends(get_client)):
+def read_vertex_all(
+    vertex_label: str, client: DatabaseClient = Depends(get_client)
+) -> list[VertexResponse]:
+    """Read all vertices given a label
+
+    Args:
+        vertex_label (str): label of vertices to read (e.g. opportunity)
+
+    Returns:
+        list[VertexResponse]: list of vertices with the given label
+    """
     with client as c:
         return VertexRepository(c).all(vertex_label)
 
@@ -50,7 +73,22 @@ def read_vertex_all(vertex_label: str, client: DatabaseClient = Depends(get_clie
     response_model=VertexResponse,
     summary="Get a vertex by its UUID",
 )
-def read_vertex(vertex_uuid: str, client: DatabaseClient = Depends(get_client)):
+def read_vertex(
+    vertex_uuid: str, client: DatabaseClient = Depends(get_client)
+) -> VertexResponse:
+    """Reads a vertex based on the vertex id in the DB
+
+    Args:
+        vertex_uuid (str): uuid of the vertex.
+
+            uuid property [g.V().property("uuid",...)] and vertex id [g.V(id)] are
+            the same based on the implementation in the create method
+            This is an active choice of us, otherwise, the id will be automatically
+            generated in the DB
+
+    Return:
+        VertexResponse: dict with all data of the vertex (VertexResponse)
+    """
     with client as c:
         return VertexRepository(c).read(vertex_uuid)
 
@@ -71,7 +109,34 @@ def read_out_vertex(
     filter_model: Filter = Depends(),
     original_vertex_label: str = None,
     client: DatabaseClient = Depends(get_client),
-):
+) -> list[VertexResponse]:
+    """Read vertices based on outgoing edge labels.
+
+    Args:
+        vertex_uuid (str): id of the vertex
+        edge_label (str): edge label, e.g. "contains" or "influences"
+        original_vertex_label (str, optional): label of the vertices we are
+                                                interested in (e.g. only issues or
+                                                also opportunities and objectives).
+                                                Defaults to None.
+        filter_model (Filter, optional): BaseModel containing properties to use as
+                                            a filter, for example the type or tag of
+                                            vertices. Defaults to None.
+
+    Returns:
+        List[VertexResponse]:
+            List of all vertices connected to the vertex with the vertex id
+            vertex_uuid through an edge with the label edge_label
+            When original_vertex_label is given the vertices will be filtered
+            based on the label of the vertex, e.g. it will return either "issue",
+            "opportunity" or "objective" vertices otherwise, all vertices are
+            returned
+            When filter_model is given, the vertices will be filtered based on the
+            content of the filter model. Currently this can be "tag", "type",...
+            and other properties of the vertices defined in the database
+            If filter_model is None, no filter will be applied and all vertices will
+            be returned.
+    """
     with client as c:
         return VertexRepository(c).read_out_vertex(
             vertex_uuid=vertex_uuid,
@@ -93,7 +158,35 @@ def read_in_vertex(
     filter_model: Filter = Depends(),
     original_vertex_label: str = None,
     client: DatabaseClient = Depends(get_client),
-):
+) -> list[VertexResponse]:
+    """Read vertices based on incoming edge labels.
+
+    Args:
+        vertex_uuid (str): id of the vertex
+        edge_label (str): edge label, e.g. "contains" or "influences"
+        original_vertex_label (str, optional): label of the vertices we are
+                                                interested in (e.g. only issues or
+                                                also opportunities and objectives).
+                                                Defaults to None.
+        filter_model (Filter, optional): BaseModel containing properties to use
+                                            as a filter, for example the type or tag
+                                            of vertices. Defaults to None.
+
+    Returns:
+        List[VertexResponse]: List of all vertices connected to the vertex with
+                                the vertex id vertex_uuid through an incoming edge
+                                with the label edge_label
+
+            When original_vertex_label is given, the vertices will be filtered
+            based on the label of the vertex, e.g. it will return either "issue",
+            "opportunity" or "objective" vertices. Otherwise, all vertices are
+            returned.
+            When filter_model is given, the vertices will be filtered based on
+            the content of the filter model. Currently, this can be "tag", "type",
+            and other properties of the vertices defined in the database.
+            If filter_model is None, no filter will be applied and all vertices will
+            be returned.
+    """
     with client as c:
         return VertexRepository(c).read_in_vertex(
             vertex_uuid=vertex_uuid,
@@ -113,7 +206,17 @@ def update_vertex(
     vertex_uuid: str,
     modified_fields: VertexUpdate,
     client: DatabaseClient = Depends(get_client),
-):
+) -> VertexResponse:
+    """Updated the specified vertex with the new vertex properties
+
+    Args:
+        vertex_uuid (str): id of the to be updated vertex
+        modified_fields (VertexUpdate): properties of vertices which will
+                                        be updated
+
+    Return:
+        VertexResponse: vertex dict with updated properties
+    """
     with client as c:
         return VertexRepository(c).update(vertex_uuid, modified_fields)
 
@@ -122,6 +225,16 @@ def update_vertex(
 @router.delete(
     "/vertices/{vertex_uuid}", response_model=None, summary="Delete a vertex by its UUID"
 )
-def delete_vertex(vertex_uuid: str, client: DatabaseClient = Depends(get_client)):
+def delete_vertex(
+    vertex_uuid: str, client: DatabaseClient = Depends(get_client)
+) -> None:
+    """method to delete a vertex based on the vertex id
+
+    Args:
+        vertex_uuid (str): id of the vertex which will be deleted
+
+    Return:
+        None
+    """
     with client as c:
         return VertexRepository(c).delete(vertex_uuid)

@@ -14,16 +14,28 @@ class OpportunityRepository:
         self._client = client
         self.builder = client.builder
 
-    def read(self, opportunity_uuid: str) -> OpportunityResponse:
-        """Method to read one opportunity based on the id
+    def create(
+        self, project_uuid: str, opportunity_data: OpportunityCreate
+    ) -> OpportunityResponse:
+        """Method to create a new opportunity connected to a project vertex
+
+            Creates vertex with the label "opportunity" and the properties of
+            opportunity_data
+            Creates an edge between the project vertex specified by project_uuid and the
+            newly create opportunity vertex
 
         Args:
-            opportunity_uuid (str): id of the vertex with the label "opportunity"
+            project_uuid (str): id of the project vertex the new opportunity will be
+                                connected to
+            opportunity_data (OpportunityCreate): contains all properties for the
+                                                opportunity
 
-        Returns
-            OpportunityResponse: Opportunity with all properties
+        Returns:
+            OpportunityResponse: Created Opportunity with the opportunity_data as
+            OpportunityCreate
         """
-        vertex = VertexRepository(self._client).read(opportunity_uuid)
+        vertex = VertexRepository(self._client).create("opportunity", opportunity_data)
+        EdgeRepository(self._client).create(project_uuid, vertex.uuid, "contains")
         return OpportunityResponse.convert_api_payload_to_response(vertex)
 
     def read_opportunities_all(
@@ -59,28 +71,16 @@ class OpportunityRepository:
         )
         return OpportunityResponse.convert_list_api_payloads_to_responses(vertex_list)
 
-    def create(
-        self, project_uuid: str, opportunity_data: OpportunityCreate
-    ) -> OpportunityResponse:
-        """Method to create a new opportunity connected to a project vertex
-
-            Creates vertex with the label "opportunity" and the properties of
-            opportunity_data
-            Creates an edge between the project vertex specified by project_uuid and the
-            newly create opportunity vertex
+    def read(self, opportunity_uuid: str) -> OpportunityResponse:
+        """Method to read one opportunity based on the id
 
         Args:
-            project_uuid (str): id of the project vertex the new opportunity will be
-                                connected to
-            opportunity_data (OpportunityCreate): contains all properties for the
-                                                opportunity
+            opportunity_uuid (str): id of the vertex with the label "opportunity"
 
-        Returns:
-            OpportunityResponse: Created Opportunity with the opportunity_data as
-            OpportunityCreate
+        Returns
+            OpportunityResponse: Opportunity with all properties
         """
-        vertex = VertexRepository(self._client).create("opportunity", opportunity_data)
-        EdgeRepository(self._client).create(project_uuid, vertex.uuid, "contains")
+        vertex = VertexRepository(self._client).read(opportunity_uuid)
         return OpportunityResponse.convert_api_payload_to_response(vertex)
 
     def update(

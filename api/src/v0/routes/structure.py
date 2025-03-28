@@ -31,7 +31,15 @@ def get_service(repository=Depends(get_repository)):
 )
 def read_influence_diagram(
     project_uuid: str, service: StructureService = Depends(get_service)
-):
+) -> InfluenceDiagramResponse:
+    """Method to read the necessary data to create the influence diagram structure
+
+    Args:
+        project_uuid (str): id of the project vertex
+
+    Returns
+        InfluenceDiagramResponse: Dict of vertices and edges
+    """
     return service.read_influence_diagram(project_uuid=project_uuid)
 
 
@@ -43,5 +51,13 @@ def read_influence_diagram(
 )
 def convert_influence_diagram_to_decision_tree_model(
     project_uuid: str, service: StructureService = Depends(get_service)
-):
+) -> DecisionTreeResponse:
+    """Method to read the necessary data to create the decision tree structure
+
+    Args:
+        project_uuid (str): id of the project vertex
+
+    Returns
+        DecisionTreeResponse: Dict of vertices
+    """
     return service.create_decision_tree(project_uuid=project_uuid)

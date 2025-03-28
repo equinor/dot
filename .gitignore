@@ -20,8 +20,8 @@ web/.pnp
 # docs
 docs/_build/
 docs/build/
-docs/_static/
-docs/_templates/
+# docs/_static/
+# docs/_templates/
 
 # debug tools
 db/bin

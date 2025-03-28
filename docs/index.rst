@@ -1,37 +1,25 @@
-.. dm_prototyping documentation master file,
-.. created by MB sphinx-quickstart on Wed Jun 7 00:01:15 2023.
-.. You can adapt this file completely to your liking, but
-.. it should at least contain the root `toctree` directive.
+Welcome to DOT's documentation
+================================
 
-#########################
-Tech notes DM prototyping
-#########################
 
-User guide
-----------
+The Decision Optimization Tool, a plateform for Decision Quality!
+
 
 .. toctree::
     :maxdepth: 2
-    :caption: User guide
+    :caption: Table of contents:
 
-    src/terminology.md
-
-Development
----------------
-
-.. toctree::
-   :caption: Development
-   :maxdepth: 5
-   :glob:
-
-   src/development/c4_diagrams/c4_diagrams
-   src/development/architecture_overview
-   src/development/database_overview
-   src/development/api/api
+    src/introduction
+    src/getting_started
+    src/user_documentation
+    src/developer_documentation
+    src/contributing
+    src/changelog
+    src/appendices
 
 
 Indices and tables
-------------------
+-------------------
 
 * :ref:`genindex`
 * :ref:`modindex`

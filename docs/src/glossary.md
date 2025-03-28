@@ -1,4 +1,4 @@
-# Terminology
+# Glossary
 
 The terminology found in the literature may not be unique and we explain here the main terms used in the DOT.
 
@@ -92,9 +92,3 @@ The nodes are also components of influence diagrams and decision trees.
 ### Edge
 
 Edges (also called arcs, in particular for directional graphs) represent a connection or relationship between two nodes. This way we are representing that issues, objectives and opportunities belong to a project and that issues influence each other.
-
-## Literature
-
-- Reidar B. Bratvold, Steve H. Begg (2010), Making Good Decisions, Society of Petroleum Engineers, https://doi.org/10.2118/9781555632588
-- https://en.wikipedia.org/wiki/Decision_model
-- https://en.wikipedia.org/wiki/Decision-making_models

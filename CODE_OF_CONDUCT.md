@@ -12,7 +12,7 @@ This sets the expectations for how we collaborate in our open-source projects, w
 
 In addition to any definition or interpretation of the open source code of conduct, the company wide [Equinor code of conduct](https://www.equinor.com/content/dam/statoil/documents/ethics/equinor-code-of-conduct.pdf) always applies to all employees and hired contractors.
 
-# Handling issues within the communities
+## Handling issues within the communities
 
 If at any point concerns are raised that a group or member is not acting according to our values, the behaviour in question should cease, be discussed, and tried to be resolved.
 
@@ -22,7 +22,7 @@ Equally, we encourage all community members to appreciate when concerns are rais
 Project maintainers are responsible both for *what* is delivered, and *how* it is delivered.
 This includes creating an environment for proper handling of issues raised within the communities.
 
-# Reach out for assistance
+## Reach out for assistance
 
 For any problem not directly resolvable within the community, we encourage you to reach out for assistance.
 An outsider’s perspective might be just what is needed for you to proceed.
@@ -30,7 +30,7 @@ An outsider’s perspective might be just what is needed for you to proceed.
 Send an e-mail to opensource_at_equinor.com and invite for a discussion.
 The e-mail will be handled by a team within the Equinor organization.
 
-# Reporting an issue
+## Reporting an issue
 
 For reporting direct violations of the code of conduct, or failed attempts at solving conflicts within the community, send a description of the issue to opensource_at_equinor.com.
 
@@ -42,7 +42,7 @@ For projects maintained by Equinor, only the Equinor open-source team has the ma
 These decisions are never made within each project alone.
 As a last resort, a potential consequence may be the exclusion from participation in that particular community.
 
-# Ethics helpline
+## Ethics helpline
 
 In Equinor, we want you to speak up whenever you see unethical behaviour that conflicts with our values or threatens our reputation.
 

@@ -10,16 +10,27 @@ class IssueRepository:
         self._client = client
         self.builder = client.builder
 
-    def read(self, issue_uuid: str) -> IssueResponse:
-        """Method to read one issue based on the id
+    def create(self, project_uuid: str, issue_data: IssueCreate) -> IssueResponse:
+        """Method to create a new issue connected to a project vertex
+
+            Creates vertex with the label "issue" and the properties of issue_data
+            Creates an edge between the project vertex specified by project_uuid and
+            the newly create issue vertex
 
         Args:
-            issue_uuid (str): id of the vertex with the label "issue"
+            project_uuid (str): id of the project vertex the new issue will be
+                                connected to
+            issue_data (IssueCreate): contains all properties for the issue
 
         Returns:
-            IssueResponse: Issue with all properties
+            IssueResponse: Created Issue with the issue_data as IssueCreate
         """
-        vertex = VertexRepository(self._client).read(issue_uuid)
+        vertex = VertexRepository(self._client).create("issue", issue_data)
+        EdgeRepository(self._client).create(
+            out_vertex_uuid=project_uuid,
+            in_vertex_uuid=vertex.uuid,
+            edge_label="contains",
+        )
         return IssueResponse.convert_api_payload_to_response(vertex)
 
     def read_issues_all(
@@ -55,27 +66,16 @@ class IssueRepository:
         )
         return IssueResponse.convert_list_api_payloads_to_responses(vertex_list)
 
-    def create(self, project_uuid: str, issue_data: IssueCreate) -> IssueResponse:
-        """Method to create a new issue connected to a project vertex
-
-            Creates vertex with the label "issue" and the properties of issue_data
-            Creates an edge between the project vertex specified by project_uuid and
-            the newly create issue vertex
+    def read(self, issue_uuid: str) -> IssueResponse:
+        """Method to read one issue based on the id
 
         Args:
-            project_uuid (str): id of the project vertex the new issue will be
-                                connected to
-            issue_data (IssueCreate): contains all properties for the issue
+            issue_uuid (str): id of the vertex with the label "issue"
 
         Returns:
-            IssueResponse: Created Issue with the issue_data as IssueCreate
+            IssueResponse: Issue with all properties
         """
-        vertex = VertexRepository(self._client).create("issue", issue_data)
-        EdgeRepository(self._client).create(
-            out_vertex_uuid=project_uuid,
-            in_vertex_uuid=vertex.uuid,
-            edge_label="contains",
-        )
+        vertex = VertexRepository(self._client).read(issue_uuid)
         return IssueResponse.convert_api_payload_to_response(vertex)
 
     def update(self, issue_uuid: str, modified_fields: IssueUpdate) -> IssueResponse:

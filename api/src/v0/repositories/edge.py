@@ -8,6 +8,31 @@ class EdgeRepository:
         self._client = client
         self.builder = client.builder
 
+    def create(
+        self, out_vertex_uuid: str, in_vertex_uuid: str, edge_label: str
+    ) -> EdgeResponse:
+        """Create a new edge between two vertices
+
+        Args:
+            out_vertex_uuid (str): id of the vertex where the edge goes out
+            in_vertex_uuid (str): id of the vertex where the edge goes in
+            edge_label (str): label of the edge ("contains" or "influences")
+
+        Return:
+            EdgeResponse: Edge (with properties id, outV, inV, uuid, label),
+                          where id == uuid
+
+        """
+        edge_data = {"inV": in_vertex_uuid, "outV": out_vertex_uuid, "id": ""}
+        metadata = EdgeMetaData()
+        edge = {**metadata.model_dump(), **edge_data}
+        query = self.builder.query.edge.create_edge(
+            edge_label, out_vertex_uuid, in_vertex_uuid, edge
+        )
+        with self._client as c:
+            results = c.execute_query(query)
+        return self.builder.response.edge.build_item(results)
+
     def read_all_edges_from_project(
         self, project_uuid: str, edge_label: str
     ) -> list[EdgeResponse]:
@@ -47,31 +72,6 @@ class EdgeRepository:
         with self._client as c:
             results = c.execute_query(query)
         return self.builder.response.edge.build_list(results)
-
-    def create(
-        self, out_vertex_uuid: str, in_vertex_uuid: str, edge_label: str
-    ) -> EdgeResponse:
-        """Create a new edge between two vertices
-
-        Args:
-            out_vertex_uuid (str): id of the vertex where the edge goes out
-            in_vertex_uuid (str): id of the vertex where the edge goes in
-            edge_label (str): label of the edge ("contains" or "influences")
-
-        Return:
-            EdgeResponse: Edge (with properties id, outV, inV, uuid, label),
-                          where id == uuid
-
-        """
-        edge_data = {"inV": in_vertex_uuid, "outV": out_vertex_uuid, "id": ""}
-        metadata = EdgeMetaData()
-        edge = {**metadata.model_dump(), **edge_data}
-        query = self.builder.query.edge.create_edge(
-            edge_label, out_vertex_uuid, in_vertex_uuid, edge
-        )
-        with self._client as c:
-            results = c.execute_query(query)
-        return self.builder.response.edge.build_item(results)
 
     def read_out_edge_from_vertex(
         self, vertex_uuid: str, edge_label: str
