@@ -99,7 +99,7 @@ def read_all_edges_from_sub_project(
         vertex_uuid (list[str]): list of vertices uuid of the sub-project
 
     Returns:
-        List[EdgeResponse]: List of Edges
+        list[EdgeResponse]: List of Edges
     """
     return service.read_all_edges_from_sub_project(project_uuid, edge_label, vertex_uuid)
 
