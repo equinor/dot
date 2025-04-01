@@ -55,22 +55,26 @@ def issue():
         "shortname": "issue",
         "description": "an opportunity description",
         "tag": ["junk"],
-        "index": "1234",
-        "category": "issue",
-        "keyUncertainty": "True",
-        "decisionType": "Tactical",
-        "alternatives": ["yes", "no"],
-        "probabilities": {
-            "dtype": "DiscreteUnconditionalProbability",
-            "probability_function": [[0.9, 0.1]],
-            "variables": {"var": ["out1", "out2"]},
-        },
-        "influenceNodeUUID": "",
-        "boundary": "in",
-        "comments": [{"comment": "question", "author": "John Doe"}],
-        "uncertainty": None,
-        "decision": None,
+        "category": "today",
+        "uncertainty": 
+            {
+            "probability": {
+                "dtype": "DiscreteUnconditionalProbability",
+                "probability_function": [[0.3], [0.7]],
+                "variables": {"variable": ["s1", "s2"]}
+                },
+            "key": "True",
+            "source": "database analysis"
+            },
+        "decision": 
+            {
+                "states": ["yes", "no"],
+                "decision_type": "Tactical"
+            },
         "value_metric": None,
+        "boundary": "in",
+        "comments": [{"comment": "question","author": "John Doe"}],
+        "index": "1234",
     }
 
     metadata = {
@@ -83,7 +87,7 @@ def issue():
         "ids": "ids",
     }
 
-    return IssueResponse.model_validate({**data, **metadata})
+    return IssueResponse.model_validate(data | metadata)
 
 
 def test_create_success(mock_client):
@@ -148,12 +152,16 @@ def test_merge_src_merged_check_success(mock_client, mock_edge_repository, issue
 
     merged_issue_data = deepcopy(issue)
     merged_issue_data.shortname = "dst"
-    merged_issue_data.description = src_issue.description + " " + dst_issue.description
-    merged_issue_data.probabilities = {
-        "dtype": "DiscreteUnconditionalProbability",
-        "probability_function": [[0.0], [0.0]],
-        "variables": {"var": ["out1", "out2"]},
-    }
+    merged_issue_data.description = dst_issue.description
+    merged_issue_data.uncertainty = {
+        "probability": {
+            "dtype": "DiscreteUnconditionalProbability",
+            "probability_function": [[0.3], [0.7]],
+            "variables": {"variable": ["s1", "s2"]}
+            },
+        "key": "True",
+        "source": "database analysis"
+        }
     merged_issue_data.comments = src_issue.comments + dst_issue.comments
 
     mock_repository = MagicMock(spec=IssueRepository)
@@ -205,12 +213,16 @@ def test_merge_dst_merged_check_success(mock_client, mock_edge_repository, issue
 
     merged_issue_data = deepcopy(issue)
     merged_issue_data.shortname = "dst"
-    merged_issue_data.description = src_issue.description + " " + dst_issue.description
-    merged_issue_data.probabilities = {
-        "dtype": "DiscreteUnconditionalProbability",
-        "probability_function": [[0.0], [0.0]],
-        "variables": {"var": ["out1", "out2"]},
-    }
+    merged_issue_data.description = dst_issue.description
+    merged_issue_data.uncertainty = {
+        "probability": {
+            "dtype": "DiscreteUnconditionalProbability",
+            "probability_function": [[0.3], [0.7]],
+            "variables": {"variable": ["s1", "s2"]}
+            },
+        "key": "True",
+        "source": "database analysis"
+        }
     merged_issue_data.comments = src_issue.comments + dst_issue.comments
 
     mock_repository = MagicMock(spec=IssueRepository)
@@ -264,12 +276,16 @@ def test_merge_no_src_no_dst_merged_check_success(
 
     merged_issue_data = deepcopy(issue)
     merged_issue_data.shortname = "dst"
-    merged_issue_data.description = src_issue.description + " " + dst_issue.description
-    merged_issue_data.probabilities = {
-        "dtype": "DiscreteUnconditionalProbability",
-        "probability_function": [[0.0], [0.0]],
-        "variables": {"var": ["out1", "out2"]},
-    }
+    merged_issue_data.description = dst_issue.description
+    merged_issue_data.uncertainty = {
+        "probability": {
+            "dtype": "DiscreteUnconditionalProbability",
+            "probability_function": [[0.3], [0.7]],
+            "variables": {"variable": ["s1", "s2"]}
+            },
+        "key": "True",
+        "source": "database analysis"
+        }
     merged_issue_data.comments = src_issue.comments + dst_issue.comments
 
     mock_repository = MagicMock(spec=IssueRepository)

@@ -1,9 +1,18 @@
 from ... import DOTModel
 from .edge import EdgeResponse
-from .issue import IssueResponse, ProbabilityData
+from .issue import IssueResponse
 
 # TODO: ID model
 # TODO: DT model
+
+
+class ProbabilityData(DOTModel):
+    """Model for the probability description used in decision tree"""
+
+    probability_function: list[list[float]] | list[list[None]]
+    """Values of the probability itself"""
+    variables: dict[str, list[str]]
+    """variables and their outcomes"""
 
 
 class InfluenceDiagramResponse(DOTModel):

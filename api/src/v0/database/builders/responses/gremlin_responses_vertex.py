@@ -4,9 +4,10 @@ import json
 from ....models.issue import (
     CommentData,
     DecisionData,
-    ProbabilityData,
     UncertaintyData,
     ValueMetricData,
+    DiscreteUnconditionalProbabilityData,
+    DiscreteConditionalProbabilityData,
 )
 from ....models.vertex import VertexResponse
 
@@ -52,10 +53,35 @@ class FieldParserVertex:
     def probability(self, data):
         if self.null_data(data) is None:
             return None
+        
         try:
-            return ProbabilityData.model_validate_json(data[0]).model_dump()
-        except Exception:
-            raise TypeError("Probability in DataBase is not in a ProbabilityData format")
+            data[0].get("dtype", None)
+        except:
+            raise TypeError(
+                    "Probability in DataBase has a non recognized format"
+                    )
+        
+        if data[0]["dtype"] == "DiscreteUnconditionalProbability":
+            try:
+                return DiscreteUnconditionalProbabilityData.model_validate_json(
+                    data[0]
+                    ).model_dump()
+            except Exception:
+                raise TypeError(
+                    "Probability in DataBase is not in a "
+                    "DiscreteUnconditionalProbability format"
+                    )
+            
+        if data[0]["dtype"] == "DiscreteConditionalProbability":
+            try:
+                return DiscreteConditionalProbabilityData.model_validate_json(
+                    data[0]
+                    ).model_dump()            
+            except Exception:
+                raise TypeError(
+                    "Probability in DataBase is not in a "
+                    "DiscreteConditionalProbability format"
+                    )
 
     def comments(self, data):
         if self.null_data(data) is None:
@@ -115,7 +141,12 @@ class GremlinResponseBuilderVertex:
             - label
             - string
             - List
-            - ProbabilityData
+            - DiscreteUnconditionalProbability
+            - DiscreteConditionalProbability
+            - CommentData
+            - UncertaintyData
+            - DecisionData
+            - ValueMetricData
         """
         """T.id and T.label classes to strings"""  # TODO: add description of what is
         #       expected to be returned
@@ -128,7 +159,7 @@ class GremlinResponseBuilderVertex:
             "T.label": field_parser.label,
             "alternatives": field_parser.list,
             "tag": field_parser.list,
-            "probabilities": field_parser.probability,
+            "probability": field_parser.probability,
             "comments": field_parser.comments,
             "uncertainty": field_parser.uncertainty,
             "decision": field_parser.decision,

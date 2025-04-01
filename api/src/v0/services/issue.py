@@ -5,6 +5,10 @@ from ..repositories.issue import IssueRepository
 from .issue_utils.issue_merge import issue_merge
 
 
+# TODO: Add service for converting unconditional probability into a conditional one
+# TODO: Add service for converting conditional probability into a unconditional one
+
+
 class IssueService:
     def __init__(self, repository: IssueRepository):
         self.repository = repository

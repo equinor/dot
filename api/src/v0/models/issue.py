@@ -1,3 +1,4 @@
+import math
 from typing import Literal
 
 import numpy as np
@@ -6,6 +7,7 @@ from pydantic import (
     ConfigDict,
     Field,
     constr,
+    field_validator,
     model_validator,
 )
 
@@ -13,57 +15,199 @@ from ... import DOTModel
 from .meta import VertexMetaDataResponse
 
 
-class IssueValidator(DOTModel):
-    @model_validator(mode="before")
-    def set_shortname_as_probability_variable(cls, values):
-        if values.get("probabilities", None) is None:
-            variable_name = values.get("shortname", "variable")
-            if not variable_name:
-                variable_name = "variable"
-            pdf = {
-                "dtype": "DiscreteUnconditionalProbability",
-                "probability_function": [[None]],
-                "variables": {variable_name: ["outcome"]},
-            }
-            values["probabilities"] = ProbabilityData.model_validate(pdf)
-        return values
+def none_probability_function(
+        variables: dict[str, list[str]]
+        ) -> list[list[None]]:
+    """Create a list of list of None's
+    
+        This function is used to reset a probability function to None
+        given the variables (with outcomes)
+
+    Args:
+        variables (dict): Representation of probability variables.
+        They are a list of dictionaries, each as
+        ```
+        {'first': ['state1', 'state2'], 'second': ['out1', 'out2', 'out3']}
+        ```
+
+    Returns:
+        list[list[None]]: The representation of a non-set probability
+        function. The size of the output is given by the input variables.
+        The size of axis 0 is preserved, the rest is flattened.
+    """
+    array_size = tuple([len(v) for v in variables.values()])
+    probability_function = np.reshape(
+        np.full(array_size, None), (array_size[0], -1)
+        ).tolist()
+    return probability_function    
 
 
-class ProbabilityData(DOTModel):
-    """Model for the probability description"""
+def variables_probability_function_consistence(
+        variables: dict,
+        probability_function: list[list[float | None]]
+        ) -> bool:
+    """Check the consistence between the variables and the function of a probability
 
-    dtype: Literal["DiscreteUnconditionalProbability", "DiscreteConditionalProbability"]
-    """Type of probability (Discrete conditional/unconditional)"""
-    probability_function: list[list[float]] | list[list[None]]
+    Args:
+        variables (dict): Variables of probability
+        probability_function (list[list[float  |  None]]): Probability function
+
+    Returns:
+        bool: True if inputs are consistent, False otherwise
+    """
+    variables_values = list(variables.values())
+    variables_size = [len(variables_values[0])]
+    if len(variables_values) > 1:
+        variables_size.append(math.prod([len(v) for v in variables_values[1:]]))
+    else:
+        variables_size.append(1)
+    variables_size = tuple(variables_size)
+    probability_function_size = np.asarray(probability_function).shape
+    return variables_size == probability_function_size
+
+
+def validate_uncertainty(value: dict):
+    if value.get("category", None) != "Uncertainty":
+        return value
+    if value.get("uncertainty", None) is None:
+        value["uncertainty"] = {
+            "probability": None,
+            "key": "False",
+            "source": ""
+        }
+    if value["uncertainty"].get("probability", None) is not None:
+        return value
+    value["uncertainty"]["probability"] = default_probability(value)
+    return value    
+
+
+def validate_decision(value: dict):
+    if value.get("category", None) != "Decision":
+        return value
+    if value.get("decision", None) is not None:
+        return value
+    value["decision"] = DecisionData()
+    return value
+
+
+def validate_value_metric(value: dict):
+    if value.get("category", None) != "Value Metric":
+        return value
+    if value.get("value_metric", None) is not None:
+        return value
+    value["value_metric"] = ValueMetricData()
+    return value
+
+
+class DiscreteUnconditionalProbabilityData(DOTModel):
+    """Model for the discrete unconditional probability description"""
+
+    dtype: Literal["DiscreteUnconditionalProbability"]
+    """Type of probability (Discrete unconditional)"""
+    probability_function: list[list[float | None]]
     """Values of the probability itself"""
     variables: dict[str, list[str]]
-    """variables and their outcomes"""
+    """variables and their outcomes"""    
 
-    @model_validator(mode="before")
-    @classmethod
-    def nullify_probability_function(cls, values):
-        variables = values["variables"]
-        array_size = tuple([len(v) for v in variables.values()])
-        probability_function = values["probability_function"]
-        if np.asarray(array_size).prod() != np.asarray(probability_function).size:
-            probability_function = np.reshape(
-                np.full(array_size, None), (array_size[0], -1)
-            ).tolist()
-        values["variables"] = variables
-        values["probability_function"] = probability_function
-        return values
+    _previous: dict[str, list[str]] = None
+
+    @model_validator(mode="after")
+    def reset_probability_function(self):
+        variables = self.variables
+        probability_function = self.probability_function
+        previous = self._previous
+        if variables != self._previous:
+            self._previous = variables
+            if previous is not None:
+                self.probability_function = none_probability_function(variables)
+        if not variables_probability_function_consistence(variables, probability_function):
+            self.probability_function = none_probability_function(variables)
+        return self
+
+        
+class DiscreteConditionalProbabilityData(DOTModel):
+    """Model for the discrete conditional probability description"""
+
+    dtype: Literal["DiscreteConditionalProbability"]
+    """Type of probability (Discrete conditional)"""
+    probability_function: list[list[float]] | list[list[None]]
+    """Values of the probability itself"""
+    parents_uuid: list[str] | None = None
+    """Sorted UUID's of parents for conditional proabilities"""
+    conditioned_variables: dict[str, list[str]]
+    """conditioned variables and their outcomes"""    
+    conditioning_variables: dict[str, list[str]]
+    """conditioning variables and their outcomes"""    
+
+    _previous_conditioned: dict[str, list[str]] = None
+    _previous_conditioning: dict[str, list[str]] = None
+
+    @model_validator(mode="after")
+    def reset_probability_function(self):
+        conditioned_variables = self.conditioned_variables 
+        conditioning_variables = self.conditioning_variables 
+        variables = {**conditioned_variables, **conditioning_variables}
+
+        probability_function = self.probability_function
+
+        previous_conditioned = self._previous_conditioned
+        previous_conditioning = self._previous_conditioning
+        changes = False
+        if previous_conditioned != self._previous_conditioned:
+            self._previous_conditioned = previous_conditioned
+            changes = True
+        if previous_conditioning != self._previous_conditioning:
+            self._previous_conditioning = previous_conditioning
+            changes = True        
+        if changes:
+            if previous_conditioned is not None or previous_conditioning is not None:
+                self.probability_function = none_probability_function(variables)
+        if not variables_probability_function_consistence(variables, probability_function):
+            self.probability_function = none_probability_function(variables)
+        return self
+
+
+def default_probability(data:dict) -> DiscreteUnconditionalProbabilityData:
+    """Create an empty discrete unconditional probability
+
+    Args:
+        data (dict): data describing the issue
+
+    Returns:
+        DiscreteUnconditionalProbabilityData: a 1D discrete unconditional probability
+        with only one outcome. The value of the probability is None
+    """
+    if data.get('shortname', None) is None:
+        variable_name = 'variable'
+    else:
+        variable_name = data.get('shortname')
+    outcomes = ['state1']
+    variable = {variable_name: outcomes}
+    pdf = none_probability_function(variable)
+    return DiscreteUnconditionalProbabilityData(
+        dtype="DiscreteUnconditionalProbability",
+        probability_function=pdf,
+        variables=variable
+        )
 
 
 class UncertaintyData(DOTModel):
     """Model gathering information about uncertainty"""
-
-    probability: ProbabilityData | None = None
+    
+    probability: DiscreteUnconditionalProbabilityData | \
+        DiscreteConditionalProbabilityData | \
+              None  = Field(discriminator="dtype", default=None)
     """Probability data"""
-    key: str = "False"
+    key: Literal["True", "False"] | None = None
     """Is the uncertainty a key uncertainty or not"""
     source: str = ""
     """Source of uncertainty information (subjective, data driven, literature...)"""
 
+    @field_validator('probability', mode="before")
+    def handle_none_case(cls, v):
+        if v is None:
+            return None
+        return v
 
 class DecisionData(DOTModel):
     """Model gathering information about decision"""
@@ -77,9 +221,9 @@ class DecisionData(DOTModel):
 class ValueMetricData(DOTModel):
     """Model gathering information about value metric"""
 
-    cost_function: Literal["minimize_expected_utility", "maximize_expected_utility"] = "maximize_expected_utility"
+    cost_function: Literal["minimize_expected_utility", "maximize_expected_utility"] | None = None
     """Type of cost function for the value metric"""
-    weigth: float = 1.0
+    weigth: float | None = None 
     """Weight of the value metric for the global decision"""
 
 
@@ -93,7 +237,7 @@ class CommentData(DOTModel):
     # date: datetime = Field(default_factory=lambda: datetime.now())
 
 
-class IssueCreate(IssueValidator):
+class IssueCreate(DOTModel):
     """Issue data model"""
 
     description: str
@@ -105,35 +249,22 @@ class IssueCreate(IssueValidator):
         """displayed there"""
     )
     category: str | None = None
+    """Category of the issue (Fact, Action Item, Decision, Uncertainty, Value Metric)"""
     tag: list[str] | None = None
     """List of user input keywords"""
-    """Category of the issue (Fact, Action Item, Decision, Uncertainty, Value Metric)"""
-    keyUncertainty: str | None = None  # (True/False)
-    (
-        """In case the issue is an uncertainty, true if it """
-        """is a key uncertainty, false otherwise"""
-    )
-    decisionType: str | None = None  # [Focus/Tactical/Strategic]
-    """In case the issue is a decision, type of decision (Strategic, Focus, Tactical)"""
-    probabilities: ProbabilityData | None = None  #  = default_probability  # None
-    """In case the issue is an uncertainty, probability description"""
-    alternatives: list[str] | None = None
-    """In case the issue is a decision, list of alternatives"""
-    boundary: Literal["in", "on", "out"] | None = None
-    """Boundary of the issue (in, on, or out)"""
-    comments: list[CommentData] | None = None
-    """List of comments added to the issue"""
     uncertainty: UncertaintyData | None = None
     """In case the issue is an uncertainty, Uncertainty information"""
     decision: DecisionData | None = None
     """In case the issue is a decision, Decision information"""
     value_metric: ValueMetricData | None = None
     """In case the issue is a value metric, Value Metric information"""
-    influenceNodeUUID: str | None = None
-    """Deprecated"""
+    boundary: Literal["in", "on", "out"] | None = None
+    """Boundary of the issue (in, on, or out)"""
+    comments: list[CommentData] | None = None
+    """List of comments added to the issue"""
     index: str | None = None  # TODO: automatic assignment of index through API?
     """Index of the opportunity"""
-
+    
     model_config = ConfigDict(
         json_schema_extra={
             "examples": [
@@ -142,17 +273,23 @@ class IssueCreate(IssueValidator):
                     "shortname": "thelitissue",
                     "category": "Decision",
                     "tag": ["subsurface"],
-                    "keyUncertainty": "true",
-                    "decisionType": "tactical",
-                    "probabilities": {
-                        "dtype": "DiscreteUnconditionalProbability",
-                        "probability_function": [[0.5, 0.5], [0.4, 0.6]],
-                        "variables": {
-                            "Node1": ["Outcome1", "Outcome2"],
-                            "Node2": ["Outcome21", "Outcome22"],
+                    "uncertainty": {
+                        "probability": {
+                            "dtype": "DiscreteUnconditionalProbability",
+                            "probability_function": [[0.3], [0.7]],
+                            "variables": {'variable': ['s1', 's2']}
+                            },
+                        "key": "True",
+                        "source": "database analysis"
                         },
+                    "decision": {
+                            "states": ["yes", "no"],
+                            "decision_type": "Focus"
                     },
-                    "alternatives": '["do or do not", "there is no try"]',
+                    "value_metric": {
+                        "cost_function": "maximize_expected_utility",
+                        "weigth": 1.0
+                        },
                     "boundary": "in",
                     "comments": {
                         "comment": "Question: is this correct?",
@@ -164,54 +301,84 @@ class IssueCreate(IssueValidator):
         }
     )
 
+    @model_validator(mode='before')
+    @classmethod
+    def set_default_probability(cls, value: dict):
+        return validate_uncertainty(value)
 
-class IssueUpdate(IssueValidator):
+    @model_validator(mode='before')
+    @classmethod
+    def set_default_decision(cls, value: dict):
+        return validate_decision(value)
+
+    @model_validator(mode='before')
+    @classmethod
+    def set_default_value_metric(cls, value: dict):
+        return validate_value_metric(value)
+            
+
+class IssueUpdate(DOTModel):
     shortname: str | None = None
     description: str | None = None
     tag: list[str] | None = None
     category: str | None = None
-    index: str | None = None
-    keyUncertainty: str | None = None
-    decisionType: str | None = None
-    alternatives: list[str] | None = None
-    probabilities: ProbabilityData | None = None
-    influenceNodeUUID: str | None = None
-    boundary: str | None = None
-    comments: list[CommentData] | None = None
     uncertainty: UncertaintyData | None = None
     decision: DecisionData | None = None
     value_metric: ValueMetricData | None = None
+    boundary: Literal["in", "on", "out"] | None = None
+    comments: list[CommentData] | None = None
+    index: str | None = None
 
     model_config = ConfigDict(
         json_schema_extra={
             "examples": [
                 {
-                    "shortname": "thelitissue",
                     "description": "this is an issue to call yours",
-                    "tag": ["subsurface"],
+                    "shortname": "thelitissue",
                     "category": "Decision",
-                    "index": "0",
-                    "keyUncertainty": "true",
-                    "decisionType": "tactical",
-                    "alternatives": '["do or do not", "there is no try"]',
-                    "probabilities": {
-                        "dtype": "DiscreteUnconditionalProbability",
-                        "probability_function": [[0.5, 0.5], [0.4, 0.6]],
-                        "variables": {
-                            "Node1": ["Outcome1", "Outcome2"],
-                            "Node2": ["Outcome21", "Outcome22"],
+                    "tag": ["subsurface"],
+                    "uncertainty": {
+                        "probability": {
+                            "dtype": "DiscreteUnconditionalProbability",
+                            "probability_function": [[0.3], [0.7]],
+                            "variables": {'variable': ['s1', 's2']}
+                            },
+                        "key": "True",
+                        "source": "database analysis"
                         },
+                    "decision": {
+                            "states": ["yes", "no"],
+                            "decision_type": "Focus"
                     },
-                    "influenceNodeUUID": "123",
+                    "value_metric": {
+                        "cost_function": "maximize_expected_utility",
+                        "weigth": 1.0
+                        },
                     "boundary": "in",
                     "comments": {
                         "comment": "Question: is this correct?",
                         "author": "John Doe",
                     },
+                    "index": "0",
                 }
             ]
         }
     )
+
+    @model_validator(mode='before')
+    @classmethod
+    def set_default_probability(cls, value: dict):
+        return validate_uncertainty(value)
+
+    @model_validator(mode='before')
+    @classmethod
+    def set_default_decision(cls, value: dict):
+        return validate_decision(value)
+
+    @model_validator(mode='before')
+    @classmethod
+    def set_default_value_metric(cls, value: dict):
+        return validate_value_metric(value)
 
 
 class IssueResponse(VertexMetaDataResponse):
@@ -219,17 +386,12 @@ class IssueResponse(VertexMetaDataResponse):
     description: str
     tag: list[str] | None
     category: str | None
-    index: str | None
-    keyUncertainty: str | None
-    decisionType: str | None
-    alternatives: list[str] | None
-    probabilities: ProbabilityData | None
-    influenceNodeUUID: str | None
-    boundary: str | None
+    uncertainty: UncertaintyData | None
+    decision: DecisionData | None
+    value_metric: ValueMetricData | None
+    boundary: Literal["in", "on", "out"] | None
     comments: list[CommentData] | None
-    uncertainty: UncertaintyData | None = None
-    decision: DecisionData | None = None
-    value_metric: ValueMetricData | None = None
+    index: str | None
 
     id: str = Field(validation_alias=AliasChoices("T.id", "id"))
     label: constr(to_lower=True) = Field(
@@ -240,28 +402,29 @@ class IssueResponse(VertexMetaDataResponse):
         json_schema_extra={
             "examples": [
                 {
-                    "shortname": "thelitissue",
                     "description": "this is an issue to call yours",
-                    "tag": ["subsurface"],
+                    "shortname": "thelitissue",
                     "category": "Decision",
-                    "index": "0",
-                    "keyUncertainty": "true",
-                    "decisionType": "tactical",
-                    "alternatives": '["do or do not", "there is no try"]',
-                    "probabilities": {
+                    "tag": ["subsurface"],
+                    "uncertainty": {
                         "dtype": "DiscreteUnconditionalProbability",
-                        "probability_function": [[0.5, 0.5], [0.4, 0.6]],
-                        "variables": {
-                            "Node1": ["Outcome1", "Outcome2"],
-                            "Node2": ["Outcome21", "Outcome22"],
+                        "probability_function": [[0.3], [0.7]],
+                        "variables": {'variable': ['s1', 's2']}
                         },
+                    "decision": {
+                            "states": ["yes", "no"],
+                            "decision_type": "Focus"
                     },
-                    "influenceNodeUUID": "123",
+                    "value_metric": {
+                        "cost_function": "maximize_expected_utility",
+                        "weigth": 1.0
+                        },
                     "boundary": "in",
                     "comments": {
                         "comment": "Question: is this correct?",
                         "author": "John Doe",
                     },
+                    "index": "0",
                 }
             ]
         }

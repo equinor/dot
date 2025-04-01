@@ -164,19 +164,24 @@ def test_from_db_uncertainty_node_2d_unconditional():
         "index": "0",
         "description": "Joe does not know the state of the car",
         "shortname": "State",
-        "keyUncertainty": "true",
-        "decisionType": "",
-        "alternatives": ["Peach", "Lemon"],
-        "probabilities": {
-            "dtype": "DiscreteUnconditionalProbability",
-            "probability_function": [[0.5, 0.5], [0.4, 0.6]],
-            "variables": {
-                "Node1": ["Outcome1", "Outcome2"],
-                "Node2": ["Outcome21", "Outcome22"],
+        "uncertainty": {
+            "probability": {
+                "dtype": "DiscreteUnconditionalProbability",
+                "probability_function": [[0.5, 0.5], [0.4, 0.6]],
+                "variables": {
+                    "Node1": ["Outcome1", "Outcome2"],
+                    "Node2": ["Outcome21", "Outcome22"],
+                },
             },
+            "key": "True",
+            "source": "some data"
         },
-        "influenceNodeUUID": "",
-        "boundary": "",
+        "decision": {
+            "decision_type": None,
+            "states": ["Peach", "Lemon"]
+        },
+        "value_metric": None,
+        "boundary": None,
         "comments": [{"comment": "", "author": ""}],
         "uuid": "51cd8e4f-aa04-48e2-8cdf-83a3c9ef978e",
         "timestamp": "1712648453.1573343",
@@ -184,9 +189,6 @@ def test_from_db_uncertainty_node_2d_unconditional():
         "ids": "test",
         "id": "51cd8e4f-aa04-48e2-8cdf-83a3c9ef978e",
         "label": "issue",
-        "uncertainty": None,
-        "decision": None,
-        "value_metric": None,
     }
 
     response = IssueResponse(**json_object)

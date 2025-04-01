@@ -91,8 +91,10 @@ class IssueRepository:
         if ("boundary" in modified_fields.model_dump(exclude_unset=True)) and (
             modified_fields.boundary not in ["in", "on"]
         ):
-            modified_fields.decisionType = None
-            modified_fields.keyUncertainty = None
+            if modified_fields.decision:
+                modified_fields.decision.decision_type = None
+            if modified_fields.uncertainty:
+                modified_fields.uncertainty.key = None
 
         vertex = VertexRepository(self._client).update(issue_uuid, modified_fields)
         # if boundary is not 'in' or 'on' anymore, remove decision type and key

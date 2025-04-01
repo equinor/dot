@@ -46,24 +46,28 @@ def issue():
         "shortname": ["issue"],
         "description": ["an opportunity description"],
         "tag": ['["junk"]'],
-        "index": ["1234"],
         "category": ["today"],
-        "keyUncertainty": ["True"],
-        "decisionType": ["Tactical"],
-        "alternatives": ['["yes", "no"]'],
-        "probabilities": [
-            (
-                '{"dtype": "DiscreteUnconditionalProbability",'
-                '"probability_function": [[0.9, 0.1]],'
-                '"variables": {"var": ["out1", "out2"]}}'
-            )
-        ],
-        "influenceNodeUUID": [""],
+        "uncertainty": [(
+            '{'
+            '"probability": {'
+                '"dtype": "DiscreteUnconditionalProbability",'
+                '"probability_function": [[0.3], [0.7]],'
+                '"variables": {"variable": ["s1", "s2"]}'
+                '},'
+            '"key": "True",'
+            '"source": "database analysis"'
+            '}'
+        )],
+        "decision": [(
+            '{'
+                '"states": ["yes", "no"],'
+                '"decision_type": "Tactical"'
+            '}'
+        )],
+        "value_metric": [None],
         "boundary": ["in"],
         "comments": [('[{"comment": "question","author": "John Doe"}]')],
-        "uncertainty": [None],
-        "decision": [None],
-        "value_metric": [None],
+        "index": ["1234"],
     }
 
 
@@ -134,8 +138,8 @@ def test_update_out_boundary_success(mock_client, issue, metadata):
     body_vertex = [{**issue, **metadata}]
     body_vertex[0]["boundary"] = ["out"]
     body_vertex[0]["description"] = ["A new one"]
-    body_vertex[0]["decisionType"] = [""]
-    body_vertex[0]["keyUncertainty"] = [""]
+    body_vertex[0]["decision"] = [""]
+    body_vertex[0]["uncertainty"] = [""]
     body_edge = ["e[x][1-L->2]"]
     mock_client.execute_query.side_effect = [
         body_vertex,

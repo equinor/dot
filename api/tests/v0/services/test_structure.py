@@ -56,22 +56,21 @@ def graph():
         "index": "0",
         "shortname": "Issue ABC",
         "description": "Bla",
-        "keyUncertainty": "true",
-        "decisionType": "",
-        "alternatives": [""],
-        "probabilities": {
-            "dtype": "DiscreteUnconditionalProbability",
-            "probability_function": [[0.9, 0.1], [0.8, 0.2]],
-            "variables": {"var1": ["out1", "out2"], "var2": ["in1", "in2"]},
+        "uncertainty": {
+            "probability": {
+                "dtype": "DiscreteUnconditionalProbability",
+                "probability_function": [[0.9, 0.1], [0.8, 0.2]],
+                "variables": {"var1": ["out1", "out2"], "var2": ["in1", "in2"]},
+            },
+            "key": "False",
+            "source": "A book"
         },
-        "influenceNodeUUID": "",
+        "decision": None,
+        "value_metric": None,
         "boundary": "in",
         "comments": None,
         "uuid": "11-aa",
         "id": "11-aa",
-        "uncertainty": None,
-        "decision": None,
-        "value_metric": None,
     }
 
     decision = {
@@ -80,18 +79,16 @@ def graph():
         "index": "0",
         "shortname": "Issue ABC",
         "description": "Bla",
-        "keyUncertainty": "",
-        "decisionType": "Focus",
-        "alternatives": ["yes", "no"],
-        "probabilities": None,
-        "influenceNodeUUID": "",
+        "uncertainty": None,
+        "decision": {
+            "decision_type": "Focus",
+            "states": ["yes", "no"]
+        },
+        "value_metric": None,
         "boundary": "in",
         "comments": None,
         "uuid": "22-bb",
         "id": "22-bb",
-        "uncertainty": None,
-        "decision": None,
-        "value_metric": None,
     }
 
     value_metric = {
@@ -100,18 +97,13 @@ def graph():
         "index": "0",
         "shortname": "Issue ABC",
         "description": "Bla",
-        "keyUncertainty": "",
-        "decisionType": "",
-        "alternatives": [""],
-        "probabilities": None,
-        "influenceNodeUUID": "",
+        "uncertainty": None,
+        "decision": None,
+        "value_metric": None,
         "boundary": "in",
         "comments": None,
         "uuid": "33-cc",
         "id": "33-cc",
-        "uncertainty": None,
-        "decision": None,
-        "value_metric": None,
     }
 
     metadata = {
@@ -216,7 +208,7 @@ def test_create_decision_tree_success(mock_client, graph):
         "shortname": "Issue ABC",
         "alternatives": None,
         "description": "Bla",
-        "probabilities": {
+        "probability": {
             "dtype": "DiscreteUnconditionalProbability",
             "probability_function": [[0.9, 0.1], [0.8, 0.2]],
             "variables": {"var1": ["out1", "out2"], "var2": ["in1", "in2"]},
