@@ -15,7 +15,7 @@ class IssueRepository:
 
             Creates vertex with the label "issue" and the properties of issue_data
             Creates an edge between the project vertex specified by project_uuid and
-            the newly create issue vertex
+            the newly created issue vertex
 
         Args:
             project_uuid (str): id of the project vertex the new issue will be
