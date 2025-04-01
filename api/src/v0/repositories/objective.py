@@ -18,7 +18,7 @@ class ObjectiveRepository:
             Creates vertex with the label "objective" and the properties of
             objective_data
             Creates an edge between the project vertex specified by project_uuid
-            and the newly create objective vertex
+            and the newly created objective vertex
 
         Args:
             project_uuid (str): id of the project vertex the new objective will be
