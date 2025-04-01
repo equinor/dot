@@ -69,7 +69,7 @@ def read_all_edges_from_project(
         edge_label (str): label of the edge ("contains" or "influences")
 
     Returns:
-        List[EdgeResponse]: List of Edges
+        list[EdgeResponse]: List of Edges
     """
     return service.read_all_edges_from_project(project_uuid, edge_label)
 
