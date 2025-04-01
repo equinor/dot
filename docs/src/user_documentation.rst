@@ -9,7 +9,7 @@ User documentation
    :caption: User Documentation:
 
 
-User Guide
+User guide
 ===========
 
 - How to use the application (step-by-step tutorials)
