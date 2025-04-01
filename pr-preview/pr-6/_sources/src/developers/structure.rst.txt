@@ -1,6 +1,6 @@
 .. _code_structure:
 
-Code Structure
+Code structure
 ================
 
 - Overview of the codebase structure

@@ -1,7 +1,7 @@
 .. _user_documentation:
 
 
-User Documentation
+User documentation
 --------------------
 
 .. toctree::
@@ -9,7 +9,7 @@ User Documentation
    :caption: User Documentation:
 
 
-User Guide
+User guide
 ===========
 
 - How to use the application (step-by-step tutorials)
@@ -17,7 +17,7 @@ User Guide
 - Common tasks and FAQs
 
 
-API Reference
+API reference
 ===============
 
 - Overview of available APIs
