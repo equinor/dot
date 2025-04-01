@@ -17,7 +17,7 @@ User guide
 - Common tasks and FAQs
 
 
-API Reference
+API reference
 ===============
 
 - Overview of available APIs
