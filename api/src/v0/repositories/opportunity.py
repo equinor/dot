@@ -22,7 +22,7 @@ class OpportunityRepository:
             Creates vertex with the label "opportunity" and the properties of
             opportunity_data
             Creates an edge between the project vertex specified by project_uuid and the
-            newly create opportunity vertex
+            newly created opportunity vertex
 
         Args:
             project_uuid (str): id of the project vertex the new opportunity will be
