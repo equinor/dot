@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/autodoc_pydantic.css" />
-    <link rel="stylesheet" type="text/css" href="_static/custom_style.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom_style.css?v=52bf9752" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
     
     
@@ -155,7 +155,11 @@
 
 <a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
-
+<div class="announcement">
+  <aside class="announcement-content">
+     The code is under development! 
+  </aside>
+</div>
 
 <div class="page">
   <header class="mobile-header">
@@ -189,6 +193,9 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/dot-logo.png" alt="Logo"/>
+  </div>
   
   <span class="sidebar-brand-text">dot  documentation</span>
   
@@ -198,26 +205,52 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption" role="heading"><span class="caption-text">User guide</span></p>
+  <p class="caption" role="heading"><span class="caption-text">Table of contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="src/terminology.html">Terminology</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Development</span></p>
-<ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="src/development/c4_diagrams/c4_diagrams.html">C4 diagrams</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of C4 diagrams</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="src/development/c4_diagrams/context.html">Context diagram</a></li>
-<li class="toctree-l2"><a class="reference internal" href="src/development/c4_diagrams/container.html">Container diagram</a></li>
-<li class="toctree-l2"><a class="reference internal" href="src/development/c4_diagrams/component.html">Component diagram</a></li>
-<li class="toctree-l2"><a class="reference internal" href="src/development/c4_diagrams/code.html">Code diagram</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src/getting_started.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="src/user_documentation.html">User documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of User documentation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="src/development/architecture_overview.html">The full stack</a></li>
-<li class="toctree-l1"><a class="reference internal" href="src/development/database_overview.html">Database Overview</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="src/development/api/api.html">API</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of API</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="src/development/api/api_communication.html">API flowchart</a></li>
-<li class="toctree-l2"><a class="reference internal" href="src/development/api/api_router.html">API Router</a></li>
-<li class="toctree-l2"><a class="reference internal" href="src/development/api/api_repository.html">The API repositories</a></li>
-<li class="toctree-l2"><a class="reference internal" href="src/development/api/api_schema.html">API Schema Documentation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="src/developer_documentation.html">Developer Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Developer Documentation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="src/developers/architecture.html">Architecture Overview</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Architecture Overview</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="src/developers/architecture_overview.html">The full stack</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="src/developers/c4_diagrams.html">C4 diagrams</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of C4 diagrams</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="src/developers/c4/c4_context.html">Context diagram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src/developers/c4/c4_container.html">Container diagram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src/developers/c4/c4_component.html">Component diagram</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src/developers/c4/c4_code.html">Code diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src/developers/structure.html">Code structure</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="src/developers/api.html">API Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of API Documentation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="src/developers/api/api_communication.html">API flowchart</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src/developers/api/api_route.html">API Endpoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src/developers/api/api_route.html#route-modules">Route modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src/developers/api/api_service.html">Service modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src/developers/api/api_repository.html">Repository modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src/developers/api/api_data_models.html">Data models modules</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="src/developers/data_models.html">Database</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Database</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="src/developers/database_overview.html">Visual representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src/developers/database_overview.html#data-models">Data models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src/developers/development_setup.html">Development Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="src/contributing.html">Contributing</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Contributing</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="src/contributing_rules.html">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/code_of_conduct.html">Code of conduct for open source projects in Equinor</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src/changelog.html">Changelog</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="src/appendices.html">Appendices</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of Appendices</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="src/glossary.html">Glossary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src/references.html">References</a></li>
 </ul>
 </li>
 </ul>
@@ -257,13 +290,23 @@
           
 <section class="genindex-section">
   <h1 id="index">Index</h1>
-  <div class="genindex-jumpbox"><a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#K"><strong>K</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a></div>
+  <div class="genindex-jumpbox"><a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#K"><strong>K</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a></div>
 </section>
 <section id="A" class="genindex-section">
   <h2>A</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.issue.IssueCreate.alternatives">alternatives (src.v0.models.issue.IssueCreate attribute)</a>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueCreate.alternatives">alternatives (IssueCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.issue.IssueCreate.alternatives">[1]</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueResponse.alternatives">(IssueResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueUpdate.alternatives">(IssueUpdate attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.CommentData.author">author (CommentData attribute)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -273,8 +316,16 @@
   <h2>B</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.issue.IssueCreate.boundary">boundary (src.v0.models.issue.IssueCreate attribute)</a>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.filter.Filter.boundary">boundary (Filter attribute)</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueCreate.boundary">(IssueCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.issue.IssueCreate.boundary">[1]</a>
 </li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueResponse.boundary">(IssueResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueUpdate.boundary">(IssueUpdate attribute)</a>
+</li>
+        </ul></li>
     </ul></td>
   </tr></table>
 </section>
@@ -283,11 +334,53 @@
   <h2>C</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.issue.IssueCreate.category">category (src.v0.models.issue.IssueCreate attribute)</a>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.filter.Filter.category">category (Filter attribute)</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueCreate.category">(IssueCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.issue.IssueCreate.category">[1]</a>
 </li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueResponse.category">(IssueResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueUpdate.category">(IssueUpdate attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.session.SessionData.check_shared">check_shared() (SessionData class method)</a>
+</li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.ProbabilityData.check_type">check_type() (ProbabilityData class method)</a>
+</li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.strategy_table.Strategy.colour">colour (Strategy attribute)</a>
+</li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.CommentData.comment">comment (CommentData attribute)</a>
+</li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueCreate.comments">comments (IssueCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.issue.IssueCreate.comments">[1]</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueResponse.comments">(IssueResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueUpdate.comments">(IssueUpdate attribute)</a>
+</li>
+        </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.issue.IssueCreate.comments">comments (src.v0.models.issue.IssueCreate attribute)</a>
+        <li><a href="src/developers/api/api_data_models.html#src.__init__.DOTModel.convert_api_payload_to_response">convert_api_payload_to_response() (DOTModel class method)</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.structure.convert_influence_diagram_to_decision_tree_model">convert_influence_diagram_to_decision_tree_model() (in module src.v0.routes.structure)</a>
+</li>
+        <li><a href="src/developers/api/api_data_models.html#src.__init__.DOTModel.convert_list_api_payloads_to_responses">convert_list_api_payloads_to_responses() (DOTModel class method)</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.edge.create">create() (in module src.v0.routes.edge)</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_route.html#src.v0.routes.issue.create">(in module src.v0.routes.issue)</a>
+</li>
+          <li><a href="src/developers/api/api_route.html#src.v0.routes.objective.create">(in module src.v0.routes.objective)</a>
+</li>
+          <li><a href="src/developers/api/api_route.html#src.v0.routes.opportunity.create">(in module src.v0.routes.opportunity)</a>
+</li>
+          <li><a href="src/developers/api/api_route.html#src.v0.routes.project.create">(in module src.v0.routes.project)</a>
+</li>
+        </ul></li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.vertex.create_vertex">create_vertex() (in module src.v0.routes.vertex)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -297,26 +390,98 @@
   <h2>D</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.meta.VertexMetaData.date">date (src.v0.models.meta.VertexMetaData attribute)</a>
-</li>
-        <li><a href="src/development/database_overview.html#src.v0.models.project.ProjectCreate.decision_date">decision_date (src.v0.models.project.ProjectCreate attribute)</a>
-</li>
-        <li><a href="src/development/database_overview.html#src.v0.models.project.ProjectCreate.decision_maker">decision_maker (src.v0.models.project.ProjectCreate attribute)</a>
-</li>
-        <li><a href="src/development/database_overview.html#src.v0.models.issue.IssueCreate.decisionType">decisionType (src.v0.models.issue.IssueCreate attribute)</a>
-</li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.issue.IssueCreate.description">description (src.v0.models.issue.IssueCreate attribute)</a>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.meta.VertexMetaData.date">date (VertexMetaData attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.meta.VertexMetaData.date">[1]</a>
 
         <ul>
-          <li><a href="src/development/database_overview.html#src.v0.models.objective.ObjectiveCreate.description">(src.v0.models.objective.ObjectiveCreate attribute)</a>
-</li>
-          <li><a href="src/development/database_overview.html#src.v0.models.opportunity.OpportunityCreate.description">(src.v0.models.opportunity.OpportunityCreate attribute)</a>
-</li>
-          <li><a href="src/development/database_overview.html#src.v0.models.project.ProjectCreate.description">(src.v0.models.project.ProjectCreate attribute)</a>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.meta.VertexMetaDataResponse.date">(VertexMetaDataResponse attribute)</a>
 </li>
         </ul></li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectCreate.decision_date">decision_date (ProjectCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.project.ProjectCreate.decision_date">[1]</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectResponse.decision_date">(ProjectResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectUpdate.decision_date">(ProjectUpdate attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectCreate.decision_maker">decision_maker (ProjectCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.project.ProjectCreate.decision_maker">[1]</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectResponse.decision_maker">(ProjectResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectUpdate.decision_maker">(ProjectUpdate attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.filter.Filter.decisionType">decisionType (Filter attribute)</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueCreate.decisionType">(IssueCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.issue.IssueCreate.decisionType">[1]</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueResponse.decisionType">(IssueResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueUpdate.decisionType">(IssueUpdate attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.edge.delete">delete() (in module src.v0.routes.edge)</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_route.html#src.v0.routes.issue.delete">(in module src.v0.routes.issue)</a>
+</li>
+          <li><a href="src/developers/api/api_route.html#src.v0.routes.opportunity.delete">(in module src.v0.routes.opportunity)</a>
+</li>
+          <li><a href="src/developers/api/api_route.html#src.v0.routes.project.delete">(in module src.v0.routes.project)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.objective.delete_objective">delete_objective() (in module src.v0.routes.objective)</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.vertex.delete_vertex">delete_vertex() (in module src.v0.routes.vertex)</a>
+</li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueCreate.description">description (IssueCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.issue.IssueCreate.description">[1]</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueResponse.description">(IssueResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueUpdate.description">(IssueUpdate attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.objective.ObjectiveCreate.description">(ObjectiveCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.objective.ObjectiveCreate.description">[1]</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.objective.ObjectiveResponse.description">(ObjectiveResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.objective.ObjectiveUpdate.description">(ObjectiveUpdate attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.opportunity.OpportunityCreate.description">(OpportunityCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.opportunity.OpportunityCreate.description">[1]</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.opportunity.OpportunityResponse.description">(OpportunityResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.opportunity.OpportunityUpdate.description">(OpportunityUpdate attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectCreate.description">(ProjectCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.project.ProjectCreate.description">[1]</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectResponse.description">(ProjectResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectUpdate.description">(ProjectUpdate attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.session.SessionData.description">(SessionData attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.ProbabilityData.dtype">dtype (ProbabilityData attribute)</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.utility.UtilityData.dtype">(UtilityData attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="E" class="genindex-section">
+  <h2>E</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.project.export_project">export_project() (in module src.v0.routes.project)</a>
+</li>
     </ul></td>
   </tr></table>
 </section>
@@ -325,8 +490,16 @@
   <h2>H</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.objective.ObjectiveCreate.hierarchy">hierarchy (src.v0.models.objective.ObjectiveCreate attribute)</a>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.filter.Filter.hierarchy">hierarchy (Filter attribute)</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.objective.ObjectiveCreate.hierarchy">(ObjectiveCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.objective.ObjectiveCreate.hierarchy">[1]</a>
 </li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.objective.ObjectiveResponse.hierarchy">(ObjectiveResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.objective.ObjectiveUpdate.hierarchy">(ObjectiveUpdate attribute)</a>
+</li>
+        </ul></li>
     </ul></td>
   </tr></table>
 </section>
@@ -335,26 +508,76 @@
   <h2>I</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.edge.EdgeCreate.id">id (src.v0.models.edge.EdgeCreate attribute)</a>
-</li>
-        <li><a href="src/development/database_overview.html#src.v0.models.meta.VertexMetaData.ids">ids (src.v0.models.meta.VertexMetaData attribute)</a>
-</li>
-        <li><a href="src/development/database_overview.html#src.v0.models.issue.IssueCreate.index">index (src.v0.models.issue.IssueCreate attribute)</a>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.edge.EdgeCreate.id">id (EdgeCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.edge.EdgeCreate.id">[1]</a>
 
         <ul>
-          <li><a href="src/development/database_overview.html#src.v0.models.objective.ObjectiveCreate.index">(src.v0.models.objective.ObjectiveCreate attribute)</a>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.edge.EdgeResponse.id">(EdgeResponse attribute)</a>
 </li>
-          <li><a href="src/development/database_overview.html#src.v0.models.opportunity.OpportunityCreate.index">(src.v0.models.opportunity.OpportunityCreate attribute)</a>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueResponse.id">(IssueResponse attribute)</a>
 </li>
-          <li><a href="src/development/database_overview.html#src.v0.models.project.ProjectCreate.index">(src.v0.models.project.ProjectCreate attribute)</a>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.objective.ObjectiveResponse.id">(ObjectiveResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.opportunity.OpportunityResponse.id">(OpportunityResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectResponse.id">(ProjectResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.session.SessionResponse.id">(SessionResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.strategy_table.StrategyTableResponse.id">(StrategyTableResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.utility.UtilityResponse.id">(UtilityResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.vertex.VertexResponse.id">(VertexResponse attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.meta.VertexMetaData.ids">ids (VertexMetaData attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.meta.VertexMetaData.ids">[1]</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.project.import_project">import_project() (in module src.v0.routes.project)</a>
+</li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueCreate.index">index (IssueCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.issue.IssueCreate.index">[1]</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueResponse.index">(IssueResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueUpdate.index">(IssueUpdate attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.objective.ObjectiveCreate.index">(ObjectiveCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.objective.ObjectiveCreate.index">[1]</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.objective.ObjectiveResponse.index">(ObjectiveResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.objective.ObjectiveUpdate.index">(ObjectiveUpdate attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.opportunity.OpportunityCreate.index">(OpportunityCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.opportunity.OpportunityCreate.index">[1]</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.opportunity.OpportunityResponse.index">(OpportunityResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.opportunity.OpportunityUpdate.index">(OpportunityUpdate attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectCreate.index">(ProjectCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.project.ProjectCreate.index">[1]</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectResponse.index">(ProjectResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectUpdate.index">(ProjectUpdate attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.session.SessionData.index">(SessionData attribute)</a>
 </li>
         </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.issue.IssueCreate.influenceNodeUUID">influenceNodeUUID (src.v0.models.issue.IssueCreate attribute)</a>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueCreate.influenceNodeUUID">influenceNodeUUID (IssueCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.issue.IssueCreate.influenceNodeUUID">[1]</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueResponse.influenceNodeUUID">(IssueResponse attribute)</a>
 </li>
-        <li><a href="src/development/database_overview.html#src.v0.models.edge.EdgeCreate.inV">inV (src.v0.models.edge.EdgeCreate attribute)</a>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueUpdate.influenceNodeUUID">(IssueUpdate attribute)</a>
 </li>
+        </ul></li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.edge.EdgeCreate.inV">inV (EdgeCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.edge.EdgeCreate.inV">[1]</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.edge.EdgeResponse.inV">(EdgeResponse attribute)</a>
+</li>
+        </ul></li>
     </ul></td>
   </tr></table>
 </section>
@@ -363,8 +586,16 @@
   <h2>K</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.issue.IssueCreate.keyUncertainty">keyUncertainty (src.v0.models.issue.IssueCreate attribute)</a>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.filter.Filter.keyUncertainty">keyUncertainty (Filter attribute)</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueCreate.keyUncertainty">(IssueCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.issue.IssueCreate.keyUncertainty">[1]</a>
 </li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueResponse.keyUncertainty">(IssueResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueUpdate.keyUncertainty">(IssueUpdate attribute)</a>
+</li>
+        </ul></li>
     </ul></td>
   </tr></table>
 </section>
@@ -373,8 +604,103 @@
   <h2>L</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.edge.EdgeCreate.label">label (src.v0.models.edge.EdgeCreate attribute)</a>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.edge.EdgeCreate.label">label (EdgeCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.edge.EdgeCreate.label">[1]</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.edge.EdgeResponse.label">(EdgeResponse attribute)</a>
 </li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueResponse.label">(IssueResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.objective.ObjectiveResponse.label">(ObjectiveResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.opportunity.OpportunityResponse.label">(OpportunityResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectResponse.label">(ProjectResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.session.SessionResponse.label">(SessionResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.strategy_table.StrategyTableResponse.label">(StrategyTableResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.utility.UtilityResponse.label">(UtilityResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.vertex.VertexResponse.label">(VertexResponse attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="M" class="genindex-section">
+  <h2>M</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.issue.merge">merge() (in module src.v0.routes.issue)</a>
+</li>
+        <li>
+    module
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.edge">src.v0.models.edge</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.filter">src.v0.models.filter</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.issue">src.v0.models.issue</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.meta">src.v0.models.meta</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.objective">src.v0.models.objective</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.opportunity">src.v0.models.opportunity</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.project">src.v0.models.project</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.session">src.v0.models.session</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.strategy_table">src.v0.models.strategy_table</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.utility">src.v0.models.utility</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.vertex">src.v0.models.vertex</a>
+</li>
+          <li><a href="src/developers/api/api_repository.html#module-src.v0.repositories.edge">src.v0.repositories.edge</a>
+</li>
+          <li><a href="src/developers/api/api_repository.html#module-src.v0.repositories.issue">src.v0.repositories.issue</a>
+</li>
+          <li><a href="src/developers/api/api_repository.html#module-src.v0.repositories.objective">src.v0.repositories.objective</a>
+</li>
+          <li><a href="src/developers/api/api_repository.html#module-src.v0.repositories.opportunity">src.v0.repositories.opportunity</a>
+</li>
+          <li><a href="src/developers/api/api_repository.html#module-src.v0.repositories.project">src.v0.repositories.project</a>
+</li>
+          <li><a href="src/developers/api/api_repository.html#module-src.v0.repositories.vertex">src.v0.repositories.vertex</a>
+</li>
+          <li><a href="src/developers/api/api_route.html#module-src.v0.routes.edge">src.v0.routes.edge</a>
+</li>
+          <li><a href="src/developers/api/api_route.html#module-src.v0.routes.issue">src.v0.routes.issue</a>
+</li>
+          <li><a href="src/developers/api/api_route.html#module-src.v0.routes.objective">src.v0.routes.objective</a>
+</li>
+          <li><a href="src/developers/api/api_route.html#module-src.v0.routes.opportunity">src.v0.routes.opportunity</a>
+</li>
+          <li><a href="src/developers/api/api_route.html#module-src.v0.routes.project">src.v0.routes.project</a>
+</li>
+          <li><a href="src/developers/api/api_route.html#module-src.v0.routes.structure">src.v0.routes.structure</a>
+</li>
+          <li><a href="src/developers/api/api_route.html#module-src.v0.routes.vertex">src.v0.routes.vertex</a>
+</li>
+          <li><a href="src/developers/api/api_service.html#module-src.v0.services.edge">src.v0.services.edge</a>
+</li>
+          <li><a href="src/developers/api/api_service.html#module-src.v0.services.issue">src.v0.services.issue</a>
+</li>
+          <li><a href="src/developers/api/api_service.html#module-src.v0.services.objective">src.v0.services.objective</a>
+</li>
+          <li><a href="src/developers/api/api_service.html#module-src.v0.services.opportunity">src.v0.services.opportunity</a>
+</li>
+          <li><a href="src/developers/api/api_service.html#module-src.v0.services.project">src.v0.services.project</a>
+</li>
+          <li><a href="src/developers/api/api_service.html#module-src.v0.services.structure">src.v0.services.structure</a>
+</li>
+        </ul></li>
     </ul></td>
   </tr></table>
 </section>
@@ -383,7 +709,23 @@
   <h2>N</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.project.ProjectCreate.name">name (src.v0.models.project.ProjectCreate attribute)</a>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.filter.Filter.name">name (Filter attribute)</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectCreate.name">(ProjectCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.project.ProjectCreate.name">[1]</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectResponse.name">(ProjectResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectUpdate.name">(ProjectUpdate attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.session.SessionData.name">(SessionData attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.strategy_table.Strategy.name">(Strategy attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.ProbabilityData.nullify_probability_function">nullify_probability_function() (ProbabilityData class method)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -393,7 +735,17 @@
   <h2>O</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.edge.EdgeCreate.outV">outV (src.v0.models.edge.EdgeCreate attribute)</a>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.strategy_table.Strategy.objective">objective (Strategy attribute)</a>
+</li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.edge.EdgeCreate.outV">outV (EdgeCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.edge.EdgeCreate.outV">[1]</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.edge.EdgeResponse.outV">(EdgeResponse attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.session.SessionData.owner">owner (SessionData attribute)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -403,7 +755,75 @@
   <h2>P</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.issue.IssueCreate.probabilities">probabilities (src.v0.models.issue.IssueCreate attribute)</a>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.utility.ContinuousUtilityData.parents_uuid">parents_uuid (ContinuousUtilityData attribute)</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.utility.DiscreteUtilityData.parents_uuid">(DiscreteUtilityData attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.strategy_table.Strategy.path">path (Strategy attribute)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueCreate.probabilities">probabilities (IssueCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.issue.IssueCreate.probabilities">[1]</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueResponse.probabilities">(IssueResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueUpdate.probabilities">(IssueUpdate attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.ProbabilityData.probability_function">probability_function (ProbabilityData attribute)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="R" class="genindex-section">
+  <h2>R</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.strategy_table.Strategy.rationale">rationale (Strategy attribute)</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.edge.read">read() (in module src.v0.routes.edge)</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_route.html#src.v0.routes.issue.read">(in module src.v0.routes.issue)</a>
+</li>
+          <li><a href="src/developers/api/api_route.html#src.v0.routes.objective.read">(in module src.v0.routes.objective)</a>
+</li>
+          <li><a href="src/developers/api/api_route.html#src.v0.routes.opportunity.read">(in module src.v0.routes.opportunity)</a>
+</li>
+          <li><a href="src/developers/api/api_route.html#src.v0.routes.project.read">(in module src.v0.routes.project)</a>
+</li>
+        </ul></li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.edge.read_all_edges_from_project">read_all_edges_from_project() (in module src.v0.routes.edge)</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.edge.read_all_edges_from_sub_project">read_all_edges_from_sub_project() (in module src.v0.routes.edge)</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.edge.read_in_edge_to_vertex">read_in_edge_to_vertex() (in module src.v0.routes.edge)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.vertex.read_in_vertex">read_in_vertex() (in module src.v0.routes.vertex)</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.structure.read_influence_diagram">read_influence_diagram() (in module src.v0.routes.structure)</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.issue.read_issues_all">read_issues_all() (in module src.v0.routes.issue)</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.objective.read_objectives_all">read_objectives_all() (in module src.v0.routes.objective)</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.opportunity.read_opportunities_all">read_opportunities_all() (in module src.v0.routes.opportunity)</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.edge.read_out_edge_from_vertex">read_out_edge_from_vertex() (in module src.v0.routes.edge)</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.vertex.read_out_vertex">read_out_vertex() (in module src.v0.routes.vertex)</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.project.read_projects_all">read_projects_all() (in module src.v0.routes.project)</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.vertex.read_vertex">read_vertex() (in module src.v0.routes.vertex)</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.vertex.read_vertex_all">read_vertex_all() (in module src.v0.routes.vertex)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -413,11 +833,241 @@
   <h2>S</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.project.ProjectCreate.sensitivity_label">sensitivity_label (src.v0.models.project.ProjectCreate attribute)</a>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectCreate.sensitivity_label">sensitivity_label (ProjectCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.project.ProjectCreate.sensitivity_label">[1]</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectResponse.sensitivity_label">(ProjectResponse attribute)</a>
 </li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectUpdate.sensitivity_label">(ProjectUpdate attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueValidator.set_shortname_as_probability_variable">set_shortname_as_probability_variable() (IssueValidator class method)</a>
+</li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.session.SessionData.shared">shared (SessionData attribute)</a>
+</li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.filter.Filter.shortname">shortname (Filter attribute)</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueCreate.shortname">(IssueCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.issue.IssueCreate.shortname">[1]</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueResponse.shortname">(IssueResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueUpdate.shortname">(IssueUpdate attribute)</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.models.edge
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.edge">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.models.filter
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.filter">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.models.issue
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.issue">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.models.meta
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.meta">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.models.objective
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.objective">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.models.opportunity
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.opportunity">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.models.project
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.project">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.models.session
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.session">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.models.strategy_table
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.strategy_table">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.models.utility
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.utility">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.models.vertex
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#module-src.v0.models.vertex">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.repositories.edge
+
+        <ul>
+          <li><a href="src/developers/api/api_repository.html#module-src.v0.repositories.edge">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.repositories.issue
+
+        <ul>
+          <li><a href="src/developers/api/api_repository.html#module-src.v0.repositories.issue">module</a>
+</li>
+        </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.issue.IssueCreate.shortname">shortname (src.v0.models.issue.IssueCreate attribute)</a>
+        <li>
+    src.v0.repositories.objective
+
+        <ul>
+          <li><a href="src/developers/api/api_repository.html#module-src.v0.repositories.objective">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.repositories.opportunity
+
+        <ul>
+          <li><a href="src/developers/api/api_repository.html#module-src.v0.repositories.opportunity">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.repositories.project
+
+        <ul>
+          <li><a href="src/developers/api/api_repository.html#module-src.v0.repositories.project">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.repositories.vertex
+
+        <ul>
+          <li><a href="src/developers/api/api_repository.html#module-src.v0.repositories.vertex">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.routes.edge
+
+        <ul>
+          <li><a href="src/developers/api/api_route.html#module-src.v0.routes.edge">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.routes.issue
+
+        <ul>
+          <li><a href="src/developers/api/api_route.html#module-src.v0.routes.issue">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.routes.objective
+
+        <ul>
+          <li><a href="src/developers/api/api_route.html#module-src.v0.routes.objective">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.routes.opportunity
+
+        <ul>
+          <li><a href="src/developers/api/api_route.html#module-src.v0.routes.opportunity">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.routes.project
+
+        <ul>
+          <li><a href="src/developers/api/api_route.html#module-src.v0.routes.project">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.routes.structure
+
+        <ul>
+          <li><a href="src/developers/api/api_route.html#module-src.v0.routes.structure">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.routes.vertex
+
+        <ul>
+          <li><a href="src/developers/api/api_route.html#module-src.v0.routes.vertex">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.services.edge
+
+        <ul>
+          <li><a href="src/developers/api/api_service.html#module-src.v0.services.edge">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.services.issue
+
+        <ul>
+          <li><a href="src/developers/api/api_service.html#module-src.v0.services.issue">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.services.objective
+
+        <ul>
+          <li><a href="src/developers/api/api_service.html#module-src.v0.services.objective">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.services.opportunity
+
+        <ul>
+          <li><a href="src/developers/api/api_service.html#module-src.v0.services.opportunity">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.services.project
+
+        <ul>
+          <li><a href="src/developers/api/api_service.html#module-src.v0.services.project">module</a>
+</li>
+        </ul></li>
+        <li>
+    src.v0.services.structure
+
+        <ul>
+          <li><a href="src/developers/api/api_service.html#module-src.v0.services.structure">module</a>
+</li>
+        </ul></li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.strategy_table.Strategy.symbole">symbole (Strategy attribute)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -427,20 +1077,46 @@
   <h2>T</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.issue.IssueCreate.tag">tag (src.v0.models.issue.IssueCreate attribute)</a>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.strategy_table.StrategyTableData.table">table (StrategyTableData attribute)</a>
+</li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.filter.Filter.tag">tag (Filter attribute)</a>
 
         <ul>
-          <li><a href="src/development/database_overview.html#src.v0.models.objective.ObjectiveCreate.tag">(src.v0.models.objective.ObjectiveCreate attribute)</a>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueCreate.tag">(IssueCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.issue.IssueCreate.tag">[1]</a>
 </li>
-          <li><a href="src/development/database_overview.html#src.v0.models.opportunity.OpportunityCreate.tag">(src.v0.models.opportunity.OpportunityCreate attribute)</a>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueResponse.tag">(IssueResponse attribute)</a>
 </li>
-          <li><a href="src/development/database_overview.html#src.v0.models.project.ProjectCreate.tag">(src.v0.models.project.ProjectCreate attribute)</a>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.IssueUpdate.tag">(IssueUpdate attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.objective.ObjectiveCreate.tag">(ObjectiveCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.objective.ObjectiveCreate.tag">[1]</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.objective.ObjectiveResponse.tag">(ObjectiveResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.objective.ObjectiveUpdate.tag">(ObjectiveUpdate attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.opportunity.OpportunityCreate.tag">(OpportunityCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.opportunity.OpportunityCreate.tag">[1]</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.opportunity.OpportunityResponse.tag">(OpportunityResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.opportunity.OpportunityUpdate.tag">(OpportunityUpdate attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectCreate.tag">(ProjectCreate attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.project.ProjectCreate.tag">[1]</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectResponse.tag">(ProjectResponse attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.project.ProjectUpdate.tag">(ProjectUpdate attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.session.SessionData.tag">(SessionData attribute)</a>
 </li>
         </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.meta.VertexMetaData.timestamp">timestamp (src.v0.models.meta.VertexMetaData attribute)</a>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.meta.VertexMetaData.timestamp">timestamp (VertexMetaData attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.meta.VertexMetaData.timestamp">[1]</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.meta.VertexMetaDataResponse.timestamp">(VertexMetaDataResponse attribute)</a>
 </li>
+        </ul></li>
     </ul></td>
   </tr></table>
 </section>
@@ -449,8 +1125,34 @@
   <h2>U</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.meta.MetaData.uuid">uuid (src.v0.models.meta.MetaData attribute)</a>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.issue.un_merge">un_merge() (in module src.v0.routes.issue)</a>
 </li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.utility.UtilityData.unit">unit (UtilityData attribute)</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.issue.update">update() (in module src.v0.routes.issue)</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_route.html#src.v0.routes.opportunity.update">(in module src.v0.routes.opportunity)</a>
+</li>
+          <li><a href="src/developers/api/api_route.html#src.v0.routes.project.update">(in module src.v0.routes.project)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.objective.update_objective">update_objective() (in module src.v0.routes.objective)</a>
+</li>
+        <li><a href="src/developers/api/api_route.html#src.v0.routes.vertex.update_vertex">update_vertex() (in module src.v0.routes.vertex)</a>
+</li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.meta.EdgeMetaDataResponse.uuid">uuid (EdgeMetaDataResponse attribute)</a>
+
+        <ul>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.meta.MetaData.uuid">(MetaData attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.meta.MetaData.uuid">[1]</a>
+</li>
+          <li><a href="src/developers/database_overview.html#src.v0.models.meta.VertexMetaData.uuid">(VertexMetaData attribute)</a>
+</li>
+          <li><a href="src/developers/api/api_data_models.html#src.v0.models.meta.VertexMetaDataResponse.uuid">(VertexMetaDataResponse attribute)</a>
+</li>
+        </ul></li>
     </ul></td>
   </tr></table>
 </section>
@@ -459,8 +1161,18 @@
   <h2>V</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="src/development/database_overview.html#src.v0.models.meta.MetaData.version">version (src.v0.models.meta.MetaData attribute)</a>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.utility.DiscreteUtilityData.values">values (DiscreteUtilityData attribute)</a>
 </li>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.issue.ProbabilityData.variables">variables (ProbabilityData attribute)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="src/developers/api/api_data_models.html#src.v0.models.meta.MetaData.version">version (MetaData attribute)</a>, <a href="src/developers/database_overview.html#src.v0.models.meta.MetaData.version">[1]</a>
+
+        <ul>
+          <li><a href="src/developers/database_overview.html#src.v0.models.meta.VertexMetaData.version">(VertexMetaData attribute)</a>
+</li>
+        </ul></li>
     </ul></td>
   </tr></table>
 </section>
