@@ -1,8 +1,5 @@
 .. _database_overview:
 
-Database Overview
-##################
-
 
 This documentation provides an insight into the database structure of the Decision Model Tool and its elements.
 
@@ -29,8 +26,8 @@ Here is a visual representation of the database. The database can have several `
         F[Issue M2] --> |merged_into| D;
 
 
-Elements of the database
-*************************
+Data models
+*************
 
 Elements of the database are defined as data models. and are found
 `$DOTDIR/api/src/v0/models`.

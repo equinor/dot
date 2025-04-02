@@ -1,7 +1,7 @@
 Container diagram
 ==================
 
-.. image:: container.svg
+.. image:: figures/container.svg
 
 .. mermaid::
 
