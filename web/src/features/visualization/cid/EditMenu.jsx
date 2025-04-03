@@ -55,11 +55,11 @@ function EditMenu({ graphData, updateGraphData, selectedNode = null }) {
   let formatedTags = Array.isArray(newNodeLabelText)
     ? newNodeLabelText.map((item) => item.trim()).filter((item) => item !== "")
     : newNodeLabelText === ""
-    ? []
-    : newNodeLabelText
-        .split(",")
-        .map((item) => item.trim())
-        .filter((item) => item !== "");
+      ? []
+      : newNodeLabelText
+          .split(",")
+          .map((item) => item.trim())
+          .filter((item) => item !== "");
   Issue.tag = formatedTags;
   Issue.description = newNodeDescriptionText;
 
