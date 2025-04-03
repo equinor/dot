@@ -111,9 +111,7 @@ def test_import_project_success(mock_service, project, metadata):
 
 def test_export_project_success(mock_service, project, metadata):
     body = {**project, **metadata}
-    mock_service.return_value.export_project.return_value = (
-        ProjectResponse.model_validate(body)
-    )
+    mock_service.return_value.export_project.return_value = body
     project_uuid = "1"
     response = client.get(f"/v{database_version}/projects/{project_uuid}/export")
     assert response.status_code == 200

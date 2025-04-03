@@ -39,7 +39,8 @@ repos:
         args: ['--maxkb=200']
         exclude: (?x)^(
           poetry.lock |
-          web/package-lock.json
+          web/package-lock.json |
+          docs/src/developers/api/openapi.json
           )$
 
   # Check poetry validity

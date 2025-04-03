@@ -1,7 +1,7 @@
 Context diagram
 ================
 
-.. image:: context.svg
+.. image:: figures/context.svg
 
 .. mermaid::
     :caption: Context diagram
