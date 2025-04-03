@@ -5,6 +5,8 @@ from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_versionizer.versionizer import Versionizer
 
+from src.authentication.auth import AuthMiddleware
+
 DATABASE_VERSIONS = ["v0"]
 ROUTER_MODULES = [
     "edge",
@@ -17,15 +19,6 @@ ROUTER_MODULES = [
 ]
 
 
-# from fastapi_azure_auth import SingleTenantAzureAuthorizationCodeBearer
-
-
-# azure_scheme = SingleTenantAzureAuthorizationCodeBearer(
-#     app_client_id=settings.APP_CLIENT_ID,
-#     tenant_id=settings.TENANT_ID,
-#     scopes= {"https://graph.microsoft.com/User.Read": "User.Read"}
-# )
-
 
 def create_middleware() -> list[Middleware]:
     middleware = [
@@ -36,10 +29,9 @@ def create_middleware() -> list[Middleware]:
             allow_methods=["*"],
             allow_headers=["*"],
         ),
-        # TODO: adding middleware layers for authentication
-        # Middleware(
-        #     AuthenticationMiddleware,
-        # ),
+        Middleware(
+            AuthMiddleware,
+        ),
     ]
 
     return middleware
