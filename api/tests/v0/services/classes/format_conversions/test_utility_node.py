@@ -10,14 +10,10 @@ def utility_node():
         "description": "testing node",
         "shortname": "Node",
         "boundary": "in",
-        "comments": [{
-            "author": "Jr.",
-            "comment": "Nope"
-        }],
+        "comments": [{"author": "Jr.", "comment": "Nope"}],
         "category": "Value Metric",
-        "uuid": "a6ab145e-2ca9-49e2-8c4f-9607688e57a9"
-        }
-
+        "uuid": "a6ab145e-2ca9-49e2-8c4f-9607688e57a9",
+    }
 
 
 def test_class_UtilityNodeConversion_from_json_fail(caplog):
@@ -25,13 +21,13 @@ def test_class_UtilityNodeConversion_from_json_fail(caplog):
         "category": "Junk",
         "description": "C2H5OH",
         "shortname": "veni vidi vici",
-        }
+    }
     with pytest.raises(Exception) as exc_info:
         UtilityNodeConversion().from_json(as_json)
-    assert [r.msg for r in caplog.records] == \
-        ["Data cannot be used to create a UtilityNode."]
-    assert str(exc_info.value) == \
-        "Data cannot be used to create a UtilityNode."
+    assert [r.msg for r in caplog.records] == [
+        "Data cannot be used to create a UtilityNode: Junk"
+    ]
+    assert str(exc_info.value) == "Data cannot be used to create a UtilityNode: Junk"
 
 
 def test_UtilityNodeConversion_from_json(utility_node):
@@ -43,10 +39,9 @@ def test_UtilityNodeConversion_from_json(utility_node):
 
 def test_UtilityNodeConversion_to_json(utility_node):
     data = UtilityNode(
-        description=utility_node['description'],
-        shortname=utility_node['shortname']
-        )
+        description=utility_node["description"], shortname=utility_node["shortname"]
+    )
     result = UtilityNodeConversion().to_json(data)
-    assert result['description'] == utility_node['description']
-    assert result['shortname'] == utility_node['shortname']
-    assert result['uuid'] == data.uuid
+    assert result["description"] == utility_node["description"]
+    assert result["shortname"] == utility_node["shortname"]
+    assert result["uuid"] == data.uuid

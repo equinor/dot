@@ -1,6 +1,7 @@
 """
-General utilities fo data format conversions between database and service layer-
+General utilities for data format conversions between database and service layer-
 """
+
 import datetime
 from abc import ABC, abstractmethod
 
@@ -11,6 +12,7 @@ class ConversionABC(ABC):
     """
     Abstract class for data format conversions between database and service layer.
     """
+
     @abstractmethod
     def to_json(self, data):
         raise NotImplementedError
@@ -24,6 +26,7 @@ class MetadataCreate:
     """
     Creation of metadata response
     """
+
     def vertex(uuid: str) -> VertexMetaDataResponse:
         """Create metadata for vertex
 
@@ -39,12 +42,7 @@ class MetadataCreate:
         timestamp = str(ct.timestamp())
         uuid = uuid
         return VertexMetaDataResponse.model_validate(
-            {
-            "version": version,
-            "date": date,
-            "timestamp": timestamp,
-            "uuid": uuid
-            }
+            {"version": version, "date": date, "timestamp": timestamp, "uuid": uuid}
         )
 
     def edge(uuid: str) -> EdgeMetaDataResponse:
@@ -59,9 +57,4 @@ class MetadataCreate:
         """
         version = "v0"
         uuid = uuid
-        return EdgeMetaDataResponse.model_validate(
-            {
-            "version": version,
-            "uuid": uuid
-            }
-        )
+        return EdgeMetaDataResponse.model_validate({"version": version, "uuid": uuid})

@@ -19,7 +19,8 @@ class DiscreteUnconditionalProbability(ProbabilityABC):
          probability_function: ArrayLike
              gives the probability that a variable is equal to some value
          variables: dict
-             involves the variable name and its values; values refers to the set of possible outcomes
+             involves the variable name and its values; values refers to the set
+             of possible outcomes
 
          Warning
          --------
@@ -55,8 +56,10 @@ class DiscreteUnconditionalProbability(ProbabilityABC):
         """
         super().__init__()
         variables = validate_and_set_probability.discrete_variables(variables)
-        probability_function = validate_and_set_probability.discrete_unconditional_probability_function(
-            probability_function, variables
+        probability_function = (
+            validate_and_set_probability.discrete_unconditional_probability_function(
+                probability_function, variables
+            )
         )
         self._cpt = xr.DataArray(probability_function, coords=variables)
 
@@ -66,7 +69,14 @@ class DiscreteUnconditionalProbability(ProbabilityABC):
         if len(variable_names) == 1:
             return tuple(self._cpt.coords[variable_names[0]].data.tolist())
         else:
-            return tuple(product(*tuple(tuple(self._cpt.coords[vn].data.tolist()) for vn in variable_names)))
+            return tuple(
+                product(
+                    *tuple(
+                        tuple(self._cpt.coords[vn].data.tolist())
+                        for vn in variable_names
+                    )
+                )
+            )
 
     @property
     def variables(self):

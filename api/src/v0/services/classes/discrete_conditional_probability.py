@@ -17,15 +17,18 @@ class DiscreteConditionalProbability(ProbabilityABC):
          probability_function: ArrayLike
              gives the probability that a variable is equal to some value
          variables: dict
-             involves the variable name and its values; values refers to the set of possible outcomes
+             involves the variable name and its values; values refers to the
+             set of possible outcomes
 
         .. note:
             Future:
 
             conditioned_variables: dict
-                involves the variable name and its values; values refers to the set of possible outcomes
+                involves the variable name and its values; values refers to the
+                set of possible outcomes
             conditioning_variables: dict
-                involves the variable name and its values; values refers to the set of possible outcomes
+                involves the variable name and its values; values refers to the
+                set of possible outcomes
 
          Warning
          --------
@@ -64,28 +67,27 @@ class DiscreteConditionalProbability(ProbabilityABC):
         variable_values = list(variables.values())
         conditioned_variables = {variable_list[0]: variable_values[0]}
         conditioning_variables = {
-            variable_list[k]: variable_values[k] for k in range(1,len(variable_list))
-            }
+            variable_list[k]: variable_values[k] for k in range(1, len(variable_list))
+        }
         conditioned_variables = validate_and_set_probability.discrete_variables(
             conditioned_variables
-            )
+        )
         conditioning_variables = validate_and_set_probability.discrete_variables(
             conditioning_variables
-            )
-        probability_function = \
+        )
+        probability_function = (
             validate_and_set_probability.discrete_conditional_probability_function(
                 probability_function, conditioned_variables, conditioning_variables
-                )
+            )
+        )
         self._cpt = xr.DataArray(
             probability_function,
-            coords={
-                **conditioned_variables, **conditioning_variables
-                },
+            coords={**conditioned_variables, **conditioning_variables},
             attrs={
-                'conditioned_variables': list(conditioned_variables.keys()),
-                'conditioning_variables': list(conditioning_variables.keys())
-                }
-                )
+                "conditioned_variables": list(conditioned_variables.keys()),
+                "conditioning_variables": list(conditioning_variables.keys()),
+            },
+        )
 
     @property
     def outcomes(self):
@@ -94,7 +96,12 @@ class DiscreteConditionalProbability(ProbabilityABC):
             return tuple(self._cpt.coords[variable_names[0]].data.tolist())
         # FUTURE IMPLEMENTATION
         # else:
-        #     return tuple(product(*tuple(tuple(self._cpt.coords[vn].data.tolist()) for vn in variable_names)))
+        #     return tuple(
+        #         product(
+        #             *tuple(tuple(self._cpt.coords[vn].data.tolist()) \
+        #                    for vn in variable_names)
+        #             )
+        #         )
 
     @property
     def variables(self):
@@ -102,30 +109,45 @@ class DiscreteConditionalProbability(ProbabilityABC):
 
     @property
     def conditioned_variables(self):
-        return tuple(item for item in self._cpt.dims if item in self._cpt.attrs['conditioned_variables'])
+        return tuple(
+            item
+            for item in self._cpt.dims
+            if item in self._cpt.attrs["conditioned_variables"]
+        )
 
     @property
     def conditioning_variables(self):
-        return tuple(item for item in self._cpt.dims if item in self._cpt.attrs['conditioning_variables'])
+        return tuple(
+            item
+            for item in self._cpt.dims
+            if item in self._cpt.attrs["conditioning_variables"]
+        )
 
     @classmethod
     def initialize_nan(cls, conditioned_variables: dict, conditioning_variables: dict):
-        data_shape = tuple(np.asarray(v).shape[0] for v in {**conditioned_variables, **conditioning_variables}.values())
+        data_shape = tuple(
+            np.asarray(v).shape[0]
+            for v in {**conditioned_variables, **conditioning_variables}.values()
+        )
         data = np.full(data_shape, np.nan)
         return cls(
             probability_function=data,
-            variables=conditioned_variables|conditioning_variables
-            )
+            variables=conditioned_variables | conditioning_variables,
+        )
 
     @classmethod
-    def initialize_uniform(cls, conditioned_variables: dict, conditioning_variables: dict):
-        data_shape = tuple(np.asarray(v).shape[0] for v in {**conditioned_variables, **conditioning_variables}.values())
+    def initialize_uniform(
+        cls, conditioned_variables: dict, conditioning_variables: dict
+    ):
+        data_shape = tuple(
+            np.asarray(v).shape[0]
+            for v in {**conditioned_variables, **conditioning_variables}.values()
+        )
         data = np.ones(data_shape) / data_shape[0]
         return cls(
             probability_function=data,
-            variables=conditioned_variables|conditioning_variables
-            )
-
+            variables=conditioned_variables | conditioning_variables,
+        )
 
     def get_distribution(self, **variables):
         """Return the probability distribution

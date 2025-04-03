@@ -1,4 +1,4 @@
-from uuid import UUID, uuid4
+from uuid import UUID, uuid1, uuid4
 
 import numpy as np
 import pytest
@@ -16,8 +16,8 @@ def test_description_success():
 def test_description_fail(caplog):
     with pytest.raises(Exception) as exc_info:
         validate_and_set_node.description(None)
-    assert [r.msg for r in caplog.records] == ["Input description is not a string."]
-    assert str(exc_info.value) == "Input description is not a string."
+    assert [r.msg for r in caplog.records] == ["Input description is not a string: None"]
+    assert str(exc_info.value) == "Input description is not a string: None"
 
 
 def test_name_success():
@@ -27,8 +27,8 @@ def test_name_success():
 def test_name_fail(caplog):
     with pytest.raises(Exception) as exc_info:
         validate_and_set_node.name(None)
-    assert [r.msg for r in caplog.records] == ["Input name is not a string."]
-    assert str(exc_info.value) == "Input name is not a string."
+    assert [r.msg for r in caplog.records] == ["Input name is not a string: None"]
+    assert str(exc_info.value) == "Input name is not a string: None"
 
 
 def test_shortname_success():
@@ -38,8 +38,8 @@ def test_shortname_success():
 def test_shortname_fail(caplog):
     with pytest.raises(Exception) as exc_info:
         validate_and_set_node.shortname(None)
-    assert [r.msg for r in caplog.records] == ["Input shortname is not a string."]
-    assert str(exc_info.value) == "Input shortname is not a string."
+    assert [r.msg for r in caplog.records] == ["Input shortname is not a string: None"]
+    assert str(exc_info.value) == "Input shortname is not a string: None"
 
 
 def test_uuid_success_uuid():
@@ -57,19 +57,39 @@ def test_uuid_success_None():
 def test_uuid_fail_not_None(caplog):
     with pytest.raises(Exception) as exc_info:
         validate_and_set_node.uuid(3.14)
-    assert [r.msg for r in caplog.records] == [("Input uuid is neither a "
-                                                "valid uuid (version 4) nor None.")]
-    assert str(exc_info.value) == ("Input uuid is neither a "
-                                   "valid uuid (version 4) nor None.")
+    assert [r.msg for r in caplog.records] == [
+        ("Input uuid is neither a valid " "uuid (version 4) nor None: 3.14")
+    ]
+    assert str(exc_info.value) == (
+        "Input uuid is neither a valid " "uuid (version 4) nor None: 3.14"
+    )
 
 
-def test_uuid_fail_not_uuid4(caplog):
+def test_uuid_fail_not_uuid(caplog):
     with pytest.raises(Exception) as exc_info:
         validate_and_set_node.uuid("3.14")
-    assert [r.msg for r in caplog.records] == [("Input uuid is neither a "
-                                                "valid uuid (version 4) nor None.")]
-    assert str(exc_info.value) == ("Input uuid is neither a "
-                                   "valid uuid (version 4) nor None.")
+    assert [r.msg for r in caplog.records] == [
+        (
+            "Input uuid is neither a valid "
+            "uuid (version 4) nor None: badly formed hexadecimal UUID string"
+        )
+    ]
+    assert str(exc_info.value) == (
+        "Input uuid is neither a valid "
+        "uuid (version 4) nor None: badly formed hexadecimal UUID string"
+    )
+
+
+def test_uuid_fail_not_version_4(caplog):
+    id = str(uuid1())
+    with pytest.raises(Exception) as exc_info:
+        validate_and_set_node.uuid(id)
+    assert [r.msg for r in caplog.records] == [
+        ("Input uuid is neither a valid " "uuid (version 4) nor None: version 1")
+    ]
+    assert str(exc_info.value) == (
+        "Input uuid is neither a valid " "uuid (version 4) nor None: version 1"
+    )
 
 
 def test_alternatives_success_list_of_strings():
@@ -88,40 +108,58 @@ def test_alternatives_fail_string(caplog):
     with pytest.raises(Exception) as exc_info:
         validate_and_set_node.alternatives("3.14")
     assert [r.msg for r in caplog.records] == [
-        "Input alternatives is neither a list or tuple of unique strings nor None."
+        "Input alternatives is neither a list "
+        "or tuple of unique strings nor None: 3.14"
     ]
-    assert str(exc_info.value) == \
-        "Input alternatives is neither a list or tuple of unique strings nor None."
+    assert (
+        str(exc_info.value) == "Input alternatives is neither a "
+        "list or tuple of unique strings nor None: 3.14"
+    )
 
 
 def test_alternatives_fail_not_sequence(caplog):
     with pytest.raises(Exception) as exc_info:
         validate_and_set_node.alternatives({"3.14"})
     assert [r.msg for r in caplog.records] == [
-        "Input alternatives is neither a list or tuple of unique strings nor None."
+        (
+            "Input alternatives is neither a list "
+            "or tuple of unique strings nor None: {'3.14'}"
+        )
     ]
-    assert str(exc_info.value) == \
-        "Input alternatives is neither a list or tuple of unique strings nor None."
+    assert str(exc_info.value) == (
+        "Input alternatives is neither a list "
+        "or tuple of unique strings nor None: {'3.14'}"
+    )
 
 
 def test_alternatives_fail_list_of_lists(caplog):
     with pytest.raises(Exception) as exc_info:
         validate_and_set_node.alternatives([["3.14"]])
     assert [r.msg for r in caplog.records] == [
-        "Input alternatives is neither a list or tuple of unique strings nor None."
+        (
+            "Input alternatives is neither a list "
+            "or tuple of unique strings nor None: [['3.14']]"
+        )
     ]
-    assert str(exc_info.value) == \
-        "Input alternatives is neither a list or tuple of unique strings nor None."
+    assert str(exc_info.value) == (
+        "Input alternatives is neither a list "
+        "or tuple of unique strings nor None: [['3.14']]"
+    )
 
 
 def test_alternatives_fail_redundant_elements(caplog):
     with pytest.raises(Exception) as exc_info:
         validate_and_set_node.alternatives(["a", "a", "b"])
     assert [r.msg for r in caplog.records] == [
-        "Input alternatives is neither a list or tuple of unique strings nor None."
+        (
+            "Input alternatives is neither a list or "
+            "tuple of unique strings nor None: ['a', 'a', 'b']"
+        )
     ]
-    assert str(exc_info.value) == \
-        "Input alternatives is neither a list or tuple of unique strings nor None."
+    assert str(exc_info.value) == (
+        "Input alternatives is neither a list "
+        "or tuple of unique strings nor None: ['a', 'a', 'b']"
+    )
 
 
 def test_probability_success_None():
@@ -138,7 +176,10 @@ def test_probability_success_well_formed_probability():
 def test_alternatives_fail_neither_None_nor_well_formed_probability(caplog):
     with pytest.raises(Exception) as exc_info:
         validate_and_set_node.probability([["3.14"]])
-    assert [r.msg for r in caplog.records] == \
-        ["Input probability is neither a well formed probability nor None."]
-    assert str(exc_info.value) == \
-        "Input probability is neither a well formed probability nor None."
+    assert [r.msg for r in caplog.records] == [
+        "Input probability is neither a well formed probability nor None: [['3.14']]"
+    ]
+    assert (
+        str(exc_info.value)
+        == "Input probability is neither a well formed probability nor None: [['3.14']]"
+    )

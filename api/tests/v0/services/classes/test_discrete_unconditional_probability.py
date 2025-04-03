@@ -70,7 +70,6 @@ def test_initialize_uniform():
 
 def test_get_distribution(cpt_2d):
     np.testing.assert_allclose(
-        cpt_2d.get_distribution(A="yes"),
-        np.array([0.1, 0.3, 0.2])
-        )
+        cpt_2d.get_distribution(A="yes"), np.array([0.1, 0.3, 0.2])
+    )
     assert cpt_2d.get_distribution(A="no", B="mid") == 0.1

@@ -17,19 +17,19 @@ class NodeABC(ABC):
     """Abstract class of nodes"""
 
     def __init__(self, *, description: str, shortname: str, uuid=None):
-        """instanciation of an (abstract) node
+        """instantiation of an (abstract) node
 
         Args:
             description (str): description of the node
             shortname (str): shortname of the node
             uuid (str, optional): uuid. Defaults to None.
-            If None, the uuid is attributed at instanciation.
+            If None, the uuid is attributed at instantiation.
 
         Private attributes:
             _description (str): description of the node
             _shortname (str): shortname of the node
             _uuid (str, optional): uuid. Defaults to None.
-            If None, the uuid is attributed at instanciation.
+            If None, the uuid is attributed at instantiation.
         """
         self._description = validate_and_set_node.description(description)
         self._shortname = validate_and_set_node.shortname(shortname)
@@ -109,10 +109,7 @@ class NodeABC(ABC):
         Returns:
             NodeABC: a copy of the node, with a new uuid
         """
-        copied_node = type(self)(
-            description=self.description,
-            shortname=self.shortname
-            )
+        copied_node = type(self)(description=self.description, shortname=self.shortname)
         for attribute, value in self.__dict__.items():
             if attribute not in ["_description", "_shortname", "_uuid"]:
                 setattr(copied_node, attribute, value)
@@ -123,32 +120,32 @@ class DecisionNode(NodeABC):
     """Decision node class"""
 
     def __init__(
-            self,
-            *,
-            description: str,
-            shortname: str,
-            uuid=None,
-            alternatives: Sequence[str]=None
-            ):
+        self,
+        *,
+        description: str,
+        shortname: str,
+        uuid=None,
+        alternatives: Sequence[str] = None,
+    ):
         """Create an instance of a DecisionNode
 
         Args:
             description (str): description of the node
             shortname (str): shortname of the node
-            unique_id (str, optional): uuid. Defaults to None. If None, the uuid is attributed at instanciation.
-            alternatives (Sequence[str], optional): alternatives (states) of the decision. Defaults to None.
+            unique_id (str, optional): uuid. Defaults to None.
+            If None, the uuid is attributed at instantiation.
+            alternatives (Sequence[str], optional): alternatives (states)
+            of the decision. Defaults to None.
 
         Private attributes:
             _description (str): description of the node
             _shortname (str): shortname of the node
-            _unique_id (str, optional): uuid. Defaults to None. If None, the uuid is attributed at instanciation.
-            _alternatives (Sequence[str], optional): alternatives (states) of the decision. Defaults to None.
+            _unique_id (str, optional): uuid. Defaults to None.
+            If None, the uuid is attributed at instantiation.
+            _alternatives (Sequence[str], optional): alternatives (states) of
+            the decision. Defaults to None.
         """
-        super().__init__(
-            description=description,
-            shortname=shortname,
-            uuid=uuid
-            )
+        super().__init__(description=description, shortname=shortname, uuid=uuid)
         self._alternatives = validate_and_set_node.alternatives(alternatives)
 
     @property
@@ -157,7 +154,11 @@ class DecisionNode(NodeABC):
         Returns:
             List[str]: the alternatives (states) of the decision
         """
-        return [item for item in self._alternatives] if isinstance(self._alternatives, Sequence) else list()
+        if isinstance(self._alternatives, list):
+            return self._alternatives
+        if isinstance(self._alternatives, Sequence):
+            return list(self._alternatives)
+        return []
 
     @alternatives.setter
     def alternatives(self, value):
@@ -176,31 +177,32 @@ class UncertaintyNode(NodeABC):
     """Uncertainty (or chance) node class"""
 
     def __init__(
-            self,
-            *,
-            description: str,
-            shortname: str,
-            uuid=None,
-            probability: ProbabilityABC = None):
+        self,
+        *,
+        description: str,
+        shortname: str,
+        uuid=None,
+        probability: ProbabilityABC = None,
+    ):
         """Create an instance of a UncertaintyNode
 
         Args:
             description (str): description of the node
             shortname (str): shortname of the node
-            unique_id (str, optional): uuid. Defaults to None. If None, the uuid is attributed at instanciation.
-            probability (ProbabilityABC, optional): probability associated to the node. Defaults to None.
+            unique_id (str, optional): uuid. Defaults to None.
+            If None, the uuid is attributed at instantiation.
+            probability (ProbabilityABC, optional): probability associated to the node.
+            Defaults to None.
 
         Private attributes:
             _description (str): description of the node
             _shortname (str): shortname of the node
-            _unique_id (str, optional): uuid. Defaults to None. If None, the uuid is attributed at instanciation.
-            _probability (ProbabilityABC, optional): probability associated to the node. Defaults to None.
+            _unique_id (str, optional): uuid. Defaults to None.
+            If None, the uuid is attributed at instantiation.
+            _probability (ProbabilityABC, optional): probability associated to the node.
+            Defaults to None.
         """
-        super().__init__(
-            description=description,
-            shortname=shortname,
-            uuid=uuid
-            )
+        super().__init__(description=description, shortname=shortname, uuid=uuid)
         self._probability = validate_and_set_node.probability(probability)
 
     @property
@@ -230,39 +232,35 @@ class UncertaintyNode(NodeABC):
             List[str]: the outcomes (states) of the uncertainty
         """
         if self.probability is None:
-            return tuple()
+            return ()
         return self._probability.outcomes
 
 
 class UtilityNode(NodeABC):
     """Utility (or value) node class"""
 
-    def __init__(
-            self,
-            *,
-            description: str,
-            shortname: str,
-            uuid=None):
+    def __init__(self, *, description: str, shortname: str, uuid=None):
         """Create an instance of a UtilityNode
 
         Args:
             description (str): description of the node
             shortname (str): shortname of the node
-            unique_id (str, optional): uuid. Defaults to None. If None, the uuid is attributed at instanciation.
+            unique_id (str, optional): uuid. Defaults to None.
+            If None, the uuid is attributed at instantiation.
 
         Private attributes:
             _description (str): description of the node
             _shortname (str): shortname of the node
-            _unique_id (str, optional): uuid. Defaults to None. If None, the uuid is attributed at instanciation.
+            _unique_id (str, optional): uuid. Defaults to None.
+            If None, the uuid is attributed at instantiation.
 
-        TODO: implement utility matrix attribute through a Utility class. So far it is rather a place holder.
+        TODO: implement utility matrix attribute through a Utility class.
+        So far it is rather a place holder.
         TODO: implement the value metric in addition to the consequence
-        TODO: the total objective is a combination of gains and costs of each decision and how we combine them into a desired objective
+        TODO: the total objective is a combination of gains and costs of each
+        decision and how we combine them into a desired objective
         """
-        super().__init__(
-            description=description,
-            shortname=shortname,
-            uuid=uuid)
+        super().__init__(description=description, shortname=shortname, uuid=uuid)
 
     @property
     def states(self) -> list[str]:

@@ -1,6 +1,7 @@
 """
 Error for services.classes errors
 """
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -15,16 +16,18 @@ class ProbabilityTypeError(Exception):
 
 class DiscreteConditionalProbabilityTypeError(Exception):
     def __init__(self, arg):
-        error_message = \
+        error_message = (
             f"Data cannot be used to create a DiscreteConditionalProbability: {arg}"
+        )
         super().__init__(error_message)
         logger.critical(error_message)
 
 
 class DiscreteUnconditionalProbabilityTypeError(Exception):
     def __init__(self, arg):
-        error_message = \
+        error_message = (
             f"Data cannot be used to create a DiscreteUnconditionalProbability: {arg}"
+        )
         super().__init__(error_message)
         logger.critical(error_message)
 
@@ -87,50 +90,55 @@ class ShortnameValidationError(Exception):
 
 class UUIDValidationError(Exception):
     def __init__(self, arg):
-        error_message = \
-            f"Input uuid is neither a valid uuid (version 4) nor None: {arg}"
+        error_message = f"Input uuid is neither a valid uuid (version 4) nor None: {arg}"
         super().__init__(error_message)
         logger.critical(error_message)
 
 
 class AlternativeValidationError(Exception):
     def __init__(self, arg):
-        error_message = (f"Input alternatives is neither a list or "
-                         f"tuple of unique strings nor None: {arg}")
+        error_message = (
+            f"Input alternatives is neither a list or "
+            f"tuple of unique strings nor None: {arg}"
+        )
         super().__init__(error_message)
         logger.critical(error_message)
 
 
 class DiscreteProbabilityVariableValidationError(Exception):
     def __init__(self, arg):
-        error_message = \
-            (f"One of the variables is not a dictionary with "
-             f"element being able to be interpreted as 1D: {arg}")
+        error_message = (
+            f"One of the variables is not a dictionary with "
+            f"element being able to be interpreted as 1D: {arg}"
+        )
         super().__init__(error_message)
         logger.critical(error_message)
 
 
 class DiscreteConditionalProbabilityFunctionValidationError(Exception):
     def __init__(self, arg):
-        error_message = \
-            (f"The conditional probability function is not well formed size "
-             f"(not compatible with variables or content is not normalized): {arg}")
+        error_message = (
+            f"The conditional probability function is not well formed size "
+            f"(not compatible with variables or content is not normalized): {arg}"
+        )
         super().__init__(error_message)
         logger.critical(error_message)
 
 
 class DiscreteUnconditionalProbabilityFunctionValidationError(Exception):
     def __init__(self, arg):
-        error_message = \
-            (f"The unconditional probability function is not well formed size "
-             f"(not compatible with variables or content is not normalized): {arg}")
+        error_message = (
+            f"The unconditional probability function is not well formed size "
+            f"(not compatible with variables or content is not normalized): {arg}"
+        )
         super().__init__(error_message)
         logger.critical(error_message)
 
 
 class ProbabilityValidationError(Exception):
     def __init__(self, arg):
-        error_message = \
+        error_message = (
             f"Input probability is neither a well formed probability nor None: {arg}"
+        )
         super().__init__(error_message)
         logger.critical(error_message)

@@ -2,6 +2,7 @@
 This module converts issue related data between the database formats
 and the service layer formats
 """
+
 from collections.abc import Sequence
 
 from src.v0.services.classes.node import (
@@ -29,7 +30,7 @@ def add_metadata(uuid: str) -> dict:
         "timestamp": metadata.timestamp,
         "date": metadata.date,
         "id": metadata.uuid,
-        "label": "issue"
+        "label": "issue",
     }
 
 
@@ -37,10 +38,13 @@ class DecisionJSONConversion:
     """
     Conversion to json of fields relevant for decision
     """
+
     def states(self, node):
-        return None if (
-            isinstance(node.alternatives, Sequence) and len(node.alternatives) == 0
-            ) else node.alternatives
+        return (
+            None
+            if (isinstance(node.alternatives, Sequence) and len(node.alternatives) == 0)
+            else node.alternatives
+        )
 
     def decision_type(self, node):
         return "Focus"
@@ -50,10 +54,13 @@ class UncertaintyJSONConversion:
     """
     Conversion to json of fields relevant for uncertainty
     """
+
     def probability(self, node):
-        return None if (
-            node.probability is None
-            ) else ProbabilityConversion().to_json(node.probability)
+        return (
+            None
+            if (node.probability is None)
+            else ProbabilityConversion().to_json(node.probability)
+        )
 
     def key_uncertainty(self, node):
         return "True"
@@ -66,6 +73,7 @@ class DecisionNodeConversion(ConversionABC):
     """
     Concrete implementation of `from_json` and `to_json` for decisions.
     """
+
     def from_json(self, issue: dict) -> DecisionNode:
         if issue.get("category") != "Decision":
             raise DecisionNodeTypeError(issue.get("category"))
@@ -73,7 +81,8 @@ class DecisionNodeConversion(ConversionABC):
             description=issue.get("description"),
             shortname=issue.get("shortname"),
             uuid=issue.get("uuid"),
-            alternatives=issue.get("alternatives"))
+            alternatives=issue.get("alternatives"),
+        )
 
     def to_json(self, node: DecisionNode) -> dict:
         data = {
@@ -84,32 +93,33 @@ class DecisionNodeConversion(ConversionABC):
             "decisionType": DecisionJSONConversion().decision_type(node),
             "boundary": "in",
         }
-        return  data | add_metadata(node.uuid)
+        return data | add_metadata(node.uuid)
 
 
 class UncertaintyNodeConversion(ConversionABC):
     """
     Concrete implementation of `from_json` and `to_json` for uncertainties.
     """
+
     def from_json(self, issue: dict) -> UncertaintyNode:
         if issue.get("category") != "Uncertainty":
             raise UncertaintyNodeTypeError(issue.get("category"))
         try:
             probability = ProbabilityConversion().from_json(issue.get("probabilities"))
-        except:
-            raise UncertaintyNodeTypeError(issue.get("probabilities"))
+        except Exception as e:
+            raise UncertaintyNodeTypeError(e)
         return UncertaintyNode(
             description=issue.get("description"),
             shortname=issue.get("shortname"),
             uuid=issue.get("uuid"),
             probability=probability,
-            )
+        )
 
     def to_json(self, node: UncertaintyNode) -> dict:
         try:
             probability = ProbabilityConversion().to_json(node.probability)
-        except:
-            raise UncertaintyNodeTypeError(node.probability)
+        except Exception as e:
+            raise UncertaintyNodeTypeError(e)
         data = {
             "category": "Uncertainty",
             "shortname": node.shortname,
@@ -118,7 +128,7 @@ class UncertaintyNodeConversion(ConversionABC):
             "keyUncertainty": "True",
             "boundary": "in",
         }
-        return  data | add_metadata(node.uuid)
+        return data | add_metadata(node.uuid)
 
 
 class UtilityNodeConversion(ConversionABC):
@@ -129,14 +139,15 @@ class UtilityNodeConversion(ConversionABC):
         In this implementation we assume Utility is Value Metric which is not the
         case and will be modified in future version
     """
+
     def from_json(self, issue: dict) -> UtilityNode:
         if issue.get("category") != "Value Metric":
             raise UtilityNodeTypeError(issue.get("category"))
         return UtilityNode(
             description=issue.get("description"),
             shortname=issue.get("shortname"),
-            uuid=issue.get("uuid")
-            )
+            uuid=issue.get("uuid"),
+        )
 
     def to_json(self, node: UtilityNode) -> dict:
         data = {
@@ -145,7 +156,7 @@ class UtilityNodeConversion(ConversionABC):
             "description": node.description,
             "boundary": "in",
         }
-        return  data | add_metadata(node.uuid)
+        return data | add_metadata(node.uuid)
 
 
 class InfluenceDiagramNodeConversion(ConversionABC):
@@ -155,7 +166,7 @@ class InfluenceDiagramNodeConversion(ConversionABC):
         Only key uncertainties, focus decisions and utilities are converted.
 
         Args:
-            issue (Dict): issue as a dictionnary
+            issue (Dict): issue as a dictionary
 
         Raises:
             InfluenceDiagramTypeError: _description_
@@ -171,21 +182,24 @@ class InfluenceDiagramNodeConversion(ConversionABC):
             raise InfluenceDiagramNodeTypeError(f'shortname: {issue.get("shortname")}')
         if issue["category"] == "Decision":
             if issue.get("decisionType") != "Focus":
-                raise InfluenceDiagramNodeTypeError(f'decisionType: {issue.get("decisionType")}')
+                raise InfluenceDiagramNodeTypeError(
+                    f'decisionType: {issue.get("decisionType")}'
+                )
             return DecisionNodeConversion().from_json(issue)
         if issue["category"] == "Uncertainty":
             if issue["keyUncertainty"] != "True":
-                raise InfluenceDiagramNodeTypeError(f'keyUncertainty: {issue.get("keyUncertainty")}')
+                raise InfluenceDiagramNodeTypeError(
+                    f'keyUncertainty: {issue.get("keyUncertainty")}'
+                )
             return UncertaintyNodeConversion().from_json(issue)
         if issue["category"] == "Value Metric":
             return UtilityNodeConversion().from_json(issue)
 
-
     def to_json(self, node: NodeABC) -> dict:
         if isinstance(node, DecisionNode):
-             return DecisionNodeConversion().to_json(node)
+            return DecisionNodeConversion().to_json(node)
         if isinstance(node, UncertaintyNode):
-             return UncertaintyNodeConversion().to_json(node)
+            return UncertaintyNodeConversion().to_json(node)
         if isinstance(node, UtilityNode):
-             return UtilityNodeConversion().to_json(node)
-        raise NodeTypeError(type(node))
+            return UtilityNodeConversion().to_json(node)
+        raise NodeTypeError(node)

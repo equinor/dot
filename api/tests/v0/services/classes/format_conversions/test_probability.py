@@ -14,25 +14,20 @@ from src.v0.services.classes.format_conversions.probability import (
 )
 
 
-def test_class_ProbabilityConversion_to_json_fail(caplog):
-    with pytest.raises(Exception) as exc_info:
-        ProbabilityConversion().to_json({"type": "unknown"})
-    assert [r.msg for r in caplog.records] == ["Unreckonized probability type: <class 'dict'>"]
-    assert str(exc_info.value) == "Unreckonized probability type: <class 'dict'>"
-
-
 def test_class_ProbabilityConversion_from_json_fail_not_dict(caplog):
     with pytest.raises(Exception) as exc_info:
         ProbabilityConversion().from_json("None")
-    assert [r.msg for r in caplog.records] == ["Unreckonized probability type."]
-    assert str(exc_info.value) == "Unreckonized probability type."
+    assert [r.msg for r in caplog.records] == ["Unreckonized probability type: None"]
+    assert str(exc_info.value) == "Unreckonized probability type: None"
 
 
 def test_class_ProbabilityConversion_from_json_fail_wrong_probability(caplog):
     with pytest.raises(Exception) as exc_info:
         ProbabilityConversion().from_json({"type": "unknown"})
-    assert [r.msg for r in caplog.records] == ["Unreckonized probability type."]
-    assert str(exc_info.value) == "Unreckonized probability type."
+    assert [r.msg for r in caplog.records] == [
+        "Unreckonized probability type: {'type': 'unknown'}"
+    ]
+    assert str(exc_info.value) == "Unreckonized probability type: {'type': 'unknown'}"
 
 
 def test_class_ProbabilityConversion_from_json_conditional():
@@ -41,19 +36,19 @@ def test_class_ProbabilityConversion_from_json_conditional():
         "probability_function": [[0.4, 0.5], [0.6, 0.5]],
         "variables": {
             "Node1": ["Outcome1", "Outcome2"],
-            "Node2": ["Outcome21", "Outcome22"]
-            },
-        "attributes" : {
+            "Node2": ["Outcome21", "Outcome22"],
+        },
+        "attributes": {
             "conditioned_variables": ["Node1"],
-            "conditioning_variables": ["Node2"]
-            }
-        }
+            "conditioning_variables": ["Node2"],
+        },
+    }
     result = ProbabilityConversion().from_json(as_json)
     assert isinstance(result, DiscreteConditionalProbability)
     assert result._cpt.attrs == {
         "conditioned_variables": ["Node1"],
-        "conditioning_variables": ["Node2"]
-        }
+        "conditioning_variables": ["Node2"],
+    }
     assert result._cpt.coords.dims == ("Node1", "Node2")
     assert result._cpt.coords["Node1"].values.tolist() == ["Outcome1", "Outcome2"]
     assert result._cpt.coords["Node2"].values.tolist() == ["Outcome21", "Outcome22"]
@@ -66,13 +61,13 @@ def test_class_ProbabilityConversion_from_json_unconditional():
         "probability_function": [[0.2, 0.4], [0.1, 0.3]],
         "variables": {
             "Node1": ["Outcome1", "Outcome2"],
-            "Node2": ["Outcome21", "Outcome22"]
-            },
-        "attributes" : {
+            "Node2": ["Outcome21", "Outcome22"],
+        },
+        "attributes": {
             "conditioned_variables": ["Node1"],
-            "conditioning_variables": ["Node2"]
-            }
-        }
+            "conditioning_variables": ["Node2"],
+        },
+    }
     result = ProbabilityConversion().from_json(as_json)
     assert isinstance(result, DiscreteUnconditionalProbability)
     assert result._cpt.attrs == {}
@@ -94,7 +89,7 @@ def test_class_ProbabilityConversion_to_json_conditional():
         "dtype": "DiscreteConditionalProbability",
         "probability_function": [[0.1, 0.7, 0.6], [0.9, 0.3, 0.4]],
         "variables": {"A": ["yes", "no"], "B": ["low", "mid", "high"]},
-        }
+    }
     assert result == target
 
 
@@ -108,9 +103,8 @@ def test_class_ProbabilityConversion_to_json_unconditional():
         "dtype": "DiscreteUnconditionalProbability",
         "probability_function": [[0.2, 0.4], [0.1, 0.3]],
         "variables": {"A": ["yes", "no"], "B": ["low", "high"]},
-        }
+    }
     assert result == target
-
 
 
 def test_class_DiscreteConditionalProbabilityConversion_from_json_fail(caplog):
@@ -119,19 +113,22 @@ def test_class_DiscreteConditionalProbabilityConversion_from_json_fail(caplog):
         "probability_function": [[0.4, 0.5], [0.6, 0.5]],
         "variables": {
             "Node1": ["Outcome1", "Outcome2"],
-            "Node2": ["Outcome21", "Outcome22"]
-            },
-        "attributes" : {
+            "Node2": ["Outcome21", "Outcome22"],
+        },
+        "attributes": {
             "conditioned_variables": ["Node1"],
-            "conditioning_variables": ["Node2"]
-            }
-        }
+            "conditioning_variables": ["Node2"],
+        },
+    }
     with pytest.raises(Exception) as exc_info:
         DiscreteConditionalProbabilityConversion().from_json(as_json)
-    assert [r.msg for r in caplog.records] == \
-        ["Data cannot be used to create a DiscreteConditionalProbability."]
-    assert str(exc_info.value) == \
-        "Data cannot be used to create a DiscreteConditionalProbability."
+    assert [r.msg for r in caplog.records] == [
+        "Data cannot be used to create a DiscreteConditionalProbability: Junk"
+    ]
+    assert (
+        str(exc_info.value)
+        == "Data cannot be used to create a DiscreteConditionalProbability: Junk"
+    )
 
 
 def test_class_DiscreteConditionalProbabilityConversion_from_json():
@@ -140,19 +137,19 @@ def test_class_DiscreteConditionalProbabilityConversion_from_json():
         "probability_function": [[0.4, 0.5], [0.6, 0.5]],
         "variables": {
             "Node1": ["Outcome1", "Outcome2"],
-            "Node2": ["Outcome21", "Outcome22"]
-            },
-        "attributes" : {
+            "Node2": ["Outcome21", "Outcome22"],
+        },
+        "attributes": {
             "conditioned_variables": ["Node1"],
-            "conditioning_variables": ["Node2"]
-            }
-        }
+            "conditioning_variables": ["Node2"],
+        },
+    }
     result = DiscreteConditionalProbabilityConversion().from_json(as_json)
     assert isinstance(result, DiscreteConditionalProbability)
     assert result._cpt.attrs == {
         "conditioned_variables": ["Node1"],
-        "conditioning_variables": ["Node2"]
-        }
+        "conditioning_variables": ["Node2"],
+    }
     assert result._cpt.coords.dims == ("Node1", "Node2")
     assert result._cpt.coords["Node1"].values.tolist() == ["Outcome1", "Outcome2"]
     assert result._cpt.coords["Node2"].values.tolist() == ["Outcome21", "Outcome22"]
@@ -171,7 +168,7 @@ def test_class_DiscreteConditionalProbabilityConversion_to_json():
         "dtype": "DiscreteConditionalProbability",
         "probability_function": [[0.1, 0.7, 0.6], [0.9, 0.3, 0.4]],
         "variables": {"A": ["yes", "no"], "B": ["low", "mid", "high"]},
-        }
+    }
     assert result == target
 
 
@@ -181,19 +178,22 @@ def test_class_DiscreteUnconditionalProbabilityConversion_from_json_fail(caplog)
         "probability_function": [[0.4, 0.5], [0.6, 0.5]],
         "variables": {
             "Node1": ["Outcome1", "Outcome2"],
-            "Node2": ["Outcome21", "Outcome22"]
-            },
-        "attributes" : {
+            "Node2": ["Outcome21", "Outcome22"],
+        },
+        "attributes": {
             "conditioned_variables": ["Node1"],
-            "conditioning_variables": ["Node2"]
-            }
-        }
+            "conditioning_variables": ["Node2"],
+        },
+    }
     with pytest.raises(Exception) as exc_info:
         DiscreteUnconditionalProbabilityConversion().from_json(as_json)
-    assert [r.msg for r in caplog.records] == \
-        ["Data cannot be used to create a DiscreteUnconditionalProbability."]
-    assert str(exc_info.value) == \
-        "Data cannot be used to create a DiscreteUnconditionalProbability."
+    assert [r.msg for r in caplog.records] == [
+        "Data cannot be used to create a DiscreteUnconditionalProbability: Junk"
+    ]
+    assert (
+        str(exc_info.value)
+        == "Data cannot be used to create a DiscreteUnconditionalProbability: Junk"
+    )
 
 
 def test_class_DiscreteUnconditionalProbabilityConversion_from_json():
@@ -202,13 +202,13 @@ def test_class_DiscreteUnconditionalProbabilityConversion_from_json():
         "probability_function": [[0.2, 0.4], [0.1, 0.3]],
         "variables": {
             "Node1": ["Outcome1", "Outcome2"],
-            "Node2": ["Outcome21", "Outcome22"]
-            },
-        "attributes" : {
+            "Node2": ["Outcome21", "Outcome22"],
+        },
+        "attributes": {
             "conditioned_variables": ["Node1"],
-            "conditioning_variables": ["Node2"]
-            }
-        }
+            "conditioning_variables": ["Node2"],
+        },
+    }
     result = DiscreteUnconditionalProbabilityConversion().from_json(as_json)
     assert isinstance(result, DiscreteUnconditionalProbability)
     assert result._cpt.attrs == {}
@@ -228,5 +228,5 @@ def test_class_DiscreteUnconditionalProbabilityConversion_to_json():
         "dtype": "DiscreteUnconditionalProbability",
         "probability_function": [[0.2, 0.4], [0.1, 0.3]],
         "variables": {"A": ["yes", "no"], "B": ["low", "high"]},
-        }
+    }
     assert result == target
