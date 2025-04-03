@@ -1,17 +1,17 @@
 {
-	"name": "pressure-db-ingestion-deployment",
-	"version": "1.0.0",
-	"description": "Deployment for PressureDB ingestion",
-	"author": "Fredrik Wold <fmw@equinor.com>",
-	"license": "MIT",
-	"main": "app.js",
-	"type": "module",
-	"keywords": [
-		"nodejs",
-		"express"
-	],
-	"dependencies": {
-		"express": "^4.21.2",
-		"express-rate-limit": "^7.5.0"
-	}
+  "name": "pressure-db-ingestion-deployment",
+  "version": "1.0.0",
+  "description": "Deployment for PressureDB ingestion",
+  "author": "Fredrik Wold <fmw@equinor.com>",
+  "license": "MIT",
+  "main": "app.js",
+  "type": "module",
+  "keywords": [
+    "nodejs",
+    "express"
+  ],
+  "dependencies": {
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0"
+  }
 }
