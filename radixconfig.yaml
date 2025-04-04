@@ -1,0 +1,72 @@
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+    name: dot
+spec:
+    environments:
+        - name: prod
+        - name: test
+          build:
+              from: v0*
+        - name: dev
+          build:
+              from: main|dev-deploy*
+    components:
+        - name: frontend
+          src: frontend.Dockerfile
+          ports:
+              - name: http
+                port: 5173
+          resources:
+              requests:
+                  memory: '64Mi'
+                  cpu: '20m'
+              limits:
+                  memory: '128Mi'
+                  cpu: '50m'
+          publicPort: http
+          environmentConfig:
+              - environment: dev
+                replicas: 1
+                variables:
+                    REACT_APP_API_BASE_URL: ''
+  
+              - environment: test
+                replicas: 1
+                variables:
+                    REACT_APP_API_BASE_URL: ''
+        
+              - environment: prod
+                replicas: 1
+                variables:
+                    REACT_APP_API_BASE_URL: ''
+          
+        - name: backend
+          src: backends.Dockerfile
+          secrets:
+            - DB_PRIMARY_KEY
+            - DATABASE_ADDRESS
+          ports:
+            - name: http
+              port: 8000
+          resources:
+              requests:
+                  memory: '64Mi'
+                  cpu: '20m'
+              limits:
+                  memory: '128Mi'
+                  cpu: '50m'
+          environmentConfig:
+            - environment: dev
+              replicas: 1
+              variables:
+                    APP_ENVIRONMENT: "dev"
+            - environment: test
+              variables:
+                    APP_ENVIRONMENT: "test"
+            - environment: prod
+              variables:
+                    APP_ENVIRONMENT: "prod"
+                
+
+    

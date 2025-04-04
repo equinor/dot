@@ -1,7 +1,17 @@
-FROM python:3.10.12-slim@sha256:7a08d7bfedcbf05d15b2bff8f0c86db6dd06bcbaa74c915d2d5585dbd5ba65b0
+# syntax=docker/dockerfile:1
 
-COPY ./api /home/api
-WORKDIR /home/api
+ARG PYTHON_VERSION=3.10
+FROM python:${PYTHON_VERSION}-slim as base
+
+# Prevents Python from writing pyc files.
+ENV PYTHONDONTWRITEBYTECODE=1
+
+# Keeps Python from buffering stdout and stderr to avoid situations where
+# the application crashes without emitting any logs due to buffering.
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/code
+
+WORKDIR /code
 
 RUN apt update && \
     apt install -y gcc && \
@@ -13,6 +23,24 @@ RUN pip install --upgrade pip && \
     pip install poetry==1.8.5 && \
     poetry config virtualenvs.create false
 
-RUN poetry install
+COPY ./api/pyproject.toml ./api/poetry.lock /code/
 
-CMD ["uvicorn", "--host", "0.0.0.0", "--reload", "main:app"]
+# Install project dependencies
+RUN poetry install --no-root --only main
+
+# Copy the rest of the application code
+COPY ./api/ /code/
+
+WORKDIR /code
+
+# Add a new group "non-root-group" with group id 1001 and user "non-root-user" with the same id
+RUN groupadd --gid 1001 non-root-group && \
+    useradd --uid 1001 --gid 1001 --create-home non-root-user
+
+USER 1001
+
+# Expose the port that the application listens on.
+EXPOSE 8000
+
+# Run the application.
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
