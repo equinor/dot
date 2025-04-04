@@ -3,10 +3,10 @@ import { useMsal } from '@azure/msal-react';
 
 const msalConfig = {
   auth: {
-    clientId: "637a2493-5510-40c3-86a6-9db8f3192966",
+    clientId: window.injectEnv.CLIENT_APP_ID,
     authority:
       "https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0", // This is a URL (e.g. https://login.microsoftonline.com/{your tenant ID})
-    redirectUri: "https://frontend-dot-dev.radix.equinor.com/",
+    redirectUri: window.injectEnv.REDIRECT_URL,
   },
   cache: {
     cacheLocation: "localStorage", // This configures where your cache will be stored
@@ -19,7 +19,7 @@ export const msalInstance = new PublicClientApplication(msalConfig);
 
 export const getAccessToken = async () => {
   const loginRequest = {
-    scopes: ["api://4251833c-b9c3-4013-afda-cbfd2cc50f3f/Read"],
+    scopes: [window.injectEnv.CLIENT_APP_SCOPE],
   };
   const accounts = msalInstance.getAllAccounts();
   if (accounts.length === 0) {

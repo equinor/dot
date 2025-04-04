@@ -1,8 +1,8 @@
 import axios from "axios";
 import { getAccessToken } from "../auth";
+console.log(window.injectEnv);
 
-export const API_BASEURL =
-  process.env.REACT_APP_API_BASE_URL || "http://localhost:8000";
+export const API_BASEURL = window.injectEnv ? window.injectEnv.REACT_APP_API_BASE_URL : "http://localhost:8000";
 
 const API_VERSION = "/latest";
 
@@ -13,6 +13,8 @@ class BaseApiServices {
   }
   async get(path, params) {        
     try {
+      console.log("API_BASEURL", API_BASEURL);
+
       const accessToken = await getAccessToken()
       const response = await axios.get(API_BASEURL + API_VERSION + path, {
         method: "GET",
