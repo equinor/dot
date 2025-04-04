@@ -5,13 +5,13 @@ FROM node:19-bullseye-slim as builder
 WORKDIR /app
 
 # Copy package.json and package-lock.json to the working directory
-COPY ./web/package.json ./web/package-lock.json ./
+COPY package.json package-lock.json ./
 
 # Install dependencies
 RUN npm ci
 
 # Copy the rest of the application code to the working directory
-COPY ./web /app
+COPY . /app
 
 # Build the application for production
 RUN npm run build
@@ -22,9 +22,9 @@ FROM nginxinc/nginx-unprivileged:1.23.3-alpine-slim
 WORKDIR /app
 # Copy the build output from the previous step to Nginx's default public directory
 COPY --from=builder /app/build  /usr/share/nginx/html
-COPY ./web/nginx/nginx.conf.template /etc/nginx/nginx.conf.template
-COPY ./web/nginx/run_nginx.sh ./server/run_nginx.sh
-COPY ./web/inject-env-template.js /app/www/inject-env-template.js
+COPY nginx/nginx.conf.template /etc/nginx/nginx.conf.template
+COPY nginx/run_nginx.sh ./server/run_nginx.sh
+COPY inject-env-template.js /app/www/inject-env-template.js
 # Copy Nginx configuration file
 
 USER 0

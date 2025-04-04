@@ -23,13 +23,13 @@ RUN pip install --upgrade pip && \
     pip install poetry==1.8.5 && \
     poetry config virtualenvs.create false
 
-COPY ./api/pyproject.toml ./api/poetry.lock /code/
+COPY pyproject.toml poetry.lock /code/
 
 # Install project dependencies
 RUN poetry install --no-root --only main
 
 # Copy the rest of the application code
-COPY ./api/ /code/
+COPY . /code/
 
 WORKDIR /code
 

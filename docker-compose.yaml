@@ -1,8 +1,8 @@
 services:
     frontend:
         build:
-            context: .
-            dockerfile: frontend.Dockerfile
+            context: ./web
+            dockerfile: Dockerfile
         depends_on:
             - backend
         environment:
@@ -18,8 +18,8 @@ services:
 
     backend:
         build:
-            context: .
-            dockerfile: backend.Dockerfile
+            context: ./api
+            dockerfile: Dockerfile
         environment:
             - UVICORN_PORT=8000
             - REACT_APP_WEB_HOST=localhost
