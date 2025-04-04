@@ -58,7 +58,7 @@ class StructureService:
             vertex_uuid=[issue.uuid for issue in issues_list],
         )
 
-        influence_diagram = InfluenceDiagramResponse(vertices=issues_list, edges=edges)
+        influence_diagram = InfluenceDiagramResponse(nodes=issues_list, arcs=edges)
         return influence_diagram
 
     def create_decision_tree(self, project_uuid: str) -> DecisionTreeResponse:

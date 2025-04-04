@@ -1,0 +1,169 @@
+{
+    "vertices": {
+        "project": {
+            "id": "a1e0a9bb-4f83-4704-8e80-4359fe381e11",
+            "label": "project",
+            "name": "simple id"
+        },
+        "objectives": [
+            {
+                "id": "b674098b-36f4-4659-b38a-4239c89032c4",
+                "label": "objective",
+                "hierarchy": "Fundamental",
+                "description": "v",
+                "tag": [
+                    "v"
+                ]
+            }
+        ],
+        "opportunities": [
+            {
+                "id": "a971770d-17f2-4b17-9ac2-06672783c6b4",
+                "label": "opportunity",
+                "description": "a",
+                "tag": []
+            }
+        ],
+        "issues": [
+            {
+                "id": "b1f3d18d-20a8-475b-981f-32449d1ee6bd",
+                "label": "issue",
+                "boundary": "in",
+                "comments": [
+                    {
+                        "comment": "www",
+                        "author": "User"
+                    }
+                ],
+                "description": "b",
+                "shortname": "b",
+                "alternatives": [
+                    "y",
+                    "n"
+                ],
+                "decisionType": "Focus",
+                "tag": [
+                    "b"
+                ],
+                "category": "Decision",
+                "probabilities": {
+                    "dtype": "DiscreteUnconditionalProbability",
+                    "probability_function": [
+                        [
+                            null
+                        ]
+                    ],
+                    "variables": {
+                        "variable": [
+                            "outcome"
+                        ]
+                    }
+                }
+            },
+            {
+                "id": "c3d0dacc-990e-4557-8c5f-d33f9b3ede89",
+                "label": "issue",
+                "boundary": "in",
+                "keyUncertainty": "true",
+                "description": "a",
+                "shortname": "a",
+                "tag": [
+                    "a"
+                ],
+                "category": "Uncertainty",
+                "probabilities": null
+            },
+            {
+                "id": "8106127e-ab4a-4aa5-a865-8b55789e7d7a",
+                "label": "issue",
+                "boundary": "in",
+                "description": "v",
+                "shortname": "v",
+                "tag": [
+                    "v"
+                ],
+                "category": "Value Metric",
+                "probabilities": {
+                    "dtype": "DiscreteUnconditionalProbability",
+                    "probability_function": [
+                        [
+                            null
+                        ]
+                    ],
+                    "variables": {
+                        "variable": [
+                            "outcome"
+                        ]
+                    }
+                }
+            }
+        ],
+        "merged_issues": []
+    },
+    "edges": [
+        {
+            "version": "v0",
+            "uuid": "52ae073f-dae9-4427-aa94-567f033e3a24",
+            "outV": "a1e0a9bb-4f83-4704-8e80-4359fe381e11",
+            "inV": "b1f3d18d-20a8-475b-981f-32449d1ee6bd",
+            "id": "52ae073f-dae9-4427-aa94-567f033e3a24",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "3b1ae234-9c1b-478f-a664-4e2b944e33b1",
+            "outV": "a1e0a9bb-4f83-4704-8e80-4359fe381e11",
+            "inV": "b674098b-36f4-4659-b38a-4239c89032c4",
+            "id": "3b1ae234-9c1b-478f-a664-4e2b944e33b1",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "5170e558-83f2-46ca-877f-ed5073549393",
+            "outV": "a1e0a9bb-4f83-4704-8e80-4359fe381e11",
+            "inV": "c3d0dacc-990e-4557-8c5f-d33f9b3ede89",
+            "id": "5170e558-83f2-46ca-877f-ed5073549393",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "2c042b81-9c98-4730-a03c-2c908289982f",
+            "outV": "a1e0a9bb-4f83-4704-8e80-4359fe381e11",
+            "inV": "8106127e-ab4a-4aa5-a865-8b55789e7d7a",
+            "id": "2c042b81-9c98-4730-a03c-2c908289982f",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "47daef3f-c4ad-4aee-9fdc-2547661d44fb",
+            "outV": "a1e0a9bb-4f83-4704-8e80-4359fe381e11",
+            "inV": "a971770d-17f2-4b17-9ac2-06672783c6b4",
+            "id": "47daef3f-c4ad-4aee-9fdc-2547661d44fb",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "362a8e35-272f-4adb-a2ef-a21faa3fe1a1",
+            "outV": "b1f3d18d-20a8-475b-981f-32449d1ee6bd",
+            "inV": "8106127e-ab4a-4aa5-a865-8b55789e7d7a",
+            "id": "362a8e35-272f-4adb-a2ef-a21faa3fe1a1",
+            "label": "influences"
+        },
+        {
+            "version": "v0",
+            "uuid": "9f4379ed-63d6-4a5f-8470-27cf6a575fc5",
+            "outV": "c3d0dacc-990e-4557-8c5f-d33f9b3ede89",
+            "inV": "b1f3d18d-20a8-475b-981f-32449d1ee6bd",
+            "id": "9f4379ed-63d6-4a5f-8470-27cf6a575fc5",
+            "label": "influences"
+        },
+        {
+            "version": "v0",
+            "uuid": "77d09215-f210-40af-99db-f0ecdea81484",
+            "outV": "b674098b-36f4-4659-b38a-4239c89032c4",
+            "inV": "8106127e-ab4a-4aa5-a865-8b55789e7d7a",
+            "id": "77d09215-f210-40af-99db-f0ecdea81484",
+            "label": "has_value_metric"
+        }
+    ]
+}

@@ -96,12 +96,12 @@ def graph():
 
 
 def test_read_influence_diagram_success(mock_service, graph):
-    vertices = [
+    nodes = [
         IssueResponse.model_validate(graph[0]),
         IssueResponse.model_validate(graph[1]),
         IssueResponse.model_validate(graph[2]),
     ]
-    edges = [
+    arcs = [
         EdgeResponse(
             uuid="101", id="101", outV="11-aa", inV="22-bb", label="influences"
         ),
@@ -110,7 +110,7 @@ def test_read_influence_diagram_success(mock_service, graph):
         ),
     ]
     mock_service.return_value.read_influence_diagram.return_value = (
-        InfluenceDiagramResponse(vertices=vertices, edges=edges)
+        InfluenceDiagramResponse(nodes=nodes, arcs=arcs)
     )
     project_uuid = "0"
     response = client.get(

@@ -187,8 +187,8 @@ class InfluenceDiagram(ProbabilisticGraphModelABC):
             ... edges=json_stream['edges'])
             >>> InfluenceDiagram.from_db(influence_diagram_response)
         """
-        nodes = [NodeABC.from_db(vertex) for vertex in response.vertices]
-        arcs = [Edge.from_db(edge, nodes) for edge in response.edges]
+        nodes = [NodeABC.from_db(vertex) for vertex in response.nodes]
+        arcs = [Edge.from_db(edge, nodes) for edge in response.arcs]
         return cls.from_dict({"nodes": nodes, "edges": arcs})
 
     def decision_elimination_order(self) -> list[NodeABC]:
