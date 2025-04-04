@@ -29,7 +29,7 @@ class DirectedGraphType:
 
 class DirectedGraphABC(ABC):
 
-    NODES_MODULE_PATH = "src.business.classes.node"
+    NODES_MODULE_PATH = "src.v0.services.classes.node"
 
     """Directed  Graph
 

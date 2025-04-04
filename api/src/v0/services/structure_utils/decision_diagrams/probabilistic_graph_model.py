@@ -133,7 +133,8 @@ class ProbabilisticGraphModelABC(ABC):
             List[NodeABC]: the list of the nodes of given type
         """
         node_type = getattr(
-            importlib.import_module(self.NODES_MODULE_PATH), node_type_string
+            importlib.import_module(self.NODES_MODULE_PATH),
+            node_type_string
         )
         node_list = []
         for node in list(self.nx.nodes(data=True)):
