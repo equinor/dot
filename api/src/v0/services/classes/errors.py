@@ -62,6 +62,13 @@ class UtilityNodeSuccessorError(Exception):
         logger.critical(error_message)
 
 
+class NodeInGraphError(Exception):
+    def __init__(self, arg):
+        error_message = f"The node is not in the graph: {arg}"
+        super().__init__(error_message)
+        logger.critical(error_message)
+
+
 class InfluenceDiagramNodeTypeError(Exception):
     def __init__(self, arg):
         error_message = f"Data cannot be used to create an influence diagram Node: {arg}"
@@ -111,12 +118,27 @@ class ArcTypeError(Exception):
         logger.critical(error_message)
 
 
+class ArcTypeValidationError(Exception):
+    def __init__(self, arg):
+        error_message = f"Added arc is not of instance Arc: {arg}"
+        super().__init__(error_message)
+        logger.critical(error_message)
+
+
 class IDNodeTypeValidationError(Exception):
     def __init__(self, arg):
         error_message = (
             f"Added node is not of instance "
             f"(DecisionNode, UncertaintyNode, UtilityNode): {arg}"
             )
+        super().__init__(error_message)
+        logger.critical(error_message)
+
+
+class DTNodeTypeValidationError(Exception):
+    def __init__(self, arg):
+        error_message = (f"Added node is not of instance "
+                         f"(DecisionNode, UncertaintyNode, UtilityNode): {arg}")
         super().__init__(error_message)
         logger.critical(error_message)
 
