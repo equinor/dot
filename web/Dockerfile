@@ -35,7 +35,8 @@ RUN chown -R nginx /etc/nginx \
     # Ensure run script is executable and have correct format
     && chmod +x ./server/run_nginx.sh \
     && dos2unix ./server/run_nginx.sh
-EXPOSE 5173
+
+EXPOSE 3000
 # Run start script as nginx user (UID=101)
 USER 101
 # Start Nginx in the foreground
