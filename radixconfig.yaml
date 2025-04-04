@@ -30,7 +30,6 @@ spec:
                 replicas: 1
                 variables:
                     REACT_APP_API_BASE_URL: 'http://0.0.0.0:8000'
-  
               - environment: test
                 replicas: 1
                 variables:
