@@ -16,7 +16,7 @@ spec:
           src: "./web"
           ports:
               - name: http
-                port: 5173
+                port: 3000
           resources:
               requests:
                   memory: '64Mi'
@@ -29,17 +29,17 @@ spec:
               - environment: dev
                 replicas: 1
                 variables:
-                    REACT_APP_API_BASE_URL: ''
+                    REACT_APP_API_BASE_URL: 'http://0.0.0.0:8000'
   
               - environment: test
                 replicas: 1
                 variables:
-                    REACT_APP_API_BASE_URL: ''
+                    REACT_APP_API_BASE_URL: 'http://0.0.0.0:8000'
         
               - environment: prod
                 replicas: 1
                 variables:
-                    REACT_APP_API_BASE_URL: ''
+                    REACT_APP_API_BASE_URL: 'http://0.0.0.0:8000'
           
         - name: backend
           src: "./api"
