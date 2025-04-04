@@ -53,6 +53,15 @@ class UtilityNodeTypeError(Exception):
         logger.critical(error_message)
 
 
+class UtilityNodeSuccessorError(Exception):
+    def __init__(self, arg):
+        error_message = (
+            f"Utility node can only have other utility nodes as successor: {arg}"
+            )
+        super().__init__(error_message)
+        logger.critical(error_message)
+
+
 class InfluenceDiagramNodeTypeError(Exception):
     def __init__(self, arg):
         error_message = f"Data cannot be used to create an influence diagram Node: {arg}"
@@ -81,6 +90,37 @@ class NameValidationError(Exception):
         logger.critical(error_message)
 
 
+class ArcLabelValidationError(Exception):
+    def __init__(self, arg):
+        error_message = f"Input label is neither a string nor None: {arg}"
+        super().__init__(error_message)
+        logger.critical(error_message)
+
+
+class EndPointValidationError(Exception):
+    def __init__(self, arg):
+        error_message = f"Endpoint of arcs should be Node or None: {arg}"
+        super().__init__(error_message)
+        logger.critical(error_message)
+
+
+class ArcTypeError(Exception):
+    def __init__(self, arg):
+        error_message = f"Data cannot be used to create an Arc: {arg}"
+        super().__init__(error_message)
+        logger.critical(error_message)
+
+
+class IDNodeTypeValidationError(Exception):
+    def __init__(self, arg):
+        error_message = (
+            f"Added node is not of instance "
+            f"(DecisionNode, UncertaintyNode, UtilityNode): {arg}"
+            )
+        super().__init__(error_message)
+        logger.critical(error_message)
+
+
 class ShortnameValidationError(Exception):
     def __init__(self, arg):
         error_message = f"Input shortname is not a string: {arg}"
@@ -90,7 +130,9 @@ class ShortnameValidationError(Exception):
 
 class UUIDValidationError(Exception):
     def __init__(self, arg):
-        error_message = f"Input uuid is neither a valid uuid (version 4) nor None: {arg}"
+        error_message = (
+            f"Input uuid is neither a valid uuid (version 4) nor None: {arg}"
+            )
         super().__init__(error_message)
         logger.critical(error_message)
 
