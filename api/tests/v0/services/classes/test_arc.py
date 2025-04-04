@@ -1,10 +1,8 @@
-from unittest.mock import MagicMock
 
 import pytest
+
 from src.v0.services.classes.arc import Arc
-from src.v0.services.classes.node import (DecisionNode, UncertaintyNode,
-                                       UtilityNode)
-from src.v0.services.structure_utils.decision_diagrams.influence_diagram import InfluenceDiagram
+from src.v0.services.classes.node import DecisionNode, UncertaintyNode, UtilityNode
 
 
 def test_class_InformationalArc():
@@ -78,8 +76,16 @@ def test_set_head():
 
 
 def test_set_head_fail(caplog):
-    n1 = UtilityNode(description="junk", shortname="J", uuid="775e46e5-2dd4-4e34-add6-bb8c0626627d")
-    n2 = DecisionNode(description="junky", shortname="H", uuid="66095d54-74dc-4a75-bcf4-49676a44a2a2")
+    n1 = UtilityNode(
+        description="junk",
+        shortname="J",
+        uuid="775e46e5-2dd4-4e34-add6-bb8c0626627d"
+        )
+    n2 = DecisionNode(
+        description="junky",
+        shortname="H",
+        uuid="66095d54-74dc-4a75-bcf4-49676a44a2a2"
+        )
     arc = Arc(tail=n1, head=None, label="first")
     with pytest.raises(Exception) as exc_info:
         arc.head = n2
@@ -107,8 +113,16 @@ def test_set_tail():
 
 
 def test_set_tail_fail(caplog):
-    n1 = UtilityNode(description="junk", shortname="J", uuid="775e46e5-2dd4-4e34-add6-bb8c0626627d")
-    n2 = DecisionNode(description="junky", shortname="H", uuid="66095d54-74dc-4a75-bcf4-49676a44a2a2")
+    n1 = UtilityNode(
+        description="junk",
+        shortname="J",
+        uuid="775e46e5-2dd4-4e34-add6-bb8c0626627d"
+        )
+    n2 = DecisionNode(
+        description="junky",
+        shortname="H",
+        uuid="66095d54-74dc-4a75-bcf4-49676a44a2a2"
+        )
     arc = Arc(tail=None, head=n2, label="first")
     with pytest.raises(Exception) as exc_info:
         arc.tail = n1

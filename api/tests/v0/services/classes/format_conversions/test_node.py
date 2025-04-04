@@ -35,7 +35,7 @@ def decision_node(node):
 def uncertainty_node(node):
     return node | {
         "category": "Uncertainty",
-        "keyUncertainty": "True",
+        "keyUncertainty": "true",
         "probabilities": {
             "dtype": "DiscreteUnconditionalProbability",
             "probability_function": [[0.3], [0.7]],
@@ -67,7 +67,7 @@ def test_UncertaintyJSONConversion(uncertainty_node):
         "probability_function": [[0.3], [0.7]],
         "variables": {"States": ["s1", "s2"]},
     }
-    assert UncertaintyJSONConversion().key_uncertainty(node) == "True"
+    assert UncertaintyJSONConversion().key_uncertainty(node) == "true"
     assert UncertaintyJSONConversion().source(node) == ""
 
 
@@ -158,7 +158,7 @@ def test_InfluenceDiagramNodeConversion_from_json_fail_not_in_on_boundary(caplog
     as_json = {
         "category": "Uncertainty",
         "boundary": "out",
-        "keyUncertainty": "True",
+        "keyUncertainty": "true",
         "description": "C2H5OH",
         "shortname": "veni vidi vici",
         "consequences": None,
@@ -235,7 +235,7 @@ def test_InfluenceDiagramNodeConversion_to_json_uncertainty(uncertainty_node):
     result = InfluenceDiagramNodeConversion().to_json(data)
     assert result["description"] == uncertainty_node["description"]
     assert result["shortname"] == uncertainty_node["shortname"]
-    assert result["keyUncertainty"] == "True"
+    assert result["keyUncertainty"] == "true"
     assert result["uuid"] == data.uuid
     assert result["probabilities"] == uncertainty_node["probabilities"]
 

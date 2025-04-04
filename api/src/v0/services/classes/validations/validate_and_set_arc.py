@@ -1,8 +1,12 @@
 from typing import Any
 from uuid import UUID, uuid4
 
+from src.v0.services.classes.errors import (
+    ArcLabelValidationError,
+    EndPointValidationError,
+    UUIDValidationError,
+)
 from src.v0.services.classes.node import NodeABC
-from src.v0.services.classes.errors import ArcLabelValidationError, EndPointValidationError, UUIDValidationError
 
 
 def label(arg: Any) -> str:
@@ -18,7 +22,7 @@ def edge(arg: Any) -> NodeABC:
 
 
 def uuid(arg: Any) -> str:
-    if not (isinstance(arg, (str, UUID)) or arg is None):
+    if not (isinstance(arg, str|UUID) or arg is None):
         raise UUIDValidationError(arg)
     if arg is None:
         return str(uuid4())
@@ -27,5 +31,5 @@ def uuid(arg: Any) -> str:
     try: # if arg is str
         assert UUID(arg).version == 4
         return arg
-    except:
-        raise UUIDValidationError(arg)
+    except Exception as e:
+        raise UUIDValidationError(e)

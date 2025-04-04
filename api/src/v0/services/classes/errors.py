@@ -118,6 +118,13 @@ class ArcTypeError(Exception):
         logger.critical(error_message)
 
 
+class InfluenceDiagramTypeError(Exception):
+    def __init__(self, arg):
+        error_message = f"Data cannot be used to create an InfluenceDiagram: {arg}"
+        super().__init__(error_message)
+        logger.critical(error_message)
+
+
 class ArcTypeValidationError(Exception):
     def __init__(self, arg):
         error_message = f"Added arc is not of instance Arc: {arg}"

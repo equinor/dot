@@ -67,7 +67,7 @@ def test_from_db(copy_testdata_tmpdir, tmp_path):
     with open(tmp_path / "used_car_buyer_model_response.json") as f:
         json_stream = json.load(f)
     influence_diagram_response = InfluenceDiagramResponse(
-        vertices=json_stream["vertices"], edges=json_stream["edges"]
+        nodes=json_stream["vertices"], arcs=json_stream["edges"]
     )
     InfluenceDiagram.from_db(influence_diagram_response)
 
@@ -84,7 +84,7 @@ def test_from_db(copy_testdata_tmpdir, tmp_path):
     e4 = Edge(n3, n1, name="e4")
 
     target = InfluenceDiagram.from_dict(
-        {"nodes": [n0, n1, n2, n3, n4], "edges": [e0, e1, e2, e3, e4]}
+        {"nodes": [n0, n1, n2, n3, n4], "arcs": [e0, e1, e2, e3, e4]}
     )
     result = InfluenceDiagram.from_db(influence_diagram_response)
 
@@ -795,7 +795,7 @@ def test_to_pyagrum_used_car_buyer_success(copy_testdata_tmpdir, tmp_path):
     with open(tmp_path / "id_used_car_buyer.json") as f:
         json_stream = json.load(f)
     influence_diagram_response = InfluenceDiagramResponse(
-        vertices=json_stream["vertices"], edges=json_stream["edges"]
+        nodes=json_stream["vertices"], arcs=json_stream["edges"]
     )
     ID = InfluenceDiagram.from_db(influence_diagram_response)
 
@@ -823,7 +823,7 @@ def test_to_pyagrum_used_car_buyer_not_acyclic_fail(
     with open(tmp_path / "id_used_car_buyer.json") as f:
         json_stream = json.load(f)
     influence_diagram_response = InfluenceDiagramResponse(
-        vertices=json_stream["vertices"], edges=json_stream["edges"]
+        nodes=json_stream["vertices"], arcs=json_stream["edges"]
     )
     ID = InfluenceDiagram.from_db(influence_diagram_response)
     node0 = list(ID.nx.nodes)[0]
@@ -846,14 +846,14 @@ def test_to_pyagrum_used_car_buyer_uncertainty_fail(
     with open(tmp_path / "id_used_car_buyer.json") as f:
         json_stream = json.load(f)
     influence_diagram_response = InfluenceDiagramResponse(
-        vertices=json_stream["vertices"], edges=json_stream["edges"]
+        nodes=json_stream["vertices"], arcs=json_stream["edges"]
     )
     node_index = [
         k
-        for k, node in enumerate(influence_diagram_response.vertices)
+        for k, node in enumerate(influence_diagram_response.nodes)
         if node.category == "Uncertainty"
     ][0]
-    influence_diagram_response.vertices[node_index].probabilities = None
+    influence_diagram_response.nodes[node_index].probabilities = None
     ID = InfluenceDiagram.from_db(influence_diagram_response)
 
     error = (
@@ -876,14 +876,14 @@ def test_to_pyagrum_used_car_buyer_decision_fail(caplog, copy_testdata_tmpdir, t
     with open(tmp_path / "id_used_car_buyer.json") as f:
         json_stream = json.load(f)
     influence_diagram_response = InfluenceDiagramResponse(
-        vertices=json_stream["vertices"], edges=json_stream["edges"]
+        nodes=json_stream["vertices"], arcs=json_stream["edges"]
     )
     node_index = [
         k
-        for k, node in enumerate(influence_diagram_response.vertices)
+        for k, node in enumerate(influence_diagram_response.nodes)
         if node.category == "Decision"
     ][0]
-    influence_diagram_response.vertices[node_index].alternatives = None
+    influence_diagram_response.nodes[node_index].alternatives = None
     ID = InfluenceDiagram.from_db(influence_diagram_response)
 
     error = (

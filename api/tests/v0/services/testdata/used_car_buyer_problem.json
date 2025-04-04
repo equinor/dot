@@ -1,0 +1,265 @@
+{
+    "vertices": {
+        "project": {
+            "id": "72ba27a5-2e9c-4551-aa1a-6ad9d676d67b",
+            "label": "project",
+            "sensitivity_label": "Open",
+            "name": "The Used Car Buyer Problem",
+            "description": "The Used Car Buyer Problem"
+        },
+        "objectives": [
+            {
+                "id": "5e02460a-0f8e-463f-b80d-66056377d3a6",
+                "label": "objective",
+                "hierarchy": "Mean",
+                "description": "Increase wealth",
+                "index": "0",
+                "tag": [
+                    "Value"
+                ]
+            }
+        ],
+        "opportunities": [
+            {
+                "id": "67d4da1d-da3e-4ebe-bf1d-c5c9b73c3441",
+                "label": "opportunity",
+                "description": "Joe can buy a car with a price of 1000 USD while the value is\n                1100 USD",
+                "index": "0",
+                "tag": [
+                    "subsurface"
+                ]
+            }
+        ],
+        "issues": [
+            {
+                "id": "ab2b3630-46fe-425c-9a27-e91a5b74285d",
+                "label": "issue",
+                "boundary": "in",
+                "description": "Value",
+                "index": "0",
+                "shortname": "Value",
+                "alternatives": [
+                    "Test"
+                ],
+                "tag": [
+                    "Value"
+                ],
+                "category": "Value Metric"
+            },
+            {
+                "id": "e5ade2d8-4033-4bef-a93a-094f2d1c3b2f",
+                "label": "issue",
+                "boundary": "in",
+                "keyUncertainty": "None",
+                "description": "Joe can test the car",
+                "index": "0",
+                "shortname": "Test",
+                "alternatives": [
+                    "Test",
+                    " no Test"
+                ],
+                "decisionType": "Focus",
+                "tag": [
+                    "Test"
+                ],
+                "category": "Decision"
+            },
+            {
+                "id": "5077b271-7c20-412c-808d-6e8072e071bd",
+                "label": "issue",
+                "boundary": "in",
+                "keyUncertainty": "None",
+                "description": "We can buy the car",
+                "index": "0",
+                "shortname": "Buy",
+                "alternatives": [
+                    "Buy with guarantee",
+                    " Buy without guarantee",
+                    " Do not buy"
+                ],
+                "decisionType": "Focus",
+                "tag": [
+                    "Buy"
+                ],
+                "category": "Decision"
+            },
+            {
+                "id": "a9283f74-8569-480d-9dfd-b4be2eea4007",
+                "label": "issue",
+                "boundary": "in",
+                "keyUncertainty": "true",
+                "description": "Joe does not know the state of the car",
+                "index": "0",
+                "shortname": "State",
+                "alternatives": [
+                    "Peach",
+                    "Lemon"
+                ],
+                "tag": [
+                    "State"
+                ],
+                "category": "Uncertainty",
+                "probabilities": {
+                    "dtype": "DiscreteUnconditionalProbability",
+                    "probability_function": [
+                        [
+                            0.5
+                        ],
+                        [
+                            0.5
+                        ]
+                    ],
+                    "variables": {
+                        "Node1": [
+                            "Peach",
+                            "Lemon"
+                        ]
+                    }
+                }
+            },
+            {
+                "id": "8a935e05-ecf6-41e1-8b85-e6b11086f49b",
+                "label": "issue",
+                "boundary": "in",
+                "keyUncertainty": "true",
+                "description": "The result of the test is currently unknown",
+                "index": "0",
+                "shortname": "Test Result",
+                "influenceNodeUUID": "ad651f50-22de-4f85-a560-bf5fb2d9f706",
+                "alternatives": [
+                    "no Test",
+                    "Peach",
+                    "Lemon"
+                ],
+                "tag": [
+                    "Test Result"
+                ],
+                "category": "Uncertainty",
+                "probabilities": {
+                    "dtype": "DiscreteUnconditionalProbability",
+                    "probability_function": [
+                        [
+                            0.5
+                        ],
+                        [
+                            0.5
+                        ]
+                    ],
+                    "variables": {
+                        "Node1": [
+                            "Peach",
+                            "Lemon"
+                        ]
+                    }
+                }
+            }
+        ],
+        "merged_issues": []
+    },
+    "edges": [
+        {
+            "version": "v0",
+            "uuid": "84552b54-e17d-4957-89ea-b9bdf6e3b11d",
+            "outV": "72ba27a5-2e9c-4551-aa1a-6ad9d676d67b",
+            "inV": "ab2b3630-46fe-425c-9a27-e91a5b74285d",
+            "id": "84552b54-e17d-4957-89ea-b9bdf6e3b11d",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "8d87da6e-73f6-46d6-9020-9806d8c20557",
+            "outV": "72ba27a5-2e9c-4551-aa1a-6ad9d676d67b",
+            "inV": "67d4da1d-da3e-4ebe-bf1d-c5c9b73c3441",
+            "id": "8d87da6e-73f6-46d6-9020-9806d8c20557",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "8946ecd7-b26b-4a1c-b6e3-13f4306d345e",
+            "outV": "72ba27a5-2e9c-4551-aa1a-6ad9d676d67b",
+            "inV": "e5ade2d8-4033-4bef-a93a-094f2d1c3b2f",
+            "id": "8946ecd7-b26b-4a1c-b6e3-13f4306d345e",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "ba347042-c89d-4fbb-923e-d4931fc964a3",
+            "outV": "72ba27a5-2e9c-4551-aa1a-6ad9d676d67b",
+            "inV": "5e02460a-0f8e-463f-b80d-66056377d3a6",
+            "id": "ba347042-c89d-4fbb-923e-d4931fc964a3",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "5962c776-8536-4c9e-87d5-c3e119422d31",
+            "outV": "72ba27a5-2e9c-4551-aa1a-6ad9d676d67b",
+            "inV": "5077b271-7c20-412c-808d-6e8072e071bd",
+            "id": "5962c776-8536-4c9e-87d5-c3e119422d31",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "be7b59b6-4d3e-470c-a706-83ca1928ec66",
+            "outV": "72ba27a5-2e9c-4551-aa1a-6ad9d676d67b",
+            "inV": "a9283f74-8569-480d-9dfd-b4be2eea4007",
+            "id": "be7b59b6-4d3e-470c-a706-83ca1928ec66",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "379b29b2-ddc0-44ab-984b-71d1a05f0533",
+            "outV": "72ba27a5-2e9c-4551-aa1a-6ad9d676d67b",
+            "inV": "8a935e05-ecf6-41e1-8b85-e6b11086f49b",
+            "id": "379b29b2-ddc0-44ab-984b-71d1a05f0533",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "36a6987d-ef18-405d-a9ff-ce44f9b30a7e",
+            "outV": "e5ade2d8-4033-4bef-a93a-094f2d1c3b2f",
+            "inV": "8a935e05-ecf6-41e1-8b85-e6b11086f49b",
+            "id": "36a6987d-ef18-405d-a9ff-ce44f9b30a7e",
+            "label": "influences"
+        },
+        {
+            "version": "v0",
+            "uuid": "28276cd6-48f9-4e07-982f-15ea114cfc0f",
+            "outV": "e5ade2d8-4033-4bef-a93a-094f2d1c3b2f",
+            "inV": "ab2b3630-46fe-425c-9a27-e91a5b74285d",
+            "id": "28276cd6-48f9-4e07-982f-15ea114cfc0f",
+            "label": "influences"
+        },
+        {
+            "version": "v0",
+            "uuid": "4c1d56d6-0d27-40c7-b836-590cb4b69c88",
+            "outV": "5077b271-7c20-412c-808d-6e8072e071bd",
+            "inV": "ab2b3630-46fe-425c-9a27-e91a5b74285d",
+            "id": "4c1d56d6-0d27-40c7-b836-590cb4b69c88",
+            "label": "influences"
+        },
+        {
+            "version": "v0",
+            "uuid": "3ce899ad-c452-436c-934f-380f93087225",
+            "outV": "a9283f74-8569-480d-9dfd-b4be2eea4007",
+            "inV": "8a935e05-ecf6-41e1-8b85-e6b11086f49b",
+            "id": "3ce899ad-c452-436c-934f-380f93087225",
+            "label": "influences"
+        },
+        {
+            "version": "v0",
+            "uuid": "276fdf2b-236a-42bd-8b2e-c7fcc652c855",
+            "outV": "a9283f74-8569-480d-9dfd-b4be2eea4007",
+            "inV": "ab2b3630-46fe-425c-9a27-e91a5b74285d",
+            "id": "276fdf2b-236a-42bd-8b2e-c7fcc652c855",
+            "label": "influences"
+        },
+        {
+            "version": "v0",
+            "uuid": "79240580-cd65-43ec-98bd-5689a16e5044",
+            "outV": "8a935e05-ecf6-41e1-8b85-e6b11086f49b",
+            "inV": "5077b271-7c20-412c-808d-6e8072e071bd",
+            "id": "79240580-cd65-43ec-98bd-5689a16e5044",
+            "label": "influences"
+        }
+    ]
+}

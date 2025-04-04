@@ -7,14 +7,14 @@ from .issue import IssueResponse, ProbabilityData
 
 
 class InfluenceDiagramResponse(DOTModel):
-    vertices: list[IssueResponse]
-    edges: list[EdgeResponse]
+    nodes: list[IssueResponse]
+    arcs: list[EdgeResponse]
 
     model_config = {
         "json_schema_extra": {
             "examples": [
                 {
-                    "vertices": [
+                    "nodes": [
                         {
                             "tag": "subsurface",
                             "category": "uncertainty",
@@ -64,7 +64,7 @@ class InfluenceDiagramResponse(DOTModel):
                             "ids": "test",
                         },
                     ],
-                    "edges": [
+                    "arcs": [
                         {
                             "id": "3ed21afc-be76-4b14-be63-6d626e9fbb3c",
                             "outV": "ed58b7b1-ff91-4886-9311-7b1787d76cb1",

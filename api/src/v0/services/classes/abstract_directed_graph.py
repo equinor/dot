@@ -5,13 +5,13 @@ from __future__ import annotations
 
 from abc import ABC
 from collections.abc import Sequence
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING
 
 import networkx as nx
 
-from .validations import validate_and_set_graph_model
-from .errors import NodeInGraphError
 from .arc import Arc
+from .errors import NodeInGraphError
+from .validations import validate_and_set_graph_model
 
 if TYPE_CHECKING:  # pragma: no cover
     from .node import NodeABC
@@ -32,9 +32,10 @@ class DirectedGraphABC(ABC):
     NODES_MODULE_PATH = "src.business.classes.node"
 
     """Directed  Graph
-    
-    While nodes are unique in the graph, it may exist several relationship between them, expressed as the possibility to
-    have several arcs netween two given nodes.
+
+    While nodes are unique in the graph, it may exist several relationship
+    between them, expressed as the possibility to have several arcs between
+    two given nodes.
     """
 
     def __init__(self):
@@ -51,24 +52,25 @@ class DirectedGraphABC(ABC):
     def is_acyclic(self) -> bool:
         """test if the graph is acyclic or not.
 
-        An influence diagram or a decision tree are acyclic. However, during the building process, the condition may not be true.
+        An influence diagram or a decision tree are acyclic. However, during
+        the building process, the condition may not be true.
 
         Returns:
             bool: True if the graph is acyclic, False otherwise.
         """
         return nx.is_directed_acyclic_graph(self.graph)
-    
+
     @property
-    def nodes(self) -> List[NodeABC]:
+    def nodes(self) -> list[NodeABC]:
         """List of the graph nodes
 
         Returns:
             List[NodeABC]: the list of node instances
         """
         return list(self.graph.nodes)
-    
+
     @property
-    def arcs(self) -> List[Arc]:
+    def arcs(self) -> list[Arc]:
         """List of the graph arcs
 
         Returns:
@@ -83,18 +85,18 @@ class DirectedGraphABC(ABC):
                 unique_id=item["uuid"]
                 ) for item in g["edges"]
             ]
-    
+
     @property
-    def node_uuids(self) -> List:
+    def node_uuids(self) -> list:
         """List of uuid's of the graph nodes
 
         Returns:
             List: the list of uuid's
         """
         return [node.uuid for node in self.graph]
-    
+
     def node_in(self, node: NodeABC) -> bool:
-        """Check if a node is in the graph. 
+        """Check if a node is in the graph.
 
         The test is done through the uuid of the nodes.
 
@@ -104,7 +106,7 @@ class DirectedGraphABC(ABC):
         Returns:
             bool: True if the node is already within the graph, False otherwise.
         """
-        return node.uuid in self.node_uuids 
+        return node.uuid in self.node_uuids
 
     def add_nodes(self, nodes: Sequence[NodeABC]):
         """Add a list/tuple of nodes to a graph
@@ -139,7 +141,7 @@ class DirectedGraphABC(ABC):
         """Add an arc to the graph
 
         Args:
-            arc (Arc): arc to be added. If some of the end points do not exist, 
+            arc (Arc): arc to be added. If some of the end points do not exist,
             they are added to the graph too.
         """
         arc_info = validate_and_set_graph_model.arc_to_graph(arc)
@@ -153,14 +155,14 @@ class DirectedGraphABC(ABC):
         """copy the probabilistic graph model
 
         Returns
-            ProbabilisticGraphModel: a copy of the graph. uuid's of 
+            ProbabilisticGraphModel: a copy of the graph. uuid's of
             the nodes are copied too.
         """
         new_graph = type(self)()  # Need to instance from the concrete class
         new_graph.graph = self.graph.copy()
         return new_graph
 
-    def get_parents(self, node: NodeABC) -> List[NodeABC]:
+    def get_parents(self, node: NodeABC) -> list[NodeABC]:
         """get parents of a given node
 
         Args:
@@ -173,7 +175,7 @@ class DirectedGraphABC(ABC):
             raise NodeInGraphError(node)
         return list(self.graph.predecessors(node))
 
-    def get_children(self, node: NodeABC) -> List[NodeABC]:
+    def get_children(self, node: NodeABC) -> list[NodeABC]:
         """get children of a given node
 
         Args:
@@ -215,7 +217,7 @@ class DirectedGraphABC(ABC):
     #         node (NodeABC): node to examine
 
     #     Returns
-    #         str: a string describing the type of the node (class name in 
+    #         str: a string describing the type of the node (class name in
     #         lower font and without the "Node" suffix)
     #     """
     #     return type(node).__name__.replace("Node", "").lower()

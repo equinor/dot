@@ -64,7 +64,7 @@
                 "id": "c3d0dacc-990e-4557-8c5f-d33f9b3ede89",
                 "label": "issue",
                 "boundary": "in",
-                "keyUncertainty": "True",
+                "keyUncertainty": "true",
                 "description": "a",
                 "shortname": "a",
                 "tag": [

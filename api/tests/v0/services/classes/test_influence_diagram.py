@@ -1,12 +1,13 @@
 import networkx as nx
 import pytest
+
 from src.v0.services.classes.arc import Arc
 from src.v0.services.classes.influence_diagram import InfluenceDiagram
 from src.v0.services.classes.node import (
     DecisionNode,
     UncertaintyNode,
     UtilityNode,
-    )
+)
 
 
 @pytest.fixture
@@ -34,7 +35,10 @@ def simple_graph():
     e8 = Arc(tail=n6, head=n9, label="e8")
     e9 = Arc(tail=n5, head=n10, label="e9")
 
-    return {"nodes": [n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, n10], "arcs": [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9]}
+    return {
+        "nodes": [n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, n10],
+        "arcs": [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9]
+        }
 
 
 def graph_to_influence_diagram(graph):
@@ -68,19 +72,19 @@ def test_is_acyclic_false():
 
     e0 = Arc(tail=n0, head=n1, label="e0")
     e1 = Arc(tail=n1, head=n2, label="e1")
-    
+
     ID = InfluenceDiagram()
     ID = graph_to_influence_diagram({"nodes": [n0, n1, n2], "arcs": [e0, e1]})
     assert ID.is_acyclic
 
 
-def test_nodes(simple_graph):    
+def test_nodes(simple_graph):
     ID = graph_to_influence_diagram(simple_graph)
     assert len(ID.nodes) == 11
     assert ID.nodes[0].description == "Uncertainty node 1"
 
 
-def test_arcs(simple_graph):    
+def test_arcs(simple_graph):
     ID = graph_to_influence_diagram(simple_graph)
     assert len(ID.arcs) == 10
     assert ID.arcs[0].tail.description == "Uncertainty node 1"
@@ -91,7 +95,7 @@ def test_node_uuids(simple_graph):
     ID = graph_to_influence_diagram(simple_graph)
     result = ID.node_uuids
     assert len(result) == 11
-    assert set(result) == set([item.uuid for item in simple_graph["nodes"]])
+    assert set(result) == {item.uuid for item in simple_graph["nodes"]}
 
 
 def test_node_in(simple_graph):
@@ -128,8 +132,8 @@ def test_get_children(simple_graph):
     n4 = simple_graph["nodes"][4]
     result = ID.get_children(n4)
     target = [simple_graph["nodes"][5], simple_graph["nodes"][6]]
-    assert all([item in target for item in result])
-    assert all([item in result for item in target])
+    assert all(item in target for item in result)
+    assert all(item in result for item in target)
 
 
 def test_get_children_fail(caplog, simple_graph):
@@ -142,7 +146,8 @@ def test_get_children_fail(caplog, simple_graph):
 
 def test_get_decision_nodes(simple_graph):
     ID = graph_to_influence_diagram(simple_graph)
-    assert ID.get_decision_nodes() == [simple_graph["nodes"][4], simple_graph["nodes"][6]]
+    assert ID.get_decision_nodes() == \
+        [simple_graph["nodes"][4], simple_graph["nodes"][6]]
 
 
 def test_get_utility_nodes(simple_graph):

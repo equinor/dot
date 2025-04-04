@@ -2,40 +2,53 @@
 
     Raises:
         EndpointTypeError: When endpoint cannot be set to start or end
-        UtilityNodeSuccessorError: When a UtilityNode has a successor which is not another UtilityNode
+        UtilityNodeSuccessorError: When a UtilityNode has a successor which
+        is not another UtilityNode
 """
 
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from src.v0.services.classes.node import (DecisionNode, UncertaintyNode,
-                                       UtilityNode)
+from src.v0.services.classes.node import (
+    DecisionNode,
+    UncertaintyNode,
+    UtilityNode,
+    )
 
 if TYPE_CHECKING:  # pragma: no cover
     from src.v0.services.classes.node import NodeABC
 
-from .validations import validate_and_set_arc
 from .errors import UtilityNodeSuccessorError
+from .validations import validate_and_set_arc
 
 
 class Arc:
     """Class of arcs"""
 
-    def __init__(self, *, tail: NodeABC, head: NodeABC, label: str = None, unique_id=None):
+    def __init__(
+        self,
+        *,
+        tail: NodeABC,
+        head: NodeABC,
+        label: str = None,
+        unique_id=None
+        ):
         """Instance of Arc
 
         Args:
             tail (NodeABC): start node of the arc
             head (NodeABC): end node of the arc
             label (str, optional): label of the arc. Defaults to None.
-            unique_id (str, optional): uuid. Defaults to None. If None, the uuid is attributed at instanciation.
+            unique_id (str, optional): uuid. Defaults to None. If None,
+            the uuid is attributed at instantiation.
 
         Private attributes:
             _tail (NodeABC): start node of the arc
             _head (NodeABC): end node of the arc
             _label (str, optional): label of the arc. Defaults to None.
-            _uuid (str, optional): uuid. Defaults to None. If None, the uuid is attributed at instanciation.
+            _uuid (str, optional): uuid. Defaults to None. If None, the uuid
+            is attributed at instantiation.
         """
         self._tail = validate_and_set_arc.edge(tail)
         self._head = validate_and_set_arc.edge(head)

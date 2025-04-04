@@ -2,12 +2,13 @@
 
 An InfluenceDiagram is a sub-class of DirectedGraphABC.
 """
-from .abstract_directed_graph import DirectedGraphABC
 from src.v0.services.classes.node import (
     DecisionNode,
     UncertaintyNode,
     UtilityNode,
-    )
+)
+
+from .abstract_directed_graph import DirectedGraphABC
 
 
 class InfluenceDiagram(DirectedGraphABC):
@@ -19,7 +20,7 @@ class InfluenceDiagram(DirectedGraphABC):
         It is a wrapper around networkx.Digraph
 
         Attributes:
-            graph (networkx.DiGraph): networkx.DiGraph object 
+            graph (networkx.DiGraph): networkx.DiGraph object
             containing the influence diagram (nodes and arcs)
         """
         super().__init__()
@@ -30,7 +31,10 @@ class InfluenceDiagram(DirectedGraphABC):
         Returns:
             list[DecisionNode]
         """
-        return [node[0] for node in list(self.graph.nodes(data=True)) if isinstance(node[0], DecisionNode)]
+        return [
+            node[0] for node in list(self.graph.nodes(data=True)) \
+                if isinstance(node[0], DecisionNode)
+                ]
 
     def get_uncertainty_nodes(self) -> list[UncertaintyNode]:
         """Return a list of uncertainty nodes
@@ -38,7 +42,10 @@ class InfluenceDiagram(DirectedGraphABC):
         Returns:
             list[UncertaintyNode]
         """
-        return [node[0] for node in list(self.graph.nodes(data=True)) if isinstance(node[0], UncertaintyNode)]
+        return [
+            node[0] for node in list(self.graph.nodes(data=True)) \
+                if isinstance(node[0], UncertaintyNode)
+            ]
 
     def get_utility_nodes(self) -> list[UtilityNode]:
         """Return a list of utility nodes
@@ -46,7 +53,10 @@ class InfluenceDiagram(DirectedGraphABC):
         Returns:
             list[UtilityNode]
         """
-        return [node[0] for node in list(self.graph.nodes(data=True)) if isinstance(node[0], UtilityNode)]
+        return [
+            node[0] for node in list(self.graph.nodes(data=True)) \
+                if isinstance(node[0], UtilityNode)
+            ]
 
     @property
     def decision_count(self) -> int:

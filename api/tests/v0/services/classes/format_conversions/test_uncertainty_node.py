@@ -21,7 +21,7 @@ def uncertainty_node():
         "boundary": "in",
         "comments": [{"author": "Jr.", "comment": "Nope"}],
         "category": "Uncertainty",
-        "keyUncertainty": "True",
+        "keyUncertainty": "true",
         "probabilities": {
             "dtype": "DiscreteUnconditionalProbability",
             "probability_function": [[0.3], [0.7]],
@@ -123,7 +123,7 @@ def test_UncertaintyNodeConversion_to_json_no_probability(uncertainty_node):
     result = UncertaintyNodeConversion().to_json(data)
     assert result["description"] == uncertainty_node["description"]
     assert result["shortname"] == uncertainty_node["shortname"]
-    assert result["keyUncertainty"] == "True"
+    assert result["keyUncertainty"] == "true"
     assert result["uuid"] == data.uuid
     assert result["probabilities"] is None
 
@@ -144,7 +144,7 @@ def test_UncertaintyNodeConversion_to_json_unconditional(uncertainty_node):
     result = UncertaintyNodeConversion().to_json(data)
     assert result["description"] == uncertainty_node["description"]
     assert result["shortname"] == uncertainty_node["shortname"]
-    assert result["keyUncertainty"] == "True"
+    assert result["keyUncertainty"] == "true"
     assert result["uuid"] == data.uuid
     assert result["probabilities"] == {
         "dtype": "DiscreteUnconditionalProbability",
@@ -172,7 +172,7 @@ def test_UncertaintyNodeConversion_to_json_conditional(uncertainty_node):
     result = UncertaintyNodeConversion().to_json(data)
     assert result["description"] == uncertainty_node["description"]
     assert result["shortname"] == uncertainty_node["shortname"]
-    assert result["keyUncertainty"] == "True"
+    assert result["keyUncertainty"] == "true"
     assert result["uuid"] == data.uuid
     assert result["probabilities"]["dtype"] == "DiscreteConditionalProbability"
     assert result["probabilities"]["variables"] == {

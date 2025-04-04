@@ -7,8 +7,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from .validations import validate_and_set_graph_model
 from .abstract_directed_graph import DirectedGraphABC
+from .validations import validate_and_set_graph_model
 
 if TYPE_CHECKING:  # pragma: no cover
     from src.v0.services.classes.node import NodeABC
@@ -22,7 +22,8 @@ class DecisionTree(DirectedGraphABC):
             It is a wrapper around networkx.Digraph
 
         Attributes:
-            graph (networkx.DiGraph): networkx.DiGraph object containing the decision tree (nodes and arcs)
+            graph (networkx.DiGraph): networkx.DiGraph object containing the
+            decision tree (nodes and arcs)
         """
         super().__init__()
         if root is not None:
@@ -33,7 +34,8 @@ class DecisionTree(DirectedGraphABC):
         """return the root node of the graph (no incomming arcs)
 
         Returns:
-            NodeABC | None : the root node in the graph or None if none (cyclic) or more than 1 (graph under construction)
+            NodeABC | None : the root node in the graph or None if none (cyclic) or
+            more than 1 (graph under construction)
         """
         root_node = [n for n, d in self.graph.in_degree() if d == 0]
         if len(root_node) != 1:

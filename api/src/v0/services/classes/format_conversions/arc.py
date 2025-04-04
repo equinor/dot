@@ -1,18 +1,8 @@
-# from src.v0.models.structure import InfluenceDiagramResponse
-# from src.v0.models.structure import DecisionTreeNodeResponse
-# from src.v0.models.edge import EdgeResponse
-# from src.v0.models.issue import IssueResponse
-
 from src.v0.services.classes.arc import Arc
 from src.v0.services.classes.node import NodeABC
-# from src.v0.services.structure_utils.decision_diagrams.influence_diagram import InfluenceDiagram
-# from src.v0.services.structure_utils.decision_diagrams.decision_tree import DecisionTree
-
-from .node import InfluenceDiagramNodeConversion
 
 from ..errors import ArcTypeError
-
-
+from .node import InfluenceDiagramNodeConversion
 
 
 class ArcConversion:
@@ -30,7 +20,7 @@ class ArcConversion:
             tail=InfluenceDiagramNodeConversion().from_json(tails[0]),
             head=InfluenceDiagramNodeConversion().from_json(heads[0])
             )
-    
+
     def to_json(self, arc: Arc, nodes: list[NodeABC]) -> dict:
         outV = [node.uuid for node in nodes if node == arc.tail][0]
         inV = [node.uuid for node in nodes if node == arc.head][0]

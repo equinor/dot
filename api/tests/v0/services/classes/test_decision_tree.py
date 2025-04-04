@@ -1,12 +1,13 @@
 import networkx as nx
 import pytest
+
 from src.v0.services.classes.arc import Arc
 from src.v0.services.classes.decision_tree import DecisionTree
 from src.v0.services.classes.node import (
     DecisionNode,
     UncertaintyNode,
     UtilityNode,
-    )
+)
 
 
 @pytest.fixture
@@ -57,8 +58,10 @@ def simple_graph():
     e20 = Arc(tail=n7, head=n19, label="e20")
 
     return {
-        "nodes": [n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, n13, n14, n15, n16, n17, n18, n19, n20, n21],
-        "arcs": [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20],
+        "nodes": [n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11,
+                  n12, n13, n14, n15, n16, n17, n18, n19, n20, n21],
+        "arcs": [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11,
+                 e12, e13, e14, e15, e16, e17, e18, e19, e20],
     }
 
 

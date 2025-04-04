@@ -1,6 +1,7 @@
 from uuid import UUID, uuid4
 
 import pytest
+
 from src.v0.services.classes.node import DecisionNode
 from src.v0.services.classes.validations import validate_and_set_arc
 
@@ -23,7 +24,7 @@ def test_label_fail(caplog):
 
 
 def test_edge_success_None():
-    assert validate_and_set_arc.edge(None) == None
+    assert validate_and_set_arc.edge(None) is None
 
 
 def test_edge_success_Node():

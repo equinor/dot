@@ -63,7 +63,7 @@ class UncertaintyJSONConversion:
         )
 
     def key_uncertainty(self, node):
-        return "True"
+        return "true"
 
     def source(self, node):
         return ""
@@ -125,7 +125,7 @@ class UncertaintyNodeConversion(ConversionABC):
             "shortname": node.shortname,
             "description": node.description,
             "probabilities": probability,
-            "keyUncertainty": "True",
+            "keyUncertainty": "true",
             "boundary": "in",
         }
         return data | add_metadata(node.uuid)
@@ -187,7 +187,7 @@ class InfluenceDiagramNodeConversion(ConversionABC):
                 )
             return DecisionNodeConversion().from_json(issue)
         if issue["category"] == "Uncertainty":
-            if issue["keyUncertainty"] != "True":
+            if issue["keyUncertainty"] != "true":
                 raise InfluenceDiagramNodeTypeError(
                     f'keyUncertainty: {issue.get("keyUncertainty")}'
                 )

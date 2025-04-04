@@ -1,13 +1,9 @@
 import json
-import pytest 
 
-from src.v0.services.classes.format_conversions import arc, node
-# from src.v0.services.structure_utils.decision_diagrams.influence_diagram import InfluenceDiagram
+import pytest
+
 from src.v0.services.classes.arc import Arc
-
-# from src.v0.models.edge import EdgeResponse
-# from src.v0.models.structure import InfluenceDiagramResponse, DecisionTreeNodeResponse
-
+from src.v0.services.classes.format_conversions import arc, node
 
 TESTDATA = "v0/services/testdata"
 
