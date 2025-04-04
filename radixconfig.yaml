@@ -13,7 +13,7 @@ spec:
               from: main|dev-deploy*
     components:
         - name: frontend
-          src: frontend.Dockerfile
+          src: "./web"
           ports:
               - name: http
                 port: 5173
@@ -42,7 +42,7 @@ spec:
                     REACT_APP_API_BASE_URL: ''
           
         - name: backend
-          src: backends.Dockerfile
+          src: "./api"
           secrets:
             - DB_PRIMARY_KEY
             - DATABASE_ADDRESS
