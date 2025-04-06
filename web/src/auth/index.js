@@ -19,7 +19,7 @@ export const msalInstance = new PublicClientApplication(msalConfig);
 
 export const getAccessToken = async () => {
   const loginRequest = {
-    scopes: [window.injectEnv.CLIENT_APP_SCOPE],
+    scopes: [process.env.CLIENT_APP_SCOPE],
   };
   const accounts = msalInstance.getAllAccounts();
   if (accounts.length === 0) {

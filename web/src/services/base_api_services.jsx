@@ -14,6 +14,8 @@ class BaseApiServices {
   async get(path, params) {        
     try {
       const accessToken = await getAccessToken()
+      console.log(API_BASEURL);
+      
       const response = await axios.get(API_BASEURL + API_VERSION + path, {
         method: "GET",
         params: params,
