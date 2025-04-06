@@ -3,7 +3,7 @@ import { getAccessToken } from "../auth";
 
 export const API_BASEURL ="/api"
 
-const API_VERSION = "latest";
+const API_VERSION = "/latest";
 
 class BaseApiServices {
   async test(path) {
@@ -11,7 +11,6 @@ class BaseApiServices {
     return array_def_projects;
   }
   async get(path, params) {  
-    console.log(window.injectEnv);
     try {
       const accessToken = await getAccessToken()
       
