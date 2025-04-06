@@ -21,7 +21,7 @@ FROM nginxinc/nginx-unprivileged:1.23.3-alpine-slim
 
 WORKDIR /app
 # Copy the build output from the previous step to Nginx's default public directory
-COPY --from=builder /app/build  /usr/share/nginx/html
+COPY --from=builder /app/build  ./www
 COPY nginx/nginx.conf.template /etc/nginx/nginx.conf.template
 COPY nginx/run_nginx.sh ./server/run_nginx.sh
 COPY inject-env-template.js /app/www/inject-env-template.js

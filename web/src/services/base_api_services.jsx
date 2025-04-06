@@ -2,7 +2,7 @@ import axios from "axios";
 import { getAccessToken } from "../auth";
 
 export const API_BASEURL =
-  process.env.REACT_APP_API_BASE_URL
+window.injectEnv.REACT_APP_API_BASE_URL
 
 const API_VERSION = "/latest";
 
@@ -11,10 +11,10 @@ class BaseApiServices {
     var array_def_projects;
     return array_def_projects;
   }
-  async get(path, params) {        
+  async get(path, params) {  
+    console.log(window.injectEnv);
     try {
       const accessToken = await getAccessToken()
-      console.log(API_BASEURL);
       
       const response = await axios.get(API_BASEURL + API_VERSION + path, {
         method: "GET",
