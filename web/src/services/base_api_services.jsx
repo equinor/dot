@@ -4,7 +4,7 @@ import { getAccessToken } from "../auth";
 export const API_BASEURL =
 window.injectEnv.REACT_APP_API_BASE_URL
 
-const API_VERSION = "/latest";
+const API_VERSION = "latest";
 
 class BaseApiServices {
   async test(path) {
