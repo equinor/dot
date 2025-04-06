@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getAccessToken } from "../auth";
 
-export const API_BASEURL ="/API"
+export const API_BASEURL ="/api"
 
 const API_VERSION = "latest";
 
