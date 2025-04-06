@@ -1,7 +1,7 @@
 import pytest
 
-from src.v0.services.classes.format_conversions.node import UtilityNodeConversion
 from src.v0.services.classes.node import UtilityNode
+from src.v0.services.format_conversions.node import UtilityNodeConversion
 
 
 @pytest.fixture

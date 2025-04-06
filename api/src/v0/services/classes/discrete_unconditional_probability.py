@@ -4,9 +4,8 @@ import numpy as np
 import xarray as xr
 from numpy.typing import ArrayLike
 
+from src.v0.services.class_validations import validate_and_set_probability
 from src.v0.services.classes.abstract_probability import ProbabilityABC
-
-from .validations import validate_and_set_probability
 
 
 class DiscreteUnconditionalProbability(ProbabilityABC):

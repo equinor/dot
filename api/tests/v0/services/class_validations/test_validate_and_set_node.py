@@ -3,10 +3,10 @@ from uuid import UUID, uuid1, uuid4
 import numpy as np
 import pytest
 
+from src.v0.services.class_validations import validate_and_set_node
 from src.v0.services.classes.discrete_unconditional_probability import (
     DiscreteUnconditionalProbability,
 )
-from src.v0.services.classes.validations import validate_and_set_node
 
 
 def test_description_success():

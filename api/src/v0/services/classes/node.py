@@ -9,8 +9,9 @@ NodeABC is an abstract class with 3 concretizations:
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 
+from src.v0.services.class_validations import validate_and_set_node
+
 from .abstract_probability import ProbabilityABC
-from .validations import validate_and_set_node
 
 
 class NodeABC(ABC):

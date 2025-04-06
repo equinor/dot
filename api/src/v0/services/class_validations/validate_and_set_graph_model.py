@@ -7,8 +7,7 @@ from src.v0.services.classes.node import (
     UncertaintyNode,
     UtilityNode,
 )
-
-from ..errors import (
+from src.v0.services.errors import (
     ArcTypeValidationError,
     DTNodeTypeValidationError,
     IDNodeTypeValidationError,

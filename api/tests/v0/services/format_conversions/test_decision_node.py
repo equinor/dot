@@ -2,8 +2,8 @@ from copy import deepcopy
 
 import pytest
 
-from src.v0.services.classes.format_conversions.node import DecisionNodeConversion
 from src.v0.services.classes.node import DecisionNode
+from src.v0.services.format_conversions.node import DecisionNodeConversion
 
 
 @pytest.fixture

@@ -2,8 +2,8 @@ from uuid import UUID, uuid1, uuid4
 
 import pytest
 
+from src.v0.services.class_validations import validate_and_set_arc
 from src.v0.services.classes.node import DecisionNode
-from src.v0.services.classes.validations import validate_and_set_arc
 
 
 def test_label_success_string():

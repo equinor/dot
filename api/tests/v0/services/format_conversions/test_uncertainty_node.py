@@ -9,8 +9,8 @@ from src.v0.services.classes.discrete_conditional_probability import (
 from src.v0.services.classes.discrete_unconditional_probability import (
     DiscreteUnconditionalProbability,
 )
-from src.v0.services.classes.format_conversions.node import UncertaintyNodeConversion
 from src.v0.services.classes.node import UncertaintyNode
+from src.v0.services.format_conversions.node import UncertaintyNodeConversion
 
 
 @pytest.fixture

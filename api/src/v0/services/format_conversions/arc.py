@@ -1,7 +1,7 @@
 from src.v0.services.classes.arc import Arc
 from src.v0.services.classes.node import NodeABC
+from src.v0.services.errors import ArcTypeError
 
-from ..errors import ArcTypeError
 from .node import InfluenceDiagramNodeConversion
 
 

@@ -19,8 +19,9 @@ from src.v0.services.classes.node import (
 if TYPE_CHECKING:  # pragma: no cover
     from src.v0.services.classes.node import NodeABC
 
-from .errors import UtilityNodeSuccessorError
-from .validations import validate_and_set_arc
+from src.v0.services.class_validations import validate_and_set_arc
+
+from ..errors import UtilityNodeSuccessorError
 
 
 class Arc:

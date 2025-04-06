@@ -1,14 +1,14 @@
 import numpy as np
 import pytest
 
-from src.v0.services.classes.format_conversions.node import (
+from src.v0.services.classes.node import DecisionNode, UncertaintyNode, UtilityNode
+from src.v0.services.format_conversions.node import (
     DecisionJSONConversion,
     InfluenceDiagramNodeConversion,
     UncertaintyJSONConversion,
     add_metadata,
 )
-from src.v0.services.classes.format_conversions.probability import ProbabilityConversion
-from src.v0.services.classes.node import DecisionNode, UncertaintyNode, UtilityNode
+from src.v0.services.format_conversions.probability import ProbabilityConversion
 
 
 @pytest.fixture

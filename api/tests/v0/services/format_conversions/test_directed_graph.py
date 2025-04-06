@@ -2,8 +2,8 @@ import json
 
 import pytest
 
-from src.v0.services.classes.format_conversions import arc, directed_graph, node
 from src.v0.services.classes.influence_diagram import InfluenceDiagram
+from src.v0.services.format_conversions import arc, directed_graph, node
 
 TESTDATA = "v0/services/testdata"
 

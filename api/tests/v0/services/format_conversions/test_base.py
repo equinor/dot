@@ -1,7 +1,7 @@
 import pytest
 
 from src.v0.models.meta import EdgeMetaDataResponse, VertexMetaDataResponse
-from src.v0.services.classes.format_conversions.base import ConversionABC, MetadataCreate
+from src.v0.services.format_conversions.base import ConversionABC, MetadataCreate
 
 
 def test_class_ConversionABC(monkeypatch):

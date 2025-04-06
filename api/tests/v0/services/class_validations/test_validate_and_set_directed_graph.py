@@ -1,12 +1,12 @@
 import pytest
 
+from src.v0.services.class_validations import validate_and_set_graph_model
 from src.v0.services.classes.arc import Arc
 from src.v0.services.classes.node import (
     DecisionNode,
     UncertaintyNode,
     UtilityNode,
 )
-from src.v0.services.classes.validations import validate_and_set_graph_model
 
 
 def test_id_node_success():

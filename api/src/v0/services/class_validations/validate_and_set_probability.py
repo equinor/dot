@@ -3,7 +3,7 @@ from typing import Any
 
 import numpy as np
 
-from ..errors import (
+from src.v0.services.errors import (
     DiscreteConditionalProbabilityFunctionValidationError,
     DiscreteProbabilityVariableValidationError,
     DiscreteUnconditionalProbabilityFunctionValidationError,

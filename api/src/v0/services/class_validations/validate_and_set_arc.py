@@ -1,12 +1,12 @@
 from typing import Any
 from uuid import UUID, uuid4
 
-from src.v0.services.classes.errors import (
+from src.v0.services.classes.node import NodeABC
+from src.v0.services.errors import (
     ArcLabelValidationError,
     EndPointValidationError,
     UUIDValidationError,
 )
-from src.v0.services.classes.node import NodeABC
 
 
 def label(arg: Any) -> str:

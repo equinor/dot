@@ -9,7 +9,7 @@ from src.v0.services.classes.discrete_conditional_probability import (
 from src.v0.services.classes.discrete_unconditional_probability import (
     DiscreteUnconditionalProbability,
 )
-from src.v0.services.classes.errors import (
+from src.v0.services.errors import (
     AlternativeValidationError,
     DescriptionValidationError,
     NameValidationError,

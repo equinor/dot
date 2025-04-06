@@ -7,7 +7,7 @@ from src.v0.services.classes.discrete_conditional_probability import (
 from src.v0.services.classes.discrete_unconditional_probability import (
     DiscreteUnconditionalProbability as DiscreteUnconditionalProbability,
 )
-from src.v0.services.classes.format_conversions.probability import (
+from src.v0.services.format_conversions.probability import (
     DiscreteConditionalProbabilityConversion,
     DiscreteUnconditionalProbabilityConversion,
     ProbabilityConversion,

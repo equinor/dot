@@ -7,8 +7,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from src.v0.services.class_validations import validate_and_set_graph_model
+
 from .abstract_directed_graph import DirectedGraphABC
-from .validations import validate_and_set_graph_model
 
 if TYPE_CHECKING:  # pragma: no cover
     from src.v0.services.classes.node import NodeABC

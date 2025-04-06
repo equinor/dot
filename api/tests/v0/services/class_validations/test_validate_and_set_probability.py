@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from src.v0.services.classes.validations import validate_and_set_probability
+from src.v0.services.class_validations import validate_and_set_probability
 
 
 def test_discrete_probability_variable_success_with_reformating():

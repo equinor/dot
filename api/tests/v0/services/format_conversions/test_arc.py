@@ -3,7 +3,7 @@ import json
 import pytest
 
 from src.v0.services.classes.arc import Arc
-from src.v0.services.classes.format_conversions import arc, node
+from src.v0.services.format_conversions import arc, node
 
 TESTDATA = "v0/services/testdata"
 

@@ -8,9 +8,10 @@ from typing import TYPE_CHECKING
 
 import networkx as nx
 
+from src.v0.services.class_validations import validate_and_set_graph_model
+
+from ..errors import NodeInGraphError
 from .arc import Arc
-from .errors import NodeInGraphError
-from .validations import validate_and_set_graph_model
 
 if TYPE_CHECKING:  # pragma: no cover
     from .node import NodeABC

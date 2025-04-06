@@ -11,14 +11,14 @@ from src.v0.services.classes.node import (
     UncertaintyNode,
     UtilityNode,
 )
-
-from ..errors import (
+from src.v0.services.errors import (
     DecisionNodeTypeError,
     InfluenceDiagramNodeTypeError,
     NodeTypeError,
     UncertaintyNodeTypeError,
     UtilityNodeTypeError,
 )
+
 from .base import ConversionABC, MetadataCreate
 from .probability import ProbabilityConversion
 

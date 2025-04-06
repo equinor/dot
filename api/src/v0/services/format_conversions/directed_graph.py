@@ -1,6 +1,6 @@
 from src.v0.services.classes.influence_diagram import InfluenceDiagram
+from src.v0.services.errors import InfluenceDiagramTypeError
 
-from ..errors import InfluenceDiagramTypeError
 from .arc import ArcConversion
 from .node import InfluenceDiagramNodeConversion
 
