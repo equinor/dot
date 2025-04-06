@@ -1,8 +1,7 @@
 import axios from "axios";
 import { getAccessToken } from "../auth";
 
-export const API_BASEURL =
-window.injectEnv.REACT_APP_API_BASE_URL
+export const API_BASEURL ="/API"
 
 const API_VERSION = "latest";
 
