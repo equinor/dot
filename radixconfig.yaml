@@ -32,14 +32,14 @@ spec:
                     CLIENT_APP_ID: '637a2493-5510-40c3-86a6-9db8f3192966'
                     CLIENT_APP_SCOPE: "api://4251833c-b9c3-4013-afda-cbfd2cc50f3f/Read"
                     REDIRECT_URL: 'https://frontend-dot-dev.radix.equinor.com/'
-                    REACT_APP_API_BASE_URL: 'http://0.0.0.0:8000/api'
+                    REACT_APP_API_BASE_URL: '/api'
               - environment: test
                 replicas: 1
                 variables:
                     CLIENT_APP_ID: '945882c1-69f4-41cd-a42a-22516ca01868'
                     CLIENT_APP_SCOPE: "api://4251833c-b9c3-4013-afda-cbfd2cc50f3f/Read"
                     REDIRECT_URL: 'https://frontend-dot-test.radix.equinor.com/'
-                    REACT_APP_API_BASE_URL: 'http://0.0.0.0:8000/api'
+                    REACT_APP_API_BASE_URL: '/api'
         
               - environment: prod
                 replicas: 1
@@ -47,7 +47,7 @@ spec:
                     CLIENT_APP_ID: 'b44b7866-c7b3-40d2-b3aa-aa0398cb99de'
                     CLIENT_APP_SCOPE: "api://4251833c-b9c3-4013-afda-cbfd2cc50f3f/Read"
                     REDIRECT_URL: 'https://frontend-dot-prod.radix.equinor.com/'
-                    REACT_APP_API_BASE_URL: 'http://0.0.0.0:8000/api'
+                    REACT_APP_API_BASE_URL: '/api'
           
         - name: backend
           src: "./api"
