@@ -3,10 +3,10 @@ import { useMsal } from '@azure/msal-react';
 
 const msalConfig = {
   auth: {
-    clientId: window.injectEnv.CLIENT_APP_ID,
+    clientId: process.env.CLIENT_APP_ID,
     authority:
       "https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0", // This is a URL (e.g. https://login.microsoftonline.com/{your tenant ID})
-    redirectUri: window.injectEnv.REDIRECT_URL,
+    redirectUri: process.env.REDIRECT_URL,
   },
   cache: {
     cacheLocation: "localStorage", // This configures where your cache will be stored
