@@ -96,7 +96,7 @@ ignore = [
 "./tests/v0/mockers/*.py" = ["C901"]  # Allow high code complexity in mockers
 "./src/v0/database/client.py" = ["B024"]  # Allow Abstract class without abstractmethod
 "./src/v0/services/base.py" = ["B024"]  # Allow Abstract class without abstractmethod
-"./src/services/classes/directed_graph.py" = ["B024"]  # Allow Abstract class without abstractmethod
+"./src/v0/services/classes/abstract_directed_graph.py" = ["B024"]  # Allow Abstract class without abstractmethod
 
 [tool.codespell]
 skip = "*.lock"

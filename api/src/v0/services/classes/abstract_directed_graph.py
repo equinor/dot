@@ -1,5 +1,4 @@
-"""Module defining the ProbabilisticGraphModel Abstract class
-"""
+"""Module defining the ProbabilisticGraphModel Abstract class"""
 
 from __future__ import annotations
 
@@ -28,7 +27,6 @@ class DirectedGraphType:
 
 
 class DirectedGraphABC(ABC):
-
     NODES_MODULE_PATH = "src.v0.services.classes.node"
 
     """Directed  Graph
@@ -82,9 +80,10 @@ class DirectedGraphABC(ABC):
                 tail=item["tail"],
                 head=item["head"],
                 label=item["label"],
-                unique_id=item["uuid"]
-                ) for item in g["edges"]
-            ]
+                unique_id=item["uuid"],
+            )
+            for item in g["edges"]
+        ]
 
     @property
     def node_uuids(self) -> list:
@@ -145,10 +144,16 @@ class DirectedGraphABC(ABC):
             they are added to the graph too.
         """
         arc_info = validate_and_set_graph_model.arc_to_graph(arc)
-        tail = arc_info[0][0] if not self.node_in(arc_info[0][0]) \
+        tail = (
+            arc_info[0][0]
+            if not self.node_in(arc_info[0][0])
             else self.get_node_from_uuid(arc_info[0][0].uuid)
-        head = arc_info[0][1] if not self.node_in(arc_info[0][1]) \
+        )
+        head = (
+            arc_info[0][1]
+            if not self.node_in(arc_info[0][1])
             else self.get_node_from_uuid(arc_info[0][1].uuid)
+        )
         self.graph.add_edge(tail, head, **arc_info[1])
 
     def copy(self):

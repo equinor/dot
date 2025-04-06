@@ -1,4 +1,3 @@
-
 import pytest
 
 from src.v0.services.classes.arc import Arc
@@ -77,26 +76,24 @@ def test_set_head():
 
 def test_set_head_fail(caplog):
     n1 = UtilityNode(
-        description="junk",
-        shortname="J",
-        uuid="775e46e5-2dd4-4e34-add6-bb8c0626627d"
-        )
+        description="junk", shortname="J", uuid="775e46e5-2dd4-4e34-add6-bb8c0626627d"
+    )
     n2 = DecisionNode(
-        description="junky",
-        shortname="H",
-        uuid="66095d54-74dc-4a75-bcf4-49676a44a2a2"
-        )
+        description="junky", shortname="H", uuid="66095d54-74dc-4a75-bcf4-49676a44a2a2"
+    )
     arc = Arc(tail=n1, head=None, label="first")
     with pytest.raises(Exception) as exc_info:
         arc.head = n2
-    assert [r.msg for r in caplog.records] == [(
-        "Utility node can only have other utility nodes as successor: "
-        "775e46e5-2dd4-4e34-add6-bb8c0626627d/66095d54-74dc-4a75-bcf4-49676a44a2a2"
-        )]
+    assert [r.msg for r in caplog.records] == [
+        (
+            "Utility node can only have other utility nodes as successor: "
+            "775e46e5-2dd4-4e34-add6-bb8c0626627d/66095d54-74dc-4a75-bcf4-49676a44a2a2"
+        )
+    ]
     assert str(exc_info.value) == (
         "Utility node can only have other utility nodes as successor: "
         "775e46e5-2dd4-4e34-add6-bb8c0626627d/66095d54-74dc-4a75-bcf4-49676a44a2a2"
-        )
+    )
 
 
 def test_set_tail():
@@ -114,23 +111,21 @@ def test_set_tail():
 
 def test_set_tail_fail(caplog):
     n1 = UtilityNode(
-        description="junk",
-        shortname="J",
-        uuid="775e46e5-2dd4-4e34-add6-bb8c0626627d"
-        )
+        description="junk", shortname="J", uuid="775e46e5-2dd4-4e34-add6-bb8c0626627d"
+    )
     n2 = DecisionNode(
-        description="junky",
-        shortname="H",
-        uuid="66095d54-74dc-4a75-bcf4-49676a44a2a2"
-        )
+        description="junky", shortname="H", uuid="66095d54-74dc-4a75-bcf4-49676a44a2a2"
+    )
     arc = Arc(tail=None, head=n2, label="first")
     with pytest.raises(Exception) as exc_info:
         arc.tail = n1
-    assert [r.msg for r in caplog.records] == [(
-        "Utility node can only have other utility nodes as successor: "
-        "66095d54-74dc-4a75-bcf4-49676a44a2a2/775e46e5-2dd4-4e34-add6-bb8c0626627d"
-        )]
+    assert [r.msg for r in caplog.records] == [
+        (
+            "Utility node can only have other utility nodes as successor: "
+            "66095d54-74dc-4a75-bcf4-49676a44a2a2/775e46e5-2dd4-4e34-add6-bb8c0626627d"
+        )
+    ]
     assert str(exc_info.value) == (
         "Utility node can only have other utility nodes as successor: "
         "66095d54-74dc-4a75-bcf4-49676a44a2a2/775e46e5-2dd4-4e34-add6-bb8c0626627d"
-        )
+    )

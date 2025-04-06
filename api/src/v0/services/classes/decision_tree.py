@@ -31,7 +31,7 @@ class DecisionTree(DirectedGraphABC):
 
     @property
     def root(self):
-        """return the root node of the graph (no incomming arcs)
+        """return the root node of the graph (no incoming arcs)
 
         Returns:
             NodeABC | None : the root node in the graph or None if none (cyclic) or

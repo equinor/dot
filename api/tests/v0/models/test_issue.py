@@ -22,7 +22,7 @@ def test_CommentData_fail():
         "1 validation error for CommentData\nauthor\n  Field required "
         "[type=missing, input_value={'comment': 'a comment'}, input_type=dict]\n"
         "    For further information visit https://errors.pydantic.dev/2.11/v/missing"
-        ) in str(exc.value)
+    ) in str(exc.value)
 
 
 def test_ProbabilityData_default():

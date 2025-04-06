@@ -1,9 +1,9 @@
 """Arc classes
 
-    Raises:
-        EndpointTypeError: When endpoint cannot be set to start or end
-        UtilityNodeSuccessorError: When a UtilityNode has a successor which
-        is not another UtilityNode
+Raises:
+    EndpointTypeError: When endpoint cannot be set to start or end
+    UtilityNodeSuccessorError: When a UtilityNode has a successor which
+    is not another UtilityNode
 """
 
 from __future__ import annotations
@@ -14,7 +14,7 @@ from src.v0.services.classes.node import (
     DecisionNode,
     UncertaintyNode,
     UtilityNode,
-    )
+)
 
 if TYPE_CHECKING:  # pragma: no cover
     from src.v0.services.classes.node import NodeABC
@@ -27,13 +27,8 @@ class Arc:
     """Class of arcs"""
 
     def __init__(
-        self,
-        *,
-        tail: NodeABC,
-        head: NodeABC,
-        label: str = None,
-        unique_id=None
-        ):
+        self, *, tail: NodeABC, head: NodeABC, label: str = None, unique_id=None
+    ):
         """Instance of Arc
 
         Args:

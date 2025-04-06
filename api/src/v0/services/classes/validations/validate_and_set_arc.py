@@ -22,14 +22,16 @@ def edge(arg: Any) -> NodeABC:
 
 
 def uuid(arg: Any) -> str:
-    if not (isinstance(arg, str|UUID) or arg is None):
+    if not (isinstance(arg, str | UUID) or arg is None):
         raise UUIDValidationError(arg)
     if arg is None:
         return str(uuid4())
     if isinstance(arg, UUID) and arg.version == 4:
         return str(arg)
-    try: # if arg is str
-        assert UUID(arg).version == 4
-        return arg
+    try:  # if arg is str
+        uuid_obj = UUID(arg)
+        if uuid_obj.version == 4:
+            return arg
     except Exception as e:
         raise UUIDValidationError(e)
+    raise UUIDValidationError(f"version {uuid_obj.version}")

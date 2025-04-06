@@ -57,7 +57,7 @@ class UtilityNodeSuccessorError(Exception):
     def __init__(self, arg):
         error_message = (
             f"Utility node can only have other utility nodes as successor: {arg}"
-            )
+        )
         super().__init__(error_message)
         logger.critical(error_message)
 
@@ -137,15 +137,17 @@ class IDNodeTypeValidationError(Exception):
         error_message = (
             f"Added node is not of instance "
             f"(DecisionNode, UncertaintyNode, UtilityNode): {arg}"
-            )
+        )
         super().__init__(error_message)
         logger.critical(error_message)
 
 
 class DTNodeTypeValidationError(Exception):
     def __init__(self, arg):
-        error_message = (f"Added node is not of instance "
-                         f"(DecisionNode, UncertaintyNode, UtilityNode): {arg}")
+        error_message = (
+            f"Added node is not of instance "
+            f"(DecisionNode, UncertaintyNode, UtilityNode): {arg}"
+        )
         super().__init__(error_message)
         logger.critical(error_message)
 
@@ -159,9 +161,7 @@ class ShortnameValidationError(Exception):
 
 class UUIDValidationError(Exception):
     def __init__(self, arg):
-        error_message = (
-            f"Input uuid is neither a valid uuid (version 4) nor None: {arg}"
-            )
+        error_message = f"Input uuid is neither a valid uuid (version 4) nor None: {arg}"
         super().__init__(error_message)
         logger.critical(error_message)
 

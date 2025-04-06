@@ -18,8 +18,8 @@ class ArcConversion:
 
         return Arc(
             tail=InfluenceDiagramNodeConversion().from_json(tails[0]),
-            head=InfluenceDiagramNodeConversion().from_json(heads[0])
-            )
+            head=InfluenceDiagramNodeConversion().from_json(heads[0]),
+        )
 
     def to_json(self, arc: Arc, nodes: list[NodeABC]) -> dict:
         outV = [node.uuid for node in nodes if node == arc.tail][0]
@@ -29,5 +29,5 @@ class ArcConversion:
             "inV": inV,
             "uuid": arc.uuid,
             "id": arc.uuid,
-            "label": "influences"
+            "label": "influences",
         }

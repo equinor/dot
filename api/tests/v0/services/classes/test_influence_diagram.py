@@ -37,8 +37,8 @@ def simple_graph():
 
     return {
         "nodes": [n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, n10],
-        "arcs": [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9]
-        }
+        "arcs": [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9],
+    }
 
 
 def graph_to_influence_diagram(graph):
@@ -56,7 +56,6 @@ def test_class_InfluenceDiagram():
 def test_copy():
     ID = InfluenceDiagram()
     assert nx.utils.graphs_equal(ID.graph, ID.copy().graph)
-
 
 
 def test_is_acyclic_true(simple_graph):
@@ -103,7 +102,7 @@ def test_node_in(simple_graph):
     assert ID.node_in(simple_graph["nodes"][0])
     assert not ID.node_in(
         UncertaintyNode(description="Uncertainty node 1", shortname="u1")
-        )  # the created node should have a new uuid, so not in the graph
+    )  # the created node should have a new uuid, so not in the graph
 
 
 def test_get_parents(simple_graph):
@@ -146,8 +145,10 @@ def test_get_children_fail(caplog, simple_graph):
 
 def test_get_decision_nodes(simple_graph):
     ID = graph_to_influence_diagram(simple_graph)
-    assert ID.get_decision_nodes() == \
-        [simple_graph["nodes"][4], simple_graph["nodes"][6]]
+    assert ID.get_decision_nodes() == [
+        simple_graph["nodes"][4],
+        simple_graph["nodes"][6],
+    ]
 
 
 def test_get_utility_nodes(simple_graph):

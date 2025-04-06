@@ -2,6 +2,7 @@
 
 An InfluenceDiagram is a sub-class of DirectedGraphABC.
 """
+
 from src.v0.services.classes.node import (
     DecisionNode,
     UncertaintyNode,
@@ -32,9 +33,10 @@ class InfluenceDiagram(DirectedGraphABC):
             list[DecisionNode]
         """
         return [
-            node[0] for node in list(self.graph.nodes(data=True)) \
-                if isinstance(node[0], DecisionNode)
-                ]
+            node[0]
+            for node in list(self.graph.nodes(data=True))
+            if isinstance(node[0], DecisionNode)
+        ]
 
     def get_uncertainty_nodes(self) -> list[UncertaintyNode]:
         """Return a list of uncertainty nodes
@@ -43,9 +45,10 @@ class InfluenceDiagram(DirectedGraphABC):
             list[UncertaintyNode]
         """
         return [
-            node[0] for node in list(self.graph.nodes(data=True)) \
-                if isinstance(node[0], UncertaintyNode)
-            ]
+            node[0]
+            for node in list(self.graph.nodes(data=True))
+            if isinstance(node[0], UncertaintyNode)
+        ]
 
     def get_utility_nodes(self) -> list[UtilityNode]:
         """Return a list of utility nodes
@@ -54,9 +57,10 @@ class InfluenceDiagram(DirectedGraphABC):
             list[UtilityNode]
         """
         return [
-            node[0] for node in list(self.graph.nodes(data=True)) \
-                if isinstance(node[0], UtilityNode)
-            ]
+            node[0]
+            for node in list(self.graph.nodes(data=True))
+            if isinstance(node[0], UtilityNode)
+        ]
 
     @property
     def decision_count(self) -> int:
