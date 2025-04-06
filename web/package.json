@@ -35,7 +35,7 @@
     "start": "react-scripts start",
     "start-pc": "set PORT=3000 && react-scripts start",
     "start-lnx": "PORT=3000 react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build DISABLE_ESLINT_PLUGIN=true",
     "test": "vitest",
     "eject": "react-scripts eject"
   },

@@ -145,9 +145,9 @@ function HomeScreen() {
                         project.sensitivity_label === "Open"
                           ? "active"
                           : project.sensitivity_label === "Restricted" ||
-                            project.sensitivity_label === "Confidential"
-                          ? "error"
-                          : "default"
+                              project.sensitivity_label === "Confidential"
+                            ? "error"
+                            : "default"
                       }
                     >
                       <Icon
