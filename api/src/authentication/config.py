@@ -25,7 +25,7 @@ def get_settings():
         )
     except ValidationError as exc:
         for err in exc.errors():
-            logger.warning(f"{err['type']}: {', '.join(err['loc'])}")
+            logger.error(f"{err['type']}: {', '.join(err['loc'])}")
         exit(1)
     return app_settings
 

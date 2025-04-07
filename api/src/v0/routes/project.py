@@ -3,8 +3,6 @@ from fastapi_versionizer.versionizer import api_version
 
 from src.authentication.auth import requires_role
 
-# from src.authentication.auth import authVerify, requires_role
-
 from .. import database_version
 from ..database.adapter import get_client
 from ..models.project import ProjectCreate, ProjectResponse, ProjectUpdate
