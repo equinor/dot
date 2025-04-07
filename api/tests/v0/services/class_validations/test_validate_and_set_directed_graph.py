@@ -69,7 +69,7 @@ def test_arc_to_graph_success():
     arc = Arc(tail=n1, head=n2, label="arc_label")
     assert validate_and_set_graph_model.arc_to_graph(arc) == (
         (n1, n2),
-        {"type": "informational", "label": "arc_label", "uuid": arc.uuid},
+        {"dtype": "informational", "label": "arc_label", "uuid": arc.uuid},
     )
 
 

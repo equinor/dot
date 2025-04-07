@@ -103,10 +103,10 @@
                     "dtype": "DiscreteUnconditionalProbability",
                     "probability_function": [
                         [
-                            0.5
+                            0.8
                         ],
                         [
-                            0.5
+                            0.2
                         ]
                     ],
                     "variables": {
@@ -136,20 +136,41 @@
                 ],
                 "category": "Uncertainty",
                 "probabilities": {
-                    "dtype": "DiscreteUnconditionalProbability",
+                    "dtype": "DiscreteConditionalProbability",
                     "probability_function": [
-                        [
-                            0.5
-                        ],
-                        [
-                            0.5
-                        ]
+                      [
+                        0.0,
+                        0.0,
+                        1.0,
+                        1.0
+                      ],
+                      [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0
+                      ],
+                      [
+                        0.0,
+                        1.0,
+                        0.0,
+                        0.0
+                      ]
                     ],
                     "variables": {
-                        "Node1": [
-                            "Peach",
-                            "Lemon"
-                        ]
+                      "Test Result": [
+                        "no Test",
+                        "Peach",
+                        "Lemon"
+                      ],
+                      "Test": [
+                        "yes",
+                        "no"
+                      ],
+                      "State": [
+                        "Peach",
+                        "Lemon"
+                      ]
                     }
                 }
             }

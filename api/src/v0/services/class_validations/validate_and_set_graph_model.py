@@ -30,7 +30,7 @@ def arc_to_graph(arg: Any) -> tuple[tuple[NodeABC, NodeABC], dict]:
     if not isinstance(arg, Arc):
         raise ArcTypeValidationError(arg)
     return (arg.tail, arg.head), {
-        "type": arg.dtype,
+        "dtype": arg.dtype,
         "label": arg.label,
         "uuid": arg.uuid,
     }

@@ -90,10 +90,12 @@ def test_class_UtilityNode():
     assert node.shortname == "J"
     assert isinstance(node.uuid, str)
     assert len(node.uuid) == 36
-    assert node.states is None
+    assert node.states == []
     assert not node.is_decision_node
     assert not node.is_uncertainty_node
     assert node.is_utility_node
+    node.utility = []
+    assert node.states == []
 
 
 def test_class_UtilityNode_setter():

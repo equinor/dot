@@ -213,3 +213,33 @@ class ProbabilityValidationError(Exception):
         )
         super().__init__(error_message)
         logger.critical(error_message)
+
+
+class InfluenceDiagramNotAcyclicError(Exception):
+    def __init__(self, arg):
+        error_message = f"the influence diagram is not acyclic: {arg}"
+        super().__init__(error_message)
+        logger.critical(error_message)
+
+
+class PartialOrderOutputModeError(Exception):
+    def __init__(self, mode):
+        error_message = (
+            f"output mode should be [view|copy] and have been entered as {mode}"
+        )
+        super().__init__(error_message)
+        logger.critical(error_message)
+
+
+class ArcPyAgrumFormatError(Exception):
+    def __init__(self, arg):
+        error_message = f"Input arc cannot be used in pyagrum with error: {arg}"
+        super().__init__(error_message)
+        logger.critical(error_message)
+
+
+class ProbabilityPyAgrumFormatError(Exception):
+    def __init__(self, arg):
+        error_message = f"Input probability cannot be used in pyagrum with error: {arg}"
+        super().__init__(error_message)
+        logger.critical(error_message)

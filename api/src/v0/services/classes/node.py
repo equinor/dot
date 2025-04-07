@@ -153,7 +153,7 @@ class DecisionNode(NodeABC):
     def alternatives(self) -> list[str]:
         """
         Returns:
-            List[str]: the alternatives (states) of the decision
+            list[str]: the alternatives (states) of the decision
         """
         if isinstance(self._alternatives, list):
             return self._alternatives
@@ -169,7 +169,7 @@ class DecisionNode(NodeABC):
     def states(self) -> list[str]:
         """
         Returns:
-            List[str]: the alternatives (states) of the decision
+            list[str]: the alternatives (states) of the decision
         """
         return self.alternatives
 
@@ -222,7 +222,7 @@ class UncertaintyNode(NodeABC):
     def states(self) -> list[str]:
         """
         Returns:
-            List[str]: the outcomes (states) of the uncertainty
+            list[str]: the outcomes (states) of the uncertainty
         """
         return self.outcomes
 
@@ -230,7 +230,7 @@ class UncertaintyNode(NodeABC):
     def outcomes(self) -> list[str]:
         """
         Returns:
-            List[str]: the outcomes (states) of the uncertainty
+            list[str]: the outcomes (states) of the uncertainty
         """
         if self.probability is None:
             return ()
@@ -262,11 +262,26 @@ class UtilityNode(NodeABC):
         decision and how we combine them into a desired objective
         """
         super().__init__(description=description, shortname=shortname, uuid=uuid)
+        self._utility = None  # TODO: implement it!
+
+    @property
+    def utility(self) -> list[str]:
+        """
+        Returns:
+            list[str]: the utility (states) of the utility
+        """
+        if isinstance(self._utility, Sequence):
+            return list(self._utility)
+        return []
+
+    @utility.setter
+    def utility(self, value):
+        self._utility = value
 
     @property
     def states(self) -> list[str]:
         """
         Returns:
-            List[str]: the consequence entries (states) of the utility
+            list[str]: the consequence entries (states) of the utility
         """
-        pass
+        return self.utility

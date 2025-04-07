@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+
+<BIF VERSION="0.3">
+<NETWORK>
+
+<!-- Variables -->
+<VARIABLE TYPE="utility">
+	<NAME>Value</NAME>
+	<PROPERTY>Value</PROPERTY>
+	<OUTCOME>0</OUTCOME>
+</VARIABLE>
+
+<VARIABLE TYPE="decision">
+	<NAME>Test</NAME>
+	<PROPERTY>Joe can test the car</PROPERTY>
+	<OUTCOME>Test</OUTCOME>
+	<OUTCOME> no Test</OUTCOME>
+</VARIABLE>
+
+<VARIABLE TYPE="decision">
+	<NAME>Buy</NAME>
+	<PROPERTY>We can buy the car</PROPERTY>
+	<OUTCOME>Buy with guarantee</OUTCOME>
+	<OUTCOME> Buy without guarantee</OUTCOME>
+	<OUTCOME> Do not buy</OUTCOME>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>State</NAME>
+	<PROPERTY>Joe does not know the state of the car</PROPERTY>
+	<OUTCOME>Peach</OUTCOME>
+	<OUTCOME>Lemon</OUTCOME>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Test Result</NAME>
+	<PROPERTY>The result of the test is currently unknown</PROPERTY>
+	<OUTCOME>no Test</OUTCOME>
+	<OUTCOME>Peach</OUTCOME>
+	<OUTCOME>Lemon</OUTCOME>
+</VARIABLE>
+
+<!-- Probability distributions -->
+<DEFINITION>
+	<FOR>Value</FOR><!--Value | State,Test,Buy,-->
+	<GIVEN>State</GIVEN>
+	<GIVEN>Buy</GIVEN>
+	<GIVEN>Test</GIVEN>
+	<TABLE>0 0 0 0 0 0 0 0 0 0 0 0 </TABLE>
+</DEFINITION>
+<DEFINITION>
+	<FOR>Buy</FOR><!--Buy | Test Result,-->
+	<GIVEN>Test Result</GIVEN>
+</DEFINITION>
+<DEFINITION>
+	<FOR>State</FOR><!--State | -->
+	<TABLE>0.8 0.2 </TABLE>
+</DEFINITION>
+<DEFINITION>
+	<FOR>Test Result</FOR><!--Test Result | State,Test,-->
+	<GIVEN>State</GIVEN>
+	<GIVEN>Test</GIVEN>
+	<TABLE>0 1 0 1 0 0 0 0 1 1 0 0 </TABLE>
+</DEFINITION>
+
+</NETWORK>
+</BIF>
