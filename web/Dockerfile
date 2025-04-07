@@ -39,6 +39,5 @@ RUN chown -R nginx /etc/nginx \
 EXPOSE 3000
 # Run start script as nginx user (UID=101)
 USER 101
-# Start Nginx in the foreground
-# CMD ["nginx", "-g", "daemon off;"]
+
 CMD /bin/sh -c "./server/run_nginx.sh"
