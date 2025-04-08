@@ -1,8 +1,6 @@
 from fastapi import APIRouter, Depends
 from fastapi_versionizer.versionizer import api_version
 
-from src.authentication.auth import requires_role
-
 from .. import database_version
 from ..database.adapter import get_client
 from ..models.structure import DecisionTreeResponse, InfluenceDiagramResponse
@@ -14,7 +12,6 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
     deprecated=False,
     include_in_schema=True,
-    dependencies=[Depends(requires_role("DecisionOptimizationUser"))]
 
 )
 

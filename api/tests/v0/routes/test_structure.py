@@ -3,14 +3,14 @@ from unittest.mock import patch
 import pytest
 from fastapi.testclient import TestClient
 
-from dependencies import create_app, create_versions
+from dependencies import create_app, create_versions, test_create_app
 from src.v0.models.edge import EdgeResponse
 from src.v0.models.issue import IssueResponse
 from src.v0.models.structure import InfluenceDiagramResponse
 
 from .. import database_version
 
-app = create_app()
+app = test_create_app()
 create_versions(app)
 client = TestClient(app)
 

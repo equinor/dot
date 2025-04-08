@@ -25,7 +25,7 @@ logger = logging.getLogger("uvicorn")
 
 class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
-        if request.url.path in ["/", "/health"]:
+        if request.url.path in ["/"]:
             return await call_next(request)
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
@@ -50,6 +50,12 @@ class AuthMiddleware(BaseHTTPMiddleware):
             logger.info("Token verified OK")
                 # Attach user info to request.state
             request.state.user = claims
+            user = getattr(request.state, "user", None)
+            if not user:
+                raise HTTPException(status_code=401, detail="Unauthorized: No user in request state")
+            roles = user.get("roles", [])
+            if "DecisionOptimizationUser" not in roles:
+                raise HTTPException(status_code=403, detail="Forbidden: Insufficient role")
             return await call_next(request)
 
         except (ConnectionError) as e:
@@ -60,16 +66,3 @@ class AuthMiddleware(BaseHTTPMiddleware):
             raise HTTPException(status_code=401, detail="Invalid token")
         
 
-
-# Role-based Access Control (RBAC) inside Middleware
-def requires_role(required_role: str):
-    def role_checker(request: Request):
-        user = getattr(request.state, "user", None)
-        if not user:
-            raise HTTPException(status_code=401, detail="Unauthorized: No user in request state")
-        roles = user.get("roles", [])
-        if required_role not in roles:
-            raise HTTPException(status_code=403, detail="Forbidden: Insufficient role")
-
-        return user
-    return role_checker

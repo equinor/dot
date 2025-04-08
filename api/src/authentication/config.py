@@ -41,7 +41,7 @@ def get_claims_options():
         "iss": { "essential": True, "value": str(config.issuer) },  # Issuer must match config
         "aud": { "essential": True, "value": config.aud },  # Audience must match config
         "exp": { "essential": True  },  # EntraID token lifetime is 60-90min (75min on average)
-        "nbf": { "essential": True },  
-        "iat": { "essential": True },
-        "scp": { "essential": True } 
+        # "nbf": { "essential": True },  
+        # "iat": { "essential": True },
+        # "scp": { "essential": True } 
     }
