@@ -222,6 +222,13 @@ class InfluenceDiagramNotAcyclicError(Exception):
         logger.critical(error_message)
 
 
+class RootNodeNotFound(Exception):
+    def __init__(self, arg):
+        error_message = f"Decision tree has no defined root node: {arg}"
+        super().__init__(error_message)
+        logger.critical(error_message)
+
+
 class PartialOrderOutputModeError(Exception):
     def __init__(self, mode):
         error_message = (

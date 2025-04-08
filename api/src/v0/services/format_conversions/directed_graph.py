@@ -1,5 +1,11 @@
+import json
+
+import networkx as nx
+
+from src.v0.services.classes.decision_tree import DecisionTree
 from src.v0.services.classes.influence_diagram import InfluenceDiagram
-from src.v0.services.errors import InfluenceDiagramTypeError
+from src.v0.services.errors import InfluenceDiagramTypeError, RootNodeNotFound
+from src.v0.services.format_conversions.node import DecisionTreeNodeConversion
 
 from .arc import ArcConversion
 from .node import InfluenceDiagramNodeConversion
@@ -37,22 +43,37 @@ class InfluenceDiagramConversion:
         }
 
 
-# class DecisionTreeConversion:
-#     def from_json(self, decision_tree: dict) -> DecisionTree:
-#         pass
+class DecisionTreeConversion:
+    def from_json(self, decision_tree: dict) -> DecisionTree:
+        raise NotImplementedError
 
-#     def to_json(self, decision_tree: DecisionTree) -> Dict:
-#         pass
+    def to_json(self, decision_tree: DecisionTree) -> dict:
+        def propagate_branch_name(decision_tree, node, names):
+            predecessor = decision_tree.parent(node)
+            if not predecessor:
+                return ""
+            n = names[(predecessor, node)]
+            return n if isinstance(n, str) else "-".join(n)
 
-# def from_influence_diagram_response(
-#         self,
-#         decision_tree: DecisionTreeResponse
-#         ) -> DecisionTree:
-#     as_dict = decision_tree.model_dump(mode='json')
-#     return self.from_json(as_dict)
+        if decision_tree.root is None:
+            raise RootNodeNotFound(None)
 
-# def to_influence_diagram_response(
-#         self,
-#         decision_tree: DecisionTree
-#         ) -> DecisionTreeResponse:
-#     return DecisionTreeResponse.model_validate(self.to_json(decision_tree))
+        edges_name = nx.get_edge_attributes(decision_tree.graph, "label")
+        tg = nx.readwrite.json_graph.tree_data(decision_tree.graph, decision_tree.root)
+        json_object = json.dumps(
+            tg,
+            default=lambda node: {
+                **DecisionTreeNodeConversion().to_json(
+                    DecisionTreeNodeConversion().from_json(
+                        InfluenceDiagramNodeConversion().to_json(node)
+                        | {
+                            "branch_name": propagate_branch_name(
+                                decision_tree, node, edges_name
+                            )
+                        }
+                    )
+                )
+            },
+            indent=2,
+        )
+        return json.loads(json_object)

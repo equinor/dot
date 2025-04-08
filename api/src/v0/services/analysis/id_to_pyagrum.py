@@ -37,10 +37,8 @@ class InfluenceDiagramToPyAgrum:
 
     def unconditional_probabilities_conversion(self, probability):
         variables = probability.variables
-        # That is already taken account when converting the node to pyAgrum
-        # as pyAgrum cannot handle n-D unconditional probabilities
-        # if len(variables) != 1:
-        #     raise ProbabilityPyAgrumFormatError(variables)
+        if len(variables) != 1:
+            raise ProbabilityPyAgrumFormatError(variables)
         return [
             (
                 {},

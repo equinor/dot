@@ -1,7 +1,10 @@
-import json
-
-from src.v0.services.structure_utils.decision_diagrams.influence_diagram import (
-    InfluenceDiagram,
+# from src.v0.services.structure_utils.decision_diagrams.influence_diagram import (
+#     InfluenceDiagram,
+# )
+from src.v0.services.analysis.id_to_dt import InfluenceDiagramToDecisionTree
+from src.v0.services.format_conversions.directed_graph import (
+    DecisionTreeConversion,
+    InfluenceDiagramConversion,
 )
 
 from ..models.filter import Filter
@@ -52,13 +55,13 @@ class StructureService:
         issues_list = [
             IssueResponse.model_validate(v.model_dump()) for v in vertices if v
         ]
-        edges = edge_repository.read_all_edges_from_sub_project(
+        arcs = edge_repository.read_all_edges_from_sub_project(
             project_uuid=project_uuid,
             edge_label="influences",
             vertex_uuid=[issue.uuid for issue in issues_list],
         )
 
-        influence_diagram = InfluenceDiagramResponse(nodes=issues_list, arcs=edges)
+        influence_diagram = InfluenceDiagramResponse(nodes=issues_list, arcs=arcs)
         return influence_diagram
 
     def create_decision_tree(self, project_uuid: str) -> DecisionTreeResponse:
@@ -70,11 +73,11 @@ class StructureService:
         Returns
             DecisionTreeResponse: Dict of vertices
         """
-        influence_diagram = self.read_influence_diagram(project_uuid=project_uuid)
-        local_id = InfluenceDiagram.from_db(influence_diagram)
-        # local_id.to_json("id.json")
-        local_dt = local_id.convert_to_decision_tree()
-        # dt_json = json.loads(local_dt.to_json("dt.json"))
-        dt_json = json.loads(local_dt.to_json())
+        influence_diagram = self.read_influence_diagram(
+            project_uuid=project_uuid
+        ).model_dump()
+        local_id = InfluenceDiagramConversion().from_json(influence_diagram)
+        local_dt = InfluenceDiagramToDecisionTree().conversion(local_id)
+        dt_json = DecisionTreeConversion().to_json(local_dt)
         decision_tree = DecisionTreeResponse.model_validate(dt_json)
         return decision_tree

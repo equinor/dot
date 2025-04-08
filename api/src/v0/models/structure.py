@@ -124,7 +124,7 @@ class DecisionTreeResponse(DOTModel):
                         "name": "Joe can test the car",
                         "shortname": "Test",
                         "uuid": "ad651f50-22de-4f85-a560-bf5fb2d9f706",
-                        "alternatives": ['"Test"', '" no Test"'],
+                        "alternatives": ['"Test"', '"no Test"'],
                     },
                     "children": [
                         {

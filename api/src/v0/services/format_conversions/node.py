@@ -5,6 +5,7 @@ and the service layer formats
 
 from collections.abc import Sequence
 
+from src.v0.models.structure import DecisionTreeNodeData
 from src.v0.services.classes.node import (
     DecisionNode,
     NodeABC,
@@ -203,3 +204,34 @@ class InfluenceDiagramNodeConversion(ConversionABC):
         if isinstance(node, UtilityNode):
             return UtilityNodeConversion().to_json(node)
         raise NodeTypeError(node)
+
+
+class DecisionTreeNodeConversion(ConversionABC):
+    def from_json(self, node: dict) -> DecisionTreeNodeData:
+        return DecisionTreeNodeData.model_validate(
+            {
+                "node_type": node.get("category"),
+                "shortname": node.get("shortname"),
+                "description": node.get("description"),
+                "branch_name": node.get("branch_name"),
+                "alternatives": node.get("alternatives"),
+                "probabilities": node.get("probabilities"),
+                "utility": node.get("utility"),
+                "uuid": node.get("uuid"),
+            }
+        )
+
+    def to_json(self, node: DecisionTreeNodeData) -> dict:
+        data = {
+            "node_type": node.node_type,
+            "shortname": node.shortname,
+            "description": node.description,
+            "branch_name": node.branch_name,
+            "alternatives": node.alternatives,
+            "probabilities": node.probabilities.model_dump()
+            if node.probabilities
+            else None,
+            "utility": node.utility,
+            "uuid": node.uuid,
+        }
+        return data

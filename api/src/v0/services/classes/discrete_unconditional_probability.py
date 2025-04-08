@@ -68,7 +68,7 @@ class DiscreteUnconditionalProbability(ProbabilityABC):
         if len(variable_names) == 1:
             return tuple(self._cpt.coords[variable_names[0]].data.tolist())
         else:
-            return tuple(
+            outcomes_as_tuples = tuple(
                 product(
                     *tuple(
                         tuple(self._cpt.coords[vn].data.tolist())
@@ -76,6 +76,7 @@ class DiscreteUnconditionalProbability(ProbabilityABC):
                     )
                 )
             )
+            return tuple(" - ".join(t) for t in outcomes_as_tuples)
 
     @property
     def variables(self):

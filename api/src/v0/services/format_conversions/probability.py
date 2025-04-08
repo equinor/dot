@@ -1,5 +1,5 @@
 """
-This module converts probaility related data between the database formats
+This module converts probability related data between the database formats
 and the service layer formats
 """
 

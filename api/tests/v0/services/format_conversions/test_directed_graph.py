@@ -2,7 +2,10 @@ import json
 
 import pytest
 
+from src.v0.services.classes.arc import Arc
+from src.v0.services.classes.decision_tree import DecisionTree
 from src.v0.services.classes.influence_diagram import InfluenceDiagram
+from src.v0.services.classes.node import DecisionNode
 from src.v0.services.format_conversions import arc, directed_graph, node
 
 TESTDATA = "v0/services/testdata"
@@ -163,3 +166,63 @@ def test_DecisionNodeConversion_to_json(influence_diagram):
     assert len(result["arcs"]) == 6
     assert result["nodes"][1]["category"] == "Decision"
     assert result["arcs"][1]["label"] == "influences"
+
+
+def test_DecisionTreeConversion():
+    with pytest.raises(NotImplementedError):
+        directed_graph.DecisionTreeConversion().from_json(None)
+
+    decision1 = DecisionNode(
+        shortname="D1", description="", uuid="11111111-9999-4444-9999-aaaaaaaaaaaa"
+    )
+    decision2 = DecisionNode(
+        shortname="D2", description="", uuid="22222222-9999-4444-9999-bbbbbbbbbbbb"
+    )
+    dt = DecisionTree()
+    dt.add_nodes((decision1, decision2))
+    dt.add_arc(Arc(tail=decision1, head=decision2, label="branch"))
+
+    assert directed_graph.DecisionTreeConversion().to_json(dt) == {
+        "id": {
+            "node_type": "Decision",
+            "shortname": "D1",
+            "description": "",
+            "branch_name": "",
+            "alternatives": None,
+            "probabilities": None,
+            "utility": None,
+            "uuid": "11111111-9999-4444-9999-aaaaaaaaaaaa",
+        },
+        "children": [
+            {
+                "id": {
+                    "node_type": "Decision",
+                    "shortname": "D2",
+                    "description": "",
+                    "branch_name": "branch",
+                    "alternatives": None,
+                    "probabilities": None,
+                    "utility": None,
+                    "uuid": "22222222-9999-4444-9999-bbbbbbbbbbbb",
+                }
+            }
+        ],
+    }
+
+
+def test_DecisionTreeConversion_fail_no_root(caplog):
+    decision1 = DecisionNode(
+        shortname="D1", description="", uuid="11111111-9999-4444-9999-aaaaaaaaaaaa"
+    )
+    decision2 = DecisionNode(
+        shortname="D2", description="", uuid="22222222-9999-4444-9999-bbbbbbbbbbbb"
+    )
+    dt = DecisionTree()
+    dt.add_nodes((decision1, decision2))
+
+    with pytest.raises(Exception) as exc_info:
+        directed_graph.DecisionTreeConversion().to_json(dt)
+    assert [r.msg for r in caplog.records] == [
+        "Decision tree has no defined root node: None"
+    ]
+    assert str(exc_info.value) == "Decision tree has no defined root node: None"

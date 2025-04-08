@@ -23,12 +23,12 @@ def test_class_categorical_conditional_probability(cpt_2d):
 
 def test_outcomes(cpt_2d):
     assert cpt_2d.outcomes == (
-        ("yes", "low"),
-        ("yes", "mid"),
-        ("yes", "high"),
-        ("no", "low"),
-        ("no", "mid"),
-        ("no", "high"),
+        "yes - low",
+        "yes - mid",
+        "yes - high",
+        "no - low",
+        "no - mid",
+        "no - high",
     )
 
 
