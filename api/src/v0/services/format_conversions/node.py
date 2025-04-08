@@ -152,7 +152,7 @@ class UtilityNodeConversion(ConversionABC):
 
     def to_json(self, node: UtilityNode) -> dict:
         data = {
-            "category": "Value Metric",
+            "category": "Utility",
             "shortname": node.shortname,
             "description": node.description,
             "boundary": "in",
