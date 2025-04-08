@@ -48,7 +48,7 @@ def issue():
         "tag": ['["junk"]'],
         "index": ["1234"],
         "category": ["today"],
-        "keyUncertainty": ["True"],
+        "keyUncertainty": ["true"],
         "decisionType": ["Tactical"],
         "alternatives": ['["yes", "no"]'],
         "probabilities": [

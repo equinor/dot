@@ -61,14 +61,14 @@ def graph():
         "alternatives": [""],
         "probabilities": {
             "dtype": "DiscreteUnconditionalProbability",
-            "probability_function": [[0.9, 0.1], [0.8, 0.2]],
+            "probability_function": [[0.4, 0.1], [0.3, 0.2]],
             "variables": {"var1": ["out1", "out2"], "var2": ["in1", "in2"]},
         },
         "influenceNodeUUID": "",
         "boundary": "in",
         "comments": None,
-        "uuid": "11-aa",
-        "id": "11-aa",
+        "uuid": "11111111-9999-4444-9999-aaaaaaaaaaaa",
+        "id": "11111111-9999-4444-9999-aaaaaaaaaaaa",
     }
 
     decision = {
@@ -84,8 +84,8 @@ def graph():
         "influenceNodeUUID": "",
         "boundary": "in",
         "comments": None,
-        "uuid": "22-bb",
-        "id": "22-bb",
+        "uuid": "22222222-9999-4444-9999-bbbbbbbbbbbb",
+        "id": "22222222-9999-4444-9999-bbbbbbbbbbbb",
     }
 
     value_metric = {
@@ -101,8 +101,8 @@ def graph():
         "influenceNodeUUID": "",
         "boundary": "in",
         "comments": None,
-        "uuid": "33-cc",
-        "id": "33-cc",
+        "uuid": "33333333-9999-4444-9999-cccccccccccc",
+        "id": "33333333-9999-4444-9999-cccccccccccc",
     }
 
     metadata = {
@@ -132,15 +132,15 @@ def test_read_influence_diagram_success(mock_client, mock_edge_repository, graph
         EdgeResponse(
             uuid="101",
             id="101",
-            outV="11-aa",
-            inV="22-bb",
+            outV="11111111-9999-4444-9999-aaaaaaaaaaaa",
+            inV="22222222-9999-4444-9999-bbbbbbbbbbbb",
             label="influences",
         ),
         EdgeResponse(
             uuid="102",
             id="102",
-            outV="22-bb",
-            inV="33-cc",
+            outV="22222222-9999-4444-9999-bbbbbbbbbbbb",
+            inV="33333333-9999-4444-9999-cccccccccccc",
             label="influences",
         ),
     ]
@@ -175,15 +175,15 @@ def test_create_decision_tree_success(mock_client, graph):
         EdgeResponse(
             uuid="101",
             id="101",
-            outV="11-aa",
-            inV="22-bb",
+            outV="11111111-9999-4444-9999-aaaaaaaaaaaa",
+            inV="22222222-9999-4444-9999-bbbbbbbbbbbb",
             label="influences",
         ),
         EdgeResponse(
             uuid="102",
             id="102",
-            outV="22-bb",
-            inV="33-cc",
+            outV="22222222-9999-4444-9999-bbbbbbbbbbbb",
+            inV="33333333-9999-4444-9999-cccccccccccc",
             label="influences",
         ),
     ]
@@ -196,23 +196,26 @@ def test_create_decision_tree_success(mock_client, graph):
     with patch(
         "src.v0.services.structure.StructureService.read_influence_diagram"
     ) as mocked_id:
-        mocked_id.return_value = InfluenceDiagramResponse(vertices=vertices, edges=edges)
+        # mocked_id.return_value = InfluenceDiagramResponse(nodes=vertices, edges=edges)
+        nodes = [n.model_dump() for n in vertices]
+        arcs = [a.model_dump() for a in edges]
+        mocked_id.return_value = InfluenceDiagramResponse(vertices=nodes, edges=arcs)
         result = service.create_decision_tree(project_uuid="0")
 
     assert result.children[0].children[0].children is None
     assert len(result.children[0].children) == 2
     assert len(result.children) == 4
     assert result.id.model_dump() == {
-        "node_type": "UncertaintyNode",
+        "node_type": "Uncertainty",
         "shortname": "Issue ABC",
         "alternatives": None,
         "description": "Bla",
         "probabilities": {
             "dtype": "DiscreteUnconditionalProbability",
-            "probability_function": [[0.9, 0.1], [0.8, 0.2]],
+            "probability_function": [[0.4, 0.1], [0.3, 0.2]],
             "variables": {"var1": ["out1", "out2"], "var2": ["in1", "in2"]},
         },
         "branch_name": "",
         "utility": None,
-        "uuid": "11-aa",
+        "uuid": "11111111-9999-4444-9999-aaaaaaaaaaaa",
     }

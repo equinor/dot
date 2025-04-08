@@ -210,6 +210,8 @@ class CIDGraph extends abstractGraph {
   static MakeGraphNodes(obj) {
     // create an array with nodes
     //const groups = CIDGraph.formatNode(obj);
+    console.log("MakeGraphNode", Object.keys(obj));
+    console.log("MakeGraphNode", Object.keys(obj.vertices));
     let categories = Object.keys(obj.vertices);
     let nodes = [];
     for (let category of categories) {

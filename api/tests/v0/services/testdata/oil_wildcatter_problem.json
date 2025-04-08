@@ -1,0 +1,253 @@
+{
+    "vertices": {
+        "project": {
+            "id": "1bfcc6da-f610-4e07-ad2e-b331b862333d",
+            "label": "project",
+            "sensitivity_label": "Open",
+            "name": "The Oil Wildcatter - v2",
+            "description": "The Oil Wildcatter"
+        },
+        "objectives": [
+            {
+                "id": "a725498b-b3bf-4350-b3ea-c980859fe36e",
+                "label": "objective",
+                "hierarchy": "Strategic",
+                "description": "Increase shareholder value",
+                "tag": [
+                    "Value"
+                ]
+            },
+            {
+                "id": "4f489715-4a53-4d2e-9987-f82983dc083c",
+                "label": "objective",
+                "hierarchy": "Fundamental",
+                "description": "Increase Utility",
+                "tag": [
+                    "Value"
+                ]
+            }
+        ],
+        "opportunities": [],
+        "issues": [
+            {
+                "id": "ea7e5e24-5ce3-49bd-9de2-b284dd43ae16",
+                "label": "issue",
+                "boundary": "in",
+                "description": "The utility will be measured by the NPV",
+                "shortname": "NPV",
+                "tag": [
+                    "Financial"
+                ],
+                "category": "Value Metric",
+                "probabilities": null
+            },
+            {
+                "id": "b79acf5c-e437-44fa-987c-a540917bea97",
+                "label": "issue",
+                "boundary": "in",
+                "keyUncertainty": "true",
+                "description": "We are uncertain about if the reservoir is dry, wet or soaking",
+                "shortname": "Reservoir",
+                "tag": [
+                    "Reservoir"
+                ],
+                "category": "Uncertainty",
+                "probabilities": {
+                    "dtype": "DiscreteUnconditionalProbability",
+                    "probability_function": [
+                        [
+                            0.7
+                        ],
+                        [
+                            0.2
+                        ],
+                        [
+                            0.1
+                        ]
+                    ],
+                    "variables": {
+                        "variable": [
+                            "dry",
+                            " wet",
+                            " soaking"
+                        ]
+                    }
+                }
+            },
+            {
+                "id": "2ce33e57-2484-4d2d-bc0d-fe1b6d6dec7c",
+                "label": "issue",
+                "boundary": "in",
+                "description": "We can conduct seismic acquisition",
+                "shortname": "Seismic",
+                "alternatives": [
+                    "Yes",
+                    "No"
+                ],
+                "decisionType": "Focus",
+                "tag": [
+                    "Seismic"
+                ],
+                "category": "Decision",
+                "probabilities": null
+            },
+            {
+                "id": "4c5c0d6f-d3fb-432a-9431-4144d56faa84",
+                "label": "issue",
+                "boundary": "in",
+                "keyUncertainty": "true",
+                "description": "The results of the seismic acquisition are uncertain and not\n                known yet",
+                "shortname": "Seismic Result",
+                "tag": [
+                    "Seismic"
+                ],
+                "category": "Uncertainty",
+                "probabilities": {
+                    "dtype": "DiscreteUnconditionalProbability",
+                    "probability_function": [
+                        [
+                            0.5
+                        ],
+                        [
+                            0.3
+                        ],
+                        [
+                            0.2
+                        ]
+                    ],
+                    "variables": {
+                        "variable": [
+                            "dry",
+                            " wet",
+                            " soaking"
+                        ]
+                    }
+                }
+            },
+            {
+                "id": "14ae2916-aa4f-4af3-adac-b5e8c895dea5",
+                "label": "issue",
+                "boundary": "in",
+                "description": "Should the reservoir be drilled or not?",
+                "shortname": "Drill?",
+                "alternatives": [
+                    "Yes",
+                    "No"
+                ],
+                "decisionType": "Focus",
+                "tag": [
+                    "Drilling"
+                ],
+                "category": "Decision",
+                "probabilities": null
+            }
+        ],
+        "merged_issues": []
+    },
+    "edges": [
+        {
+            "version": "v0",
+            "uuid": "0c4dbe58-3b30-4bc5-a1fc-e5cb1d31faf3",
+            "outV": "1bfcc6da-f610-4e07-ad2e-b331b862333d",
+            "inV": "ea7e5e24-5ce3-49bd-9de2-b284dd43ae16",
+            "id": "0c4dbe58-3b30-4bc5-a1fc-e5cb1d31faf3",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "ac8987cb-a9ef-4542-b3d9-d76370127667",
+            "outV": "1bfcc6da-f610-4e07-ad2e-b331b862333d",
+            "inV": "a725498b-b3bf-4350-b3ea-c980859fe36e",
+            "id": "ac8987cb-a9ef-4542-b3d9-d76370127667",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "3f6757d4-fcfe-417a-b406-6884adb19227",
+            "outV": "1bfcc6da-f610-4e07-ad2e-b331b862333d",
+            "inV": "4f489715-4a53-4d2e-9987-f82983dc083c",
+            "id": "3f6757d4-fcfe-417a-b406-6884adb19227",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "53ea6083-7d72-4748-aa9e-b0e89dc7dcac",
+            "outV": "1bfcc6da-f610-4e07-ad2e-b331b862333d",
+            "inV": "b79acf5c-e437-44fa-987c-a540917bea97",
+            "id": "53ea6083-7d72-4748-aa9e-b0e89dc7dcac",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "c7b07347-76be-405b-8f4b-de110d0bc165",
+            "outV": "1bfcc6da-f610-4e07-ad2e-b331b862333d",
+            "inV": "2ce33e57-2484-4d2d-bc0d-fe1b6d6dec7c",
+            "id": "c7b07347-76be-405b-8f4b-de110d0bc165",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "e2b5d662-e77a-4949-900b-ada21149b4b6",
+            "outV": "1bfcc6da-f610-4e07-ad2e-b331b862333d",
+            "inV": "4c5c0d6f-d3fb-432a-9431-4144d56faa84",
+            "id": "e2b5d662-e77a-4949-900b-ada21149b4b6",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "3abd2834-042c-4317-b966-b3a5f4f352f8",
+            "outV": "1bfcc6da-f610-4e07-ad2e-b331b862333d",
+            "inV": "14ae2916-aa4f-4af3-adac-b5e8c895dea5",
+            "id": "3abd2834-042c-4317-b966-b3a5f4f352f8",
+            "label": "contains"
+        },
+        {
+            "version": "v0",
+            "uuid": "4ace5f1b-6d96-4c83-93f2-c7bd83dce43a",
+            "outV": "b79acf5c-e437-44fa-987c-a540917bea97",
+            "inV": "ea7e5e24-5ce3-49bd-9de2-b284dd43ae16",
+            "id": "4ace5f1b-6d96-4c83-93f2-c7bd83dce43a",
+            "label": "influences"
+        },
+        {
+            "version": "v0",
+            "uuid": "4594f62b-a6a7-4719-8997-ad20265f27b0",
+            "outV": "b79acf5c-e437-44fa-987c-a540917bea97",
+            "inV": "4c5c0d6f-d3fb-432a-9431-4144d56faa84",
+            "id": "4594f62b-a6a7-4719-8997-ad20265f27b0",
+            "label": "influences"
+        },
+        {
+            "version": "v0",
+            "uuid": "585c052d-9940-478a-a917-bd5b2ffe759f",
+            "outV": "2ce33e57-2484-4d2d-bc0d-fe1b6d6dec7c",
+            "inV": "4c5c0d6f-d3fb-432a-9431-4144d56faa84",
+            "id": "585c052d-9940-478a-a917-bd5b2ffe759f",
+            "label": "influences"
+        },
+        {
+            "version": "v0",
+            "uuid": "45d31010-97b0-4126-8481-efa17fd795ad",
+            "outV": "2ce33e57-2484-4d2d-bc0d-fe1b6d6dec7c",
+            "inV": "ea7e5e24-5ce3-49bd-9de2-b284dd43ae16",
+            "id": "45d31010-97b0-4126-8481-efa17fd795ad",
+            "label": "influences"
+        },
+        {
+            "version": "v0",
+            "uuid": "4493ba32-60c8-4703-a93a-041ccb18747b",
+            "outV": "4c5c0d6f-d3fb-432a-9431-4144d56faa84",
+            "inV": "14ae2916-aa4f-4af3-adac-b5e8c895dea5",
+            "id": "4493ba32-60c8-4703-a93a-041ccb18747b",
+            "label": "influences"
+        },
+        {
+            "version": "v0",
+            "uuid": "dfe5c415-84e2-402a-8eff-9107ac76720f",
+            "outV": "14ae2916-aa4f-4af3-adac-b5e8c895dea5",
+            "inV": "ea7e5e24-5ce3-49bd-9de2-b284dd43ae16",
+            "id": "dfe5c415-84e2-402a-8eff-9107ac76720f",
+            "label": "influences"
+        }
+    ]
+}
