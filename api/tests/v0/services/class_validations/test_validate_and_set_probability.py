@@ -192,6 +192,16 @@ def test_discrete_conditional_probability_function_fail_not_consistent(caplog):
     )
 
 
+def test_discrete_unconditional_probability_function_success_as_None():
+    variables = {"v1": ["y", "n"], "v 2": ["r", "g", "b"]}
+    probability_function = [[None, None, None], [None, None, None]]
+    pdf = np.array(probability_function)
+    result = validate_and_set_probability.discrete_unconditional_probability_function(
+        pdf, variables
+    )
+    assert all(np.isnan(result).tolist())
+
+
 def test_discrete_unconditional_probability_function_success_as_nan():
     variables = {"v1": ["y", "n"], "v 2": ["r", "g", "b"]}
     pdf = np.full((2, 3), np.nan)

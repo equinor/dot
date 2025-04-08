@@ -36,9 +36,11 @@ def discrete_conditional_probability_function(
     if not isinstance(arg, np.ndarray):
         raise DiscreteConditionalProbabilityFunctionValidationError(arg)
 
+    arg = arg.astype(float)  # in case of None
+
     variables = {**conditioned_variables, **conditioning_variables}
     has_consistent_shape = tuple([len(v) for v in variables.values()]) == arg.shape
-    is_all_nans = np.isnan(arg).all()
+    is_all_nans = np.isnan(arg.astype(float)).all()
     is_between_zero_and_one = np.all(np.logical_and(arg >= 0, arg <= 1))
     is_normalized = isnormalized(arg, conditioned_variables)
 
@@ -60,6 +62,8 @@ def discrete_unconditional_probability_function(arg: Any, variables: dict) -> di
 
     if not isinstance(arg, np.ndarray):
         raise DiscreteUnconditionalProbabilityFunctionValidationError(arg)
+
+    arg = arg.astype(float)  # in case of None
 
     # if 1D case
     # if np.prod(arg.shape) == np.prod(arg.flatten().shape):

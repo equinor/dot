@@ -21,7 +21,7 @@ def influence_diagram(copy_testdata_tmpdir, tmp_path):
         {"uuid" if k == "id" else k: v for k, v in issue.items()} for issue in issues
     ]
     data = {
-        "nodes": issues,
+        "vertices": issues,
         "edges": [edge for edge in data["edges"] if edge["label"] == "influences"],
     }
     return data
@@ -119,7 +119,7 @@ def test_class_InfluenceDiagramConversion_from_json_fail_no_key_uncertainty(capl
 
 def test_class_InfluenceDiagramConversion_from_json_fail_badly_formatted_node(caplog):
     as_json = {
-        "nodes": [
+        "vertices": [
             {
                 "tag": ["State"],
                 "type": "Uncertainty",
@@ -152,20 +152,20 @@ def test_DecisionNodeConversion_to_json(influence_diagram):
     diagram.add_nodes(
         [
             node.InfluenceDiagramNodeConversion().from_json(item)
-            for item in influence_diagram["nodes"]
+            for item in influence_diagram["vertices"]
         ]
     )
     diagram.add_arcs(
         [
-            arc.ArcConversion().from_json(item, influence_diagram["nodes"])
+            arc.ArcConversion().from_json(item, influence_diagram["vertices"])
             for item in influence_diagram["edges"]
         ]
     )
     result = directed_graph.InfluenceDiagramConversion().to_json(diagram)
-    assert len(result["nodes"]) == 5
-    assert len(result["arcs"]) == 6
-    assert result["nodes"][1]["category"] == "Decision"
-    assert result["arcs"][1]["label"] == "influences"
+    assert len(result["vertices"]) == 5
+    assert len(result["edges"]) == 6
+    assert result["vertices"][1]["category"] == "Decision"
+    assert result["edges"][1]["label"] == "influences"
 
 
 def test_DecisionTreeConversion():

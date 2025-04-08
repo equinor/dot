@@ -24,7 +24,7 @@ def influence_diagram(copy_testdata_tmpdir, tmp_path):
         {"uuid" if k == "id" else k: v for k, v in issue.items()} for issue in issues
     ]
     data = {
-        "nodes": issues,
+        "vertices": issues,
         "edges": [edge for edge in data["edges"] if edge["label"] == "influences"],
     }
     diagram = InfluenceDiagramConversion().from_json(data)

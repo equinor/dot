@@ -32,11 +32,11 @@ class InfluenceDiagramConversion:
 
     def to_json(self, influence_diagram: InfluenceDiagram) -> dict:
         return {
-            "nodes": [
+            "vertices": [
                 InfluenceDiagramNodeConversion().to_json(item)
                 for item in influence_diagram.nodes
             ],
-            "vertices": [
+            "edges": [
                 ArcConversion().to_json(item, influence_diagram.nodes)
                 for item in influence_diagram.arcs
             ],
