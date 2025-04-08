@@ -22,7 +22,7 @@ def influence_diagram(copy_testdata_tmpdir, tmp_path):
     ]
     data = {
         "nodes": issues,
-        "arcs": [edge for edge in data["edges"] if edge["label"] == "influences"],
+        "edges": [edge for edge in data["edges"] if edge["label"] == "influences"],
     }
     return data
 
@@ -158,7 +158,7 @@ def test_DecisionNodeConversion_to_json(influence_diagram):
     diagram.add_arcs(
         [
             arc.ArcConversion().from_json(item, influence_diagram["nodes"])
-            for item in influence_diagram["arcs"]
+            for item in influence_diagram["edges"]
         ]
     )
     result = directed_graph.InfluenceDiagramConversion().to_json(diagram)

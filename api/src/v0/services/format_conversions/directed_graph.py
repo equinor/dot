@@ -13,7 +13,7 @@ from .node import InfluenceDiagramNodeConversion
 
 class InfluenceDiagramConversion:
     def from_json(self, influence_diagram: dict) -> InfluenceDiagram:
-        if (nodes := influence_diagram.get("nodes", None)) is None:
+        if (nodes := influence_diagram.get("vertices", None)) is None:
             raise InfluenceDiagramTypeError(None)
 
         diagram = InfluenceDiagram()
@@ -23,7 +23,7 @@ class InfluenceDiagramConversion:
             diagram.add_arcs(
                 [
                     ArcConversion().from_json(arc, nodes)
-                    for arc in influence_diagram["arcs"]
+                    for arc in influence_diagram["edges"]
                 ]
             )
             return diagram
@@ -36,7 +36,7 @@ class InfluenceDiagramConversion:
                 InfluenceDiagramNodeConversion().to_json(item)
                 for item in influence_diagram.nodes
             ],
-            "arcs": [
+            "vertices": [
                 ArcConversion().to_json(item, influence_diagram.nodes)
                 for item in influence_diagram.arcs
             ],

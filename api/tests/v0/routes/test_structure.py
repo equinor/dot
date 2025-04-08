@@ -110,7 +110,7 @@ def test_read_influence_diagram_success(mock_service, graph):
         ),
     ]
     mock_service.return_value.read_influence_diagram.return_value = (
-        InfluenceDiagramResponse(nodes=nodes, arcs=arcs)
+        InfluenceDiagramResponse(vertices=nodes, edges=arcs)
     )
     project_uuid = "0"
     response = client.get(

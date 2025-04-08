@@ -196,10 +196,10 @@ def test_create_decision_tree_success(mock_client, graph):
     with patch(
         "src.v0.services.structure.StructureService.read_influence_diagram"
     ) as mocked_id:
-        # mocked_id.return_value = InfluenceDiagramResponse(nodes=vertices, arcs=edges)
+        # mocked_id.return_value = InfluenceDiagramResponse(nodes=vertices, edges=edges)
         nodes = [n.model_dump() for n in vertices]
         arcs = [a.model_dump() for a in edges]
-        mocked_id.return_value = InfluenceDiagramResponse(nodes=nodes, arcs=arcs)
+        mocked_id.return_value = InfluenceDiagramResponse(vertices=nodes, edges=arcs)
         result = service.create_decision_tree(project_uuid="0")
 
     assert result.children[0].children[0].children is None

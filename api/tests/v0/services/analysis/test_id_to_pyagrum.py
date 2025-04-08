@@ -25,7 +25,7 @@ def influence_diagram(copy_testdata_tmpdir, tmp_path):
     ]
     data = {
         "nodes": issues,
-        "arcs": [edge for edge in data["edges"] if edge["label"] == "influences"],
+        "edges": [edge for edge in data["edges"] if edge["label"] == "influences"],
     }
     diagram = InfluenceDiagramConversion().from_json(data)
     return diagram
