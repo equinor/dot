@@ -17,7 +17,6 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
     deprecated=False,
     include_in_schema=True,
-
 )
 
 

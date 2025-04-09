@@ -19,7 +19,6 @@ ROUTER_MODULES = [
 ]
 
 
-
 def create_middleware() -> list[Middleware]:
     middleware = [
         Middleware(
@@ -49,15 +48,21 @@ def create_app() -> FastAPI:
         app.include_router(router)
 
     return app
-#test is using this version to exclide authmiddleware
+
+
+# test is using this version to exclide authmiddleware
 def test_create_app() -> FastAPI:
-    app = FastAPI( middleware=[Middleware(
-            CORSMiddleware,
-            allow_origins=["*"],  # TODO: adding settings.BACKEND_CORS_ORIGINS
-            allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"],
-        )])
+    app = FastAPI(
+        middleware=[
+            Middleware(
+                CORSMiddleware,
+                allow_origins=["*"],  # TODO: adding settings.BACKEND_CORS_ORIGINS
+                allow_credentials=True,
+                allow_methods=["*"],
+                allow_headers=["*"],
+            )
+        ]
+    )
 
     for m in ROUTER_MODULES:
         router = APIRouter()
