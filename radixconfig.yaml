@@ -40,7 +40,7 @@ spec:
                     CLIENT_APP_SCOPE: "api://4251833c-b9c3-4013-afda-cbfd2cc50f3f/Read"
                     REDIRECT_URL: 'https://frontend-dot-test.radix.equinor.com/'
                     REACT_APP_API_BASE_URL: '/api'
-        
+
               - environment: prod
                 replicas: 1
                 variables:
@@ -48,7 +48,7 @@ spec:
                     CLIENT_APP_SCOPE: "api://4251833c-b9c3-4013-afda-cbfd2cc50f3f/Read"
                     REDIRECT_URL: 'https://frontend-dot-prod.radix.equinor.com/'
                     REACT_APP_API_BASE_URL: '/api'
-          
+
         - name: backend
           src: "./api"
           secrets:
@@ -73,6 +73,3 @@ spec:
             - environment: prod
               variables:
                     APP_ENVIRONMENT: "prod"
-                
-
-    

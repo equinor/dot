@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getAccessToken } from "../auth";
 
-export const API_BASEURL ="/api"
+export const API_BASEURL = "/api";
 
 const API_VERSION = "/latest";
 
@@ -10,9 +10,9 @@ class BaseApiServices {
     var array_def_projects;
     return array_def_projects;
   }
-  async get(path, params) {  
+  async get(path, params) {
     try {
-      const accessToken = await getAccessToken()
+      const accessToken = await getAccessToken();
       const response = await axios.get(API_BASEURL + API_VERSION + path, {
         method: "GET",
         params: params,
@@ -21,7 +21,7 @@ class BaseApiServices {
           Accept: "application/json",
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
-          "Authorization":`Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
         },
       });
       return response.data;
@@ -34,7 +34,7 @@ class BaseApiServices {
     var url_str = API_BASEURL + API_VERSION + path;
     var json_str = JSON.stringify(input);
     const params = { project_uuid: projectID, ...queryParams };
-    const accessToken = await getAccessToken()
+    const accessToken = await getAccessToken();
     return await axios
       .post(url_str, json_str, {
         params: params,
@@ -43,8 +43,7 @@ class BaseApiServices {
           Accept: "application/json",
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
-          "Authorization":`Bearer ${accessToken}`
-
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => response.data)
@@ -57,7 +56,7 @@ class BaseApiServices {
   async postProj(path, input) {
     var url_str = API_BASEURL + API_VERSION + path;
     var json_str = JSON.stringify(input);
-    const accessToken = await getAccessToken()
+    const accessToken = await getAccessToken();
     return await axios
       .post(url_str, json_str, {
         method: "POST",
@@ -65,8 +64,7 @@ class BaseApiServices {
           Accept: "application/json",
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
-          "Authorization":`Bearer ${accessToken}`
-
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => response.data)
@@ -79,7 +77,7 @@ class BaseApiServices {
   async patch(path, input) {
     var url_str = API_BASEURL + API_VERSION + path;
     var json_str = JSON.stringify(input);
-    const accessToken = await getAccessToken()
+    const accessToken = await getAccessToken();
     return await axios
       .patch(url_str, json_str, {
         method: "PATCH",
@@ -87,8 +85,7 @@ class BaseApiServices {
           Accept: "application/json",
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
-          "Authorization":`Bearer ${accessToken}`
-
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => console.log("Done ", response.data))
@@ -101,7 +98,7 @@ class BaseApiServices {
   async patchProps(path, issueID, propsDict) {
     var url_str = API_BASEURL + API_VERSION + path + "/" + issueID;
     var json_str = JSON.stringify(propsDict);
-    const accessToken = await getAccessToken()
+    const accessToken = await getAccessToken();
     return await axios
       .patch(url_str, json_str, {
         method: "PATCH",
@@ -109,8 +106,7 @@ class BaseApiServices {
           Accept: "application/json",
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
-          "Authorization":`Bearer ${accessToken}`
-
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => console.log("Done ", response.data))
@@ -123,14 +119,13 @@ class BaseApiServices {
   async delete(path) {
     var url_str = API_BASEURL + API_VERSION + path;
     try {
-      const accessToken = await getAccessToken()
+      const accessToken = await getAccessToken();
       const response = await axios.delete(url_str, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
           "Access-Control-Allow-Origin": "*",
-          "Authorization":`Bearer ${accessToken}`
-
+          Authorization: `Bearer ${accessToken}`,
         },
         method: "DELETE",
       });
@@ -143,7 +138,7 @@ class BaseApiServices {
 
   async postEdge(path, uuid1, uuid2) {
     var url_str = API_BASEURL + API_VERSION + path;
-    const accessToken = await getAccessToken()
+    const accessToken = await getAccessToken();
     return await axios
       .post(url_str, "", {
         params: {
@@ -155,8 +150,7 @@ class BaseApiServices {
           Accept: "application/json",
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
-          "Authorization":`Bearer ${accessToken}`
-
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => response.data)
