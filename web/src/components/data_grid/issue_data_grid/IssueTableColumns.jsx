@@ -138,10 +138,10 @@ export function IssueColumns(
                   info.getValue() === "Decision"
                     ? "#FFF5B7"
                     : info.getValue() === "Value Metric"
-                    ? "#C1DAEB"
-                    : info.getValue() === "Uncertainty"
-                    ? "#C3E4CE"
-                    : undefined,
+                      ? "#C1DAEB"
+                      : info.getValue() === "Uncertainty"
+                        ? "#C3E4CE"
+                        : undefined,
                 paddingLeft: "15px",
                 paddingRight: "15px",
                 minWidth: "75px",
@@ -197,10 +197,10 @@ export function IssueColumns(
                 info.getValue() === "in"
                   ? "#E6F9EB"
                   : info.getValue() === "on"
-                  ? "#FDDFC6"
-                  : info.getValue() === "out"
-                  ? "#E8937C"
-                  : undefined,
+                    ? "#FDDFC6"
+                    : info.getValue() === "out"
+                      ? "#E8937C"
+                      : undefined,
               paddingLeft: "25px",
               paddingRight: "25px",
               color: "rgba(61, 61, 61, 1)",
