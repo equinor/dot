@@ -3,7 +3,7 @@ from unittest.mock import patch
 import pytest
 from fastapi.testclient import TestClient
 
-from dependencies import create_app, create_versions, test_create_app
+from dependencies import create_versions, test_create_app
 from src.v0.models.edge import EdgeResponse
 from src.v0.models.issue import IssueResponse
 from src.v0.models.structure import InfluenceDiagramResponse

@@ -3,16 +3,15 @@ from unittest.mock import patch
 import pytest
 from fastapi.testclient import TestClient
 
-from dependencies import create_app, create_versions, test_create_app
+from dependencies import create_versions, test_create_app
 from src.v0.models.edge import EdgeResponse
 
 from .. import database_version
 
-
-
 app = test_create_app()
 create_versions(app)
 client = TestClient(app)
+
 
 @pytest.fixture
 def mock_service():
@@ -21,19 +20,18 @@ def mock_service():
 
 
 def test_create_success(mock_service):
-
     mock_service.return_value.create.return_value = EdgeResponse(
         uuid="1", inV="2", outV="3", label="L", id="1"
     )
     edge_label = "L"
 
     response = client.post(
-            f"/v{database_version}/edges/label/{edge_label}",
-            params={
-                "out_vertex_uuid": "2",
-                "in_vertex_uuid": "4",
-            },
-        )
+        f"/v{database_version}/edges/label/{edge_label}",
+        params={
+            "out_vertex_uuid": "2",
+            "in_vertex_uuid": "4",
+        },
+    )
     assert response.status_code == 200
     mock_service.return_value.create.assert_called_once_with("2", "4", "L")
 

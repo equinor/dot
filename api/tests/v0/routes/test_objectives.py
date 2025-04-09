@@ -3,7 +3,7 @@ from unittest.mock import patch
 import pytest
 from fastapi.testclient import TestClient
 
-from dependencies import create_app, create_versions, test_create_app
+from dependencies import create_versions, test_create_app
 from src.v0.models.filter import Filter
 from src.v0.models.objective import ObjectiveCreate, ObjectiveResponse, ObjectiveUpdate
 
@@ -12,7 +12,6 @@ from .. import database_version
 app = test_create_app()
 create_versions(app)
 client = TestClient(app)
-
 
 
 @pytest.fixture

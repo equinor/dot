@@ -6,10 +6,6 @@ from ..database.adapter import get_client
 from ..models.project import ProjectCreate, ProjectResponse, ProjectUpdate
 from ..repositories.project import ProjectRepository
 from ..services.project import ProjectService
-from http.client import HTTPException
-from fastapi import APIRouter, Depends
-from fastapi.security import HTTPBearer
-
 
 router = APIRouter(
     tags=["projects"],
@@ -28,7 +24,7 @@ def get_service(repository=Depends(get_repository)):
 
 
 @api_version(database_version)
-@router.post("/projects",response_model=ProjectResponse, summary="Create a new project")
+@router.post("/projects", response_model=ProjectResponse, summary="Create a new project")
 def create(
     project_data: ProjectCreate, service: ProjectService = Depends(get_service)
 ) -> ProjectResponse:
@@ -50,7 +46,7 @@ def create(
     "/projects", response_model=list[ProjectResponse], summary="Read all projects"
 )
 def read_projects_all(
-    service: ProjectService = Depends(get_service)
+    service: ProjectService = Depends(get_service),
 ) -> list[ProjectResponse]:
     """Reads all project vertices
 
