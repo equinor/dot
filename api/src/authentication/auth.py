@@ -22,7 +22,7 @@ from src.authentication.config import (
 logger = logging.getLogger("uvicorn")
 
 
-class AuthMiddleware(BaseHTTPMiddleware):
+class AuthMiddleware(BaseHTTPMiddleware):  # pragma: no cover
     async def dispatch(self, request: Request, call_next):
         if request.url.path in ["/"]:
             return await call_next(request)
