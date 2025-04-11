@@ -9,7 +9,6 @@ class Settings(BaseSettings):
     APP_ENVIRONMENT: str = os.getenv("APP_ENVIRONMENT", "local")
     DB_PRIMARY_KEY: str = os.getenv("DB_PRIMARY_KEY", "key")
     DATABASE_ADDRESS: str = os.getenv("DATABASE_ADDRESS", default_database_address)
-
     # frontend
     REACT_APP_WEB_HOST: str = "localhost"
     REACT_APP_WEB_PORT: str = "3000"
@@ -31,7 +30,7 @@ class Settings(BaseSettings):
         if self.DATABASE_ADDRESS == self.default_database_address:
             return f"ws://{self.DATABASE_ADDRESS}/gremlin"
         else:
-            return f"wss://{self.DATABASE_ADDRESS}/gremlin"
+            return f"wss://{self.DATABASE_ADDRESS}"
 
     # backend
     @computed_field

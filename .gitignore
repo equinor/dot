@@ -48,3 +48,6 @@ env.bak/
 venv.bak/
 kenv.bak/
 dot.env
+
+#build
+web/build

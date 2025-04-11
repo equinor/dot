@@ -18,7 +18,6 @@ export const allProjects = async () => {
   console.log("Page updated here projects");
   try {
     const result = await BaseAPIServices.get("/projects");
-    console.log(result);
     return result;
   } catch (error) {
     console.log(error);
