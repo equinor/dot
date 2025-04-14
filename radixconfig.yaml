@@ -32,7 +32,7 @@ spec:
                     CLIENT_APP_ID: '637a2493-5510-40c3-86a6-9db8f3192966'
                     CLIENT_APP_SCOPE: "api://4251833c-b9c3-4013-afda-cbfd2cc50f3f/Read"
                     REDIRECT_URL: 'https://frontend-dot-dev.radix.equinor.com/'
-                    REACT_APP_API_BASE_URL: '/api/'
+                    REACT_APP_API_BASE_URL: 'http://backend:8080/'
                     NODE_ENV: 'dev'
 
               - environment: test
@@ -41,7 +41,7 @@ spec:
                     CLIENT_APP_ID: '945882c1-69f4-41cd-a42a-22516ca01868'
                     CLIENT_APP_SCOPE: "api://4251833c-b9c3-4013-afda-cbfd2cc50f3f/Read"
                     REDIRECT_URL: 'https://frontend-dot-test.radix.equinor.com/'
-                    REACT_APP_API_BASE_URL: '/api'
+                    REACT_APP_API_BASE_URL: 'http://backend:8080/'
                     NODE_ENV: 'test'
 
               - environment: prod
@@ -50,7 +50,7 @@ spec:
                     CLIENT_APP_ID: 'b44b7866-c7b3-40d2-b3aa-aa0398cb99de'
                     CLIENT_APP_SCOPE: "api://4251833c-b9c3-4013-afda-cbfd2cc50f3f/Read"
                     REDIRECT_URL: 'https://frontend-dot-prod.radix.equinor.com/'
-                    REACT_APP_API_BASE_URL: '/api/'
+                    REACT_APP_API_BASE_URL: 'http://backend:8080/'
                     NODE_ENV: 'prod'
 
         - name: backend
