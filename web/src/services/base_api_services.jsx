@@ -1,7 +1,10 @@
 import axios from "axios";
 import { getAccessToken } from "../auth";
 
-export const API_BASEURL = "/api";
+export const API_BASEURL =
+  window.injectEnv.NODE_ENV === "local" || process.env.NODE_ENV === "local"
+    ? process.env.REACT_APP_API_BASE_URL || "http://localhost:8000"
+    : "/api";
 
 const API_VERSION = "/latest";
 
@@ -11,8 +14,16 @@ class BaseApiServices {
     return array_def_projects;
   }
   async get(path, params) {
+    let accessToken;
     try {
-      const accessToken = await getAccessToken();
+      if (
+        window.injectEnv.NODE_ENV === "local" ||
+        process.env.NODE_ENV === "local"
+      ) {
+        accessToken = "";
+      } else {
+        accessToken = await getAccessToken();
+      }
       const response = await axios.get(API_BASEURL + API_VERSION + path, {
         method: "GET",
         params: params,

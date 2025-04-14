@@ -9,6 +9,8 @@ services:
             - CLIENT_APP_ID=637a2493-5510-40c3-86a6-9db8f3192966
             - CLIENT_APP_SCOPE=api://4251833c-b9c3-4013-afda-cbfd2cc50f3f/Read
             - REDIRECT_URL=http://localhost:3000/
+            - REACT_APP_API_BASE_URL=http://backend:8080/
+            - NODE_ENV=dev
             - WATCHPACK_POLLING=true
         ports:
             - "3000:3000"
@@ -25,7 +27,7 @@ services:
             - UVICORN_PORT=8000
             - REACT_APP_WEB_HOST=localhost
             - REACT_APP_WEB_PORT=3000
-            - APP_ENVIRONMENT = dev"
+            - APP_ENVIRONMENT=dev
         volumes:
             - ./api:/home/api
         ports:

@@ -5,6 +5,7 @@ from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_versionizer.versionizer import Versionizer
 
+from config import Settings
 from src.authentication.auth import AuthMiddleware
 
 DATABASE_VERSIONS = ["v0"]
@@ -27,13 +28,16 @@ def create_middleware() -> list[Middleware]:
             allow_credentials=True,
             allow_methods=["*"],
             allow_headers=["*"],
-        ),
-        Middleware(
-            AuthMiddleware,
-        ),
+        )
     ]
-
-    return middleware
+    if Settings().APP_ENVIRONMENT.lower().__contains__("local"):
+        return middleware
+    else:
+        return middleware.append(
+            Middleware(
+                AuthMiddleware,
+            )
+        )
 
 
 def create_app() -> FastAPI:
