@@ -22,7 +22,6 @@ function HomeScreen() {
   const [page, setPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [project_context, setProjectContext] = useProjectContext();
-
   const fetchData = async () => {
     const updatedData = await allProjects();
     setProjects(updatedData);
@@ -145,9 +144,9 @@ function HomeScreen() {
                         project.sensitivity_label === "Open"
                           ? "active"
                           : project.sensitivity_label === "Restricted" ||
-                              project.sensitivity_label === "Confidential"
-                            ? "error"
-                            : "default"
+                            project.sensitivity_label === "Confidential"
+                          ? "error"
+                          : "default"
                       }
                     >
                       <Icon

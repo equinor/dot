@@ -1,0 +1,79 @@
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+    name: dot
+spec:
+    environments:
+        - name: prod
+        - name: test
+          build:
+              from: v0*
+        - name: dev
+          build:
+              from: main|dev-deploy*
+    components:
+        - name: frontend
+          src: "./web"
+          ports:
+              - name: http
+                port: 3000
+          resources:
+              requests:
+                  memory: '64Mi'
+                  cpu: '20m'
+              limits:
+                  memory: '128Mi'
+                  cpu: '50m'
+          publicPort: http
+          environmentConfig:
+              - environment: dev
+                replicas: 1
+                variables:
+                    CLIENT_APP_ID: '637a2493-5510-40c3-86a6-9db8f3192966'
+                    CLIENT_APP_SCOPE: "api://4251833c-b9c3-4013-afda-cbfd2cc50f3f/Read"
+                    REDIRECT_URL: 'https://frontend-dot-dev.radix.equinor.com/'
+                    REACT_APP_API_BASE_URL: 'http://backend:8080/'
+                    NODE_ENV: 'dev'
+
+              - environment: test
+                replicas: 1
+                variables:
+                    CLIENT_APP_ID: '945882c1-69f4-41cd-a42a-22516ca01868'
+                    CLIENT_APP_SCOPE: "api://4251833c-b9c3-4013-afda-cbfd2cc50f3f/Read"
+                    REDIRECT_URL: 'https://frontend-dot-test.radix.equinor.com/'
+                    REACT_APP_API_BASE_URL: 'http://backend:8080/'
+                    NODE_ENV: 'test'
+
+              - environment: prod
+                replicas: 1
+                variables:
+                    CLIENT_APP_ID: 'b44b7866-c7b3-40d2-b3aa-aa0398cb99de'
+                    CLIENT_APP_SCOPE: "api://4251833c-b9c3-4013-afda-cbfd2cc50f3f/Read"
+                    REDIRECT_URL: 'https://frontend-dot-prod.radix.equinor.com/'
+                    REACT_APP_API_BASE_URL: 'http://backend:8080/'
+                    NODE_ENV: 'prod'
+
+        - name: backend
+          src: "./api"
+          secrets:
+            - DB_PRIMARY_KEY
+            - DATABASE_ADDRESS
+          ports:
+            - name: http
+              port: 8080
+          resources:
+              requests:
+                  memory: '450Mi'
+              limits:
+                  memory: '450Mi'
+          environmentConfig:
+            - environment: dev
+              replicas: 1
+              variables:
+                    APP_ENVIRONMENT: "dev"
+            - environment: test
+              variables:
+                    APP_ENVIRONMENT: "test"
+            - environment: prod
+              variables:
+                    APP_ENVIRONMENT: "prod"
