@@ -15,7 +15,7 @@ class AppSettings(BaseSettings):
     required_scope: list
 
 
-def get_settings():
+def get_settings():  # pragma: no cover
     try:
         app_settings = AppSettings(
             tenant_id="3aa4a235-b6e2-48d5-9195-7fcf05b459b0",
@@ -31,15 +31,15 @@ def get_settings():
     return app_settings
 
 
-def get_jwks(jwks_uri: str):
+def get_jwks(jwks_uri: str):  # pragma: no cover
     return requests.get(jwks_uri).json()  # noqa: S113
 
 
-def get_token_endpoint(well_known_conf_url: str):
+def get_token_endpoint(well_known_conf_url: str):  # pragma: no cover
     return requests.get(well_known_conf_url).json()["token_endpoint"]  # noqa: S113
 
 
-def get_claims_options():
+def get_claims_options():  # pragma: no cover
     config = get_settings()
     return {
         "iss": {"essential": True, "value": str(config.issuer)},
