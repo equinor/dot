@@ -21,6 +21,7 @@ click = "^8.1.7"
 pypandoc-binary = "^1.13"
 pypandoc = "^1.13"
 fastapi-versionizer = "^4.0.1"
+aiohttp = "3.11.15"
 
 [tool.poetry.group.docs]
 optional = true

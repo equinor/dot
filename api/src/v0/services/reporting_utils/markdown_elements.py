@@ -70,6 +70,36 @@ def _list_symbol(mode: str) -> str:
     return symbol
 
 
+def _item_prefix(indent: int, level: int, rank: int, parent) -> str:
+    """Make the prefix of the list item
+
+    Args:
+        indent (int): indentation level (2 blanks per level)
+        level (int): level of sub-list (0 being the main list)
+        rank (int): rank of the item within the list or sub-list
+        parent: type of the object where the item lies
+
+    Returns:
+        str: the prefix of the markdown line
+    """
+    prefix = ' '*indent*2
+    if parent is dict:
+        if level < 2:  # when dict at level 0, it is assumed it is a level 1 - level 0 is always a list
+            if rank == 0:
+                prefix += ordered_symbol+unordered_symbol
+            else:
+                prefix += ' '*2+' '+unordered_symbol
+        else:
+            prefix += ' '*level*2+' '+unordered_symbol
+        return prefix
+
+    if level == 0:
+        prefix += ordered_symbol
+    else:
+        prefix += ' '*level*2+' '+unordered_symbol
+    return prefix
+
+
 def _parse_simple_type(
         data: str | int | float | complex | bool,
         indent: int,
@@ -149,20 +179,33 @@ def _parse_single_item_dict(
     md = ""
     key = list(data.keys())[0]
     value = list(data.values())[0]
+    level_ = max(level, 1)
+
     if isinstance(value, str | int | float | complex | bool):
-        value_str = _parse_multitype_item(value, indent, level, rank, dict)
+        key_str = f"{key}: "
+        prefix = _item_prefix(indent, level_, rank, dict)
+        value_str = _parse_multitype_item(value, indent, level_, rank, dict)
         value_str = f"{value_str}"
-    else:
-        value_str = _parse_multitype_item(value, indent, level+1, rank, parent)
-        value_str = f"{one_newline}{value_str}"
-    prefix = _item_prefix(indent, level, rank, dict)
-    md += f"{prefix}{key}: {value_str}"
-    # if level <= 1:
-    #     md += f"{blanks}{ordered_symbol}{unordered_symbol}{key}: {value_str}"
-    # else:
-    #     # md += f"{blanks}{' '*len(symbol)}{unordered_symbol}{key}: {value_str}"
-    #     md += f"{blanks}{unordered_symbol}{key}: {value_str}"
-    return md
+        md += f"{prefix}{key_str}{value_str}"
+        return md
+
+    if isinstance(value, list | tuple):
+        key_str = f"{key}: {one_newline}"
+        prefix = _item_prefix(indent, level_, rank, dict)
+        value_str = _parse_multitype_item(value, indent, level_, rank, dict)
+        value_str = f"{value_str}"
+        md += f"{prefix}{key_str}{value_str}"
+        return md
+    
+    if isinstance(value, dict):
+        key_str = f"{key}: {one_newline}"
+        prefix = _item_prefix(indent, level_, rank, dict)
+        if len(value) == 1:
+            level_ += 1
+        value_str = _parse_multitype_item(value, indent, level_, rank, dict)
+        value_str = f"{value_str}"
+        md += f"{prefix}{key_str}{value_str}"
+        return md
 
 
 def _parse_dict(
@@ -196,39 +239,24 @@ def _parse_dict(
             )
 
 
-def _item_prefix(indent: int, level: int, rank: int, parent) -> str:
-    """Make the prefix of the list item
+def _parse_multitype_item(item, indent: int, level: int, rank: int, parent) -> str:
+    """parse items to markdown depending on their type
 
     Args:
+        item: item to parse
         indent (int): indentation level (2 blanks per level)
         level (int): level of sub-list (0 being the main list)
         rank (int): rank of the item within the list or sub-list
         parent: type of the object where the item lies
 
     Returns:
-        str: the prefix of the markdown line
+        str: the parsed data content
     """
-    prefix = ' '*(indent*2)
-    if level == 0:
-        prefix += ordered_symbol
-        if parent is dict:
-            prefix += unordered_symbol
-    if level == 1:
-        if rank == 0 and parent is not list:
-            prefix += ordered_symbol+unordered_symbol
-        else:
-            prefix += ' '*(level*2)+' '+unordered_symbol
-    if level > 1:
-        prefix += ' '*(level*2)+' '+unordered_symbol
-    return prefix
-
-
-def _parse_multitype_item(item, indent: int, level: int, rank: int, parent) -> str:
 
     if isinstance(item, str | int | float | complex | bool):
         return _parse_simple_type(item, indent, level, rank, parent)
     
-    if isinstance(item, list):
+    if isinstance(item, list | tuple):
         return _parse_sequence(item, indent, level, rank, parent)
     
     if isinstance(item, dict) and len(item) <= 1:
@@ -239,16 +267,66 @@ def _parse_multitype_item(item, indent: int, level: int, rank: int, parent) -> s
     
 
 def multitype_list(data: list, indent=1) -> str:
+    """convert a list of items having different types to markdown
+
+    Args:
+        data (list): data to parse
+        indent (int, optional): indentation of level 0. Defaults to 1.
+
+    Returns:
+        str: the parsed data content
+
+    Examples:
+        >>> markdown_elements.multitype_list(
+        ...    [
+        ...        "item1",
+        ...        "item2",
+        ...        ["item3", "item4"],
+        ...        {"k": "v"},
+        ...        {
+        ...            "a": 1,
+        ...            "b": True,
+        ...            "c": {"q": "q"},
+        ...            "d": {"w": "w", "x": "x"},
+        ...            "e": ["e1", "e2", {"e3": [1, 2, 3]}, "e4"]
+        ...            }
+        ...    ]
+
+        output:
+          1. item1 \n
+          1. item2 \n
+             - item3 \n
+             - item4 \n
+          1. - k: v \n
+          1. - a: 1 \n
+             - b: True \n
+             - c: \n
+               - q: q \n
+             - d: \n
+               - w: w \n
+               - x: x \n
+             - e: \n
+               - e1 \n
+               - e2 \n
+               - e3: \n
+                 - 1 \n
+                 - 2 \n
+                 - 3 \n
+               - e4 \n
+    """
+    # below, the rank of all items of level 0 is set to 0. This means we assume all items treated
+    # as iterables and all elements of level 0 are the first item of the iterable.
+    # This is necessary to correctly parse dictionaries 
     return "".join(
         _parse_multitype_item(
             item,
             indent,
             level=0,
-            rank=count,
+            rank=0,  
             parent=list
             )
-            for count, item in enumerate(data)
-            )
+            for item in data
+           )
 
 
 def item_line(data: str, indent=1, mode="unordered") -> str:

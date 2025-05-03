@@ -36,14 +36,11 @@ def test_item_line_unordered():
     
 
 def test_item_prefix():
-    assert markdown_elements._item_prefix(1, 0, 0, list) == "  1. "
-    assert markdown_elements._item_prefix(1, 0, 1, list) == "  1. "
+    assert markdown_elements._item_prefix(1, 0, 0, str) == "  1. "
+    assert markdown_elements._item_prefix(1, 1, 0, str) == "     - "
     assert markdown_elements._item_prefix(1, 0, 0, dict) == "  1. - "
-    assert markdown_elements._item_prefix(2, 1, 1, list) == "       - "
-    assert markdown_elements._item_prefix(2, 1, 0, str) == "    1. - "
-    assert markdown_elements._item_prefix(2, 1, 0, dict) == "    1. - "
-    assert markdown_elements._item_prefix(2, 1, 1, dict) == "       - "
-    assert markdown_elements._item_prefix(1, 2, 0, dict) == "       - "
+    assert markdown_elements._item_prefix(1, 0, 1, dict) == "     - "
+    assert markdown_elements._item_prefix(1, 1, 1, dict) == "     - "
 
 
 def test_multitype_list_and_sublist():
@@ -51,13 +48,19 @@ def test_multitype_list_and_sublist():
         [
             "item1",
             "item2",
-            ["item3", "item4"]
+            ["item3", "item4"],
+            [[1, 2, 3], [4, 5]]
         ]
     ) == (
         "  1. item1 \n"
         "  1. item2 \n"
         "     - item3 \n"
         "     - item4 \n"
+        "       - 1 \n"
+        "       - 2 \n"
+        "       - 3 \n"
+        "       - 4 \n"
+        "       - 5 \n"
     )
 
 
@@ -65,6 +68,55 @@ def test_multitype_dict_single_item():
     assert markdown_elements.multitype_list([{"k": "v"}]) == (
         "  1. - k: v \n"
     )
+
+
+def test_multitype_dict_simple_items():
+    assert markdown_elements.multitype_list([
+        {"a": 1,
+        "b": True
+        }
+        ]) == (
+        "  1. - a: 1 \n"
+        "     - b: True \n"
+    )
+
+
+def test_multitype_dict_of_simple_dict_items_1():
+    assert markdown_elements.multitype_list([{"c": {"q": "q"}}]) == (
+        "  1. - c: \n"
+        "       - q: q \n"
+    )
+
+
+def test_multitype_dict_of_simple_dict_items_2():
+    assert markdown_elements.multitype_list([{"d": {"w": "w", "x": "x"}}]) == (
+        "  1. - d: \n"
+        "       - w: w \n"
+        "       - x: x \n"
+    )
+
+
+def test_multitype_dict_of_dict_of_simple_dict_items():
+    assert markdown_elements.multitype_list([{"d": {"w": {"z": "z"}, "x": "x"}}]) == (
+        "  1. - d: \n"
+        "       - w: \n"
+        "         - z: z \n"
+        "       - x: x \n"
+    )
+
+
+def test_multitype_dict_of_dict_of_list():
+    assert markdown_elements.multitype_list([{"e": ["e1", "e2", {"e3": [1, 2, 3]}, "e4"]}]) == (
+        "  1. - e: \n"
+        "       - e1 \n"
+        "       - e2 \n"
+        "       - e3: \n"
+        "         - 1 \n"
+        "         - 2 \n"
+        "         - 3 \n"
+        "       - e4 \n"
+    )
+
 
 
 def test_multitype_dict_multiple_items():
@@ -75,7 +127,7 @@ def test_multitype_dict_multiple_items():
                 "b": True,
                 "c": {"q": "q"},
                 "d": {"w": "w", "x": "x"},
-                "e": ["e1", "e2", {"e3": [1, 2, 3]}, "e4"]
+                "e": ["e1", "e2", {"e3": [1, 2, {'z': 3}]}, "e4"]
                 }
         ]
     ) == (
@@ -92,7 +144,7 @@ def test_multitype_dict_multiple_items():
         "       - e3: \n"
         "         - 1 \n"
         "         - 2 \n"
-        "         - 3 \n"
+        "         - z: 3 \n"
         "       - e4 \n"
     )
     
