@@ -1,7 +1,8 @@
 """
 Module for converting the project data into markdown
 """
-from .markdown_elements import header, text_line, table_section
+
+from .markdown_elements import header, table_section, text_line
 
 
 def project_description(data: dict, level=1) -> str:
@@ -15,7 +16,7 @@ def project_description(data: dict, level=1) -> str:
         str: a markdown section for the project description
     """
     md = ""
-    md += header(level=level+1, prefix="Description")
+    md += header(level=level + 1, prefix="Description")
     md += text_line(data=data["description"])
     return md
 
@@ -32,15 +33,15 @@ def project_information(data: dict, level=1) -> str:
     """
     md = ""
     md += table_section(
-        level=level+1,
+        level=level + 1,
         header_data=("Key information", None),
         data=data,
-        filter_keys=["decision_maker", "decision_date", "sensitivity_label"]
-        )
-    return md    
+        filter_keys=["decision_maker", "decision_date", "sensitivity_label"],
+    )
+    return md
 
 
-def generate_project_data(data: dict, level=1)-> str:
+def generate_project_data(data: dict, level=1) -> str:
     """generate the project data in markdown format
 
     Args:

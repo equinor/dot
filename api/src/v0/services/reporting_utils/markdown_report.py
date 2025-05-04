@@ -1,11 +1,12 @@
 """
 Module for making a markdown report
 """
+
 from .markdown_elements import one_newline
-from .markdown_project import generate_project_data
-from .markdown_opportunity import generate_opportunity_data
-from .markdown_objective import generate_objective_data
 from .markdown_issue import generate_issue_data
+from .markdown_objective import generate_objective_data
+from .markdown_opportunity import generate_opportunity_data
+from .markdown_project import generate_project_data
 
 
 class MarkdownReport:
@@ -35,7 +36,6 @@ class MarkdownReport:
 
     def __repr__(self):
         return self._md
-    
 
 
 def generate_report(data: dict, level=1):
@@ -43,4 +43,4 @@ def generate_report(data: dict, level=1):
     md_document.update(generate_project_data(data["project"], level))
     md_document.update(generate_opportunity_data(data["opportunities"], level + 1))
     md_document.update(generate_objective_data(data["objectives"], level + 1))
-    md_document.update(generate_issue_data(data["issues"], level + 1))    
+    md_document.update(generate_issue_data(data["issues"], level + 1))

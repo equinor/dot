@@ -1,4 +1,4 @@
-import pytest 
+import pytest
 
 from src.v0.services.reporting_utils import markdown_objective
 
@@ -11,19 +11,19 @@ def objective_data():
             "hierarchy": "Fundamental",
             "tag": ["subsurface"],
             "index": "0",
-            },
-            {
+        },
+        {
             "description": "objectively objecting the objectives 2",
             "hierarchy": "Mean",
             "tag": ["subsurface"],
             "index": "0",
-            },
-            {
+        },
+        {
             "description": "objectively objecting the objectives 3",
             "hierarchy": "",
             "tag": ["subsurface"],
             "index": "0",
-            },
+        },
     ]
 
 
@@ -36,15 +36,15 @@ def test_group_objectives(objective_data):
                 "hierarchy": "Fundamental",
                 "tag": ["subsurface"],
                 "index": "0",
-                }
-                ],
+            }
+        ],
         "Mean": [
             {
                 "description": "objectively objecting the objectives 2",
                 "hierarchy": "Mean",
                 "tag": ["subsurface"],
                 "index": "0",
-                }
+            }
         ],
         "Uncategorized": [
             {
@@ -52,16 +52,15 @@ def test_group_objectives(objective_data):
                 "hierarchy": "",
                 "tag": ["subsurface"],
                 "index": "0",
-                }
-        ]
+            }
+        ],
     }
 
 
 def test_add_objectives(objective_data):
     grouped_data = markdown_objective.group_objectives(objective_data)
     assert markdown_objective.add_objectives(grouped_data, "Uncategorized") == (
-        "### Uncategorized\n\n"
-        "  - objectively objecting the objectives 3 \n\n"
+        "### Uncategorized\n\n" "  - objectively objecting the objectives 3 \n\n"
     )
 
 

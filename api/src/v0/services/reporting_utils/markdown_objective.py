@@ -1,6 +1,7 @@
 """
 Module for converting the objective data into markdown
 """
+
 from .markdown_elements import header, unordered_list
 
 
@@ -17,9 +18,12 @@ def group_objectives(data: list) -> dict:
         "Strategic": [item for item in data if item["hierarchy"] == "Strategic"],
         "Fundamental": [item for item in data if item["hierarchy"] == "Fundamental"],
         "Mean": [item for item in data if item["hierarchy"] == "Mean"],
-        "Uncategorized": [item for item in data if item["hierarchy"] not in 
-                          ["Strategic", "Fundamental", "Mean"]]
-                          }
+        "Uncategorized": [
+            item
+            for item in data
+            if item["hierarchy"] not in ["Strategic", "Fundamental", "Mean"]
+        ],
+    }
     return grouped
 
 
@@ -37,7 +41,7 @@ def add_objectives(data: dict, category: str, level=1) -> str:
     """
     md = ""
     if data[category]:
-        md += header(level=level+2, prefix=category)
+        md += header(level=level + 2, prefix=category)
         md += unordered_list(item["description"] for item in data[category])
     return md
 
@@ -54,7 +58,7 @@ def generate_objective_data(data: list, level=1) -> str:
     """
     grouped_data = group_objectives(data)
     md = ""
-    md += header(level=level+1, prefix="Objectives")
+    md += header(level=level + 1, prefix="Objectives")
     for k in ["Strategic", "Fundamental", "Mean", "Uncategorized"]:
         md += add_objectives(grouped_data, k, level)
     return md
