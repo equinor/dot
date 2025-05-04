@@ -1,17 +1,18 @@
 """
 Module defining low level markdown basic elements
 """
+
 from collections.abc import Iterable
 from typing import Any
-
 
 one_newline = "\n"
 two_newlines = one_newline + one_newline
 double_blank_end = "  \n"
-ordered_symbol ="1. "
+ordered_symbol = "1. "
 unordered_symbol = "- "
 
-def _header_tag(level: int)->str:
+
+def _header_tag(level: int) -> str:
     """Create a markdown section tag
 
     Args:
@@ -35,7 +36,7 @@ def header(level: int, prefix: str, data: str = None) -> str:
     Returns:
         str: A markdown section header finishing by 2 new lines
     """
-    hdr =  f"{_header_tag(level)} {prefix}"
+    hdr = f"{_header_tag(level)} {prefix}"
     if data:
         hdr += f": {data.strip()} "
     hdr += two_newlines
@@ -82,30 +83,27 @@ def _item_prefix(indent: int, level: int, rank: int, parent) -> str:
     Returns:
         str: the prefix of the markdown line
     """
-    prefix = ' '*indent*2
+    prefix = " " * indent * 2
     if parent is dict:
-        if level < 2:  # when dict at level 0, it is assumed it is a level 1 - level 0 is always a list
+        # when dict at level 0, it is assumed it is a level 1 - level 0 is always a list
+        if level < 2:
             if rank == 0:
-                prefix += ordered_symbol+unordered_symbol
+                prefix += ordered_symbol + unordered_symbol
             else:
-                prefix += ' '*2+' '+unordered_symbol
+                prefix += " " * 2 + " " + unordered_symbol
         else:
-            prefix += ' '*level*2+' '+unordered_symbol
+            prefix += " " * level * 2 + " " + unordered_symbol
         return prefix
 
     if level == 0:
         prefix += ordered_symbol
     else:
-        prefix += ' '*level*2+' '+unordered_symbol
+        prefix += " " * level * 2 + " " + unordered_symbol
     return prefix
 
 
 def _parse_simple_type(
-        data: str | int | float | complex | bool,
-        indent: int,
-        level: int,
-        rank: int,
-        parent
+    data: str | int | float | complex | bool, indent: int, level: int, rank: int, parent
 ) -> str:
     """parse data for single line item of a list
 
@@ -127,11 +125,7 @@ def _parse_simple_type(
 
 
 def _parse_sequence(
-        data: tuple | list,
-        indent: int,
-        level: int,
-        rank: int,
-        parent
+    data: tuple | list, indent: int, level: int, rank: int, parent
 ) -> str:
     """parse sequence data
 
@@ -146,23 +140,13 @@ def _parse_sequence(
         str: the parsed data content
     """
     return "".join(
-        _parse_multitype_item(
-            subitem,
-            indent,
-            level+1,
-            rank=count,
-            parent=list
-            )
-            for count, subitem in enumerate(data)
-            )
+        _parse_multitype_item(subitem, indent, level + 1, rank=count, parent=list)
+        for count, subitem in enumerate(data)
+    )
 
 
 def _parse_single_item_dict(
-        data: dict,
-        indent: int,
-        level: int,
-        rank: int,
-        parent
+    data: dict, indent: int, level: int, rank: int, parent
 ) -> str:
     """parse single element dictionary data
 
@@ -196,7 +180,7 @@ def _parse_single_item_dict(
         value_str = f"{value_str}"
         md += f"{prefix}{key_str}{value_str}"
         return md
-    
+
     if isinstance(value, dict):
         key_str = f"{key}: {one_newline}"
         prefix = _item_prefix(indent, level_, rank, dict)
@@ -208,13 +192,7 @@ def _parse_single_item_dict(
         return md
 
 
-def _parse_dict(
-        data: dict,
-        indent: int,
-        level: int,
-        rank: int,
-        parent
-) -> str:
+def _parse_dict(data: dict, indent: int, level: int, rank: int, parent) -> str:
     """parse dictionary data
 
     Args:
@@ -229,14 +207,10 @@ def _parse_dict(
     """
     return "".join(
         _parse_multitype_item(
-            {item[0]: item[1]},
-            indent,
-            level+1,
-            rank=count,
-            parent=parent
-            )
-            for count, item in enumerate(data.items())
-            )
+            {item[0]: item[1]}, indent, level + 1, rank=count, parent=parent
+        )
+        for count, item in enumerate(data.items())
+    )
 
 
 def _parse_multitype_item(item, indent: int, level: int, rank: int, parent) -> str:
@@ -255,16 +229,16 @@ def _parse_multitype_item(item, indent: int, level: int, rank: int, parent) -> s
 
     if isinstance(item, str | int | float | complex | bool):
         return _parse_simple_type(item, indent, level, rank, parent)
-    
+
     if isinstance(item, list | tuple):
         return _parse_sequence(item, indent, level, rank, parent)
-    
+
     if isinstance(item, dict) and len(item) <= 1:
         return _parse_single_item_dict(item, indent, level, rank, parent)
 
     if isinstance(item, dict) and len(item) > 1:
         return _parse_dict(item, indent, level, rank, parent)
-    
+
 
 def multitype_list(data: list, indent=1) -> str:
     """convert a list of items having different types to markdown
@@ -312,27 +286,24 @@ def multitype_list(data: list, indent=1) -> str:
                  - 1 \n
                  - 2 \n
                  - 3 \n
-               - e4 \n
+               - e4 \n\n
     """
-    # below, the rank of all items of level 0 is set to 0. This means we assume all items treated
-    # as iterables and all elements of level 0 are the first item of the iterable.
-    # This is necessary to correctly parse dictionaries 
-    return "".join(
-        _parse_multitype_item(
-            item,
-            indent,
-            level=0,
-            rank=0,  
-            parent=list
-            )
+    # below, the rank of all items of level 0 is set to 0. This means we assume all
+    # items treated as iterables and all elements of level 0 are the first item of
+    # the iterable. This is necessary to correctly parse dictionaries
+    return (
+        "".join(
+            _parse_multitype_item(item, indent, level=0, rank=0, parent=list)
             for item in data
-           )
+        )
+        + one_newline
+    )
 
 
 def item_line(data: str, indent=1, mode="unordered") -> str:
     """Add some an item line
 
-    The item can be for unorderd or ordered lists or for 
+    The item can be for unordered or ordered lists or for
 
     Args:
         data (str): Text of list item.
@@ -362,7 +333,7 @@ def unordered_list(items: list | tuple, indent=1) -> str:
     """
     unordered_list = "".join(
         [item_line(k, indent=indent, mode="unordered") for k in items]
-        )
+    )
     unordered_list += one_newline
     return unordered_list
 
@@ -378,15 +349,13 @@ def ordered_list(items: list | tuple, indent=1) -> str:
     Returns:
         str: A markdown representation of an ordered list
     """
-    ordered_list = "".join(
-        [item_line(k, indent=indent, mode="ordered") for k in items]
-        )
+    ordered_list = "".join([item_line(k, indent=indent, mode="ordered") for k in items])
     ordered_list += one_newline
     return ordered_list
 
 
 def two_columns_table_row(key: str, value: Any) -> str:
-    """Create a row in a 2-columns table 
+    """Create a row in a 2-columns table
 
     Args:
         key (str): Text in first column
@@ -409,7 +378,7 @@ def two_columns_table_row(key: str, value: Any) -> str:
         value_str = " - "
     else:
         value_str = str(value)
-    key_without_blanks = key.replace('_', ' ')
+    key_without_blanks = key.replace("_", " ")
     key_without_blanks = key_without_blanks.strip()
     value_str = value_str.strip()
     return f"| {key_without_blanks} | {value_str} |{one_newline}"
@@ -420,7 +389,7 @@ def two_columns_table(data: dict, filter_keys: list = None) -> str:
 
     Args:
         data (dict): Key/Value pairs
-        filter_keys (list, optional): List of keys from data to include. 
+        filter_keys (list, optional): List of keys from data to include.
         Defaults to None, meaning all keys are taken.
 
     Returns:
@@ -430,9 +399,7 @@ def two_columns_table(data: dict, filter_keys: list = None) -> str:
     md += f"|||{one_newline}"
     md += f"|:---|---:|{one_newline}"
     if filter_keys is None:
-        md += "".join(
-            [two_columns_table_row(key, value) for key, value in data.items()]
-            )
+        md += "".join([two_columns_table_row(key, value) for key, value in data.items()])
     else:
         md += "".join(
             [
@@ -446,12 +413,12 @@ def two_columns_table(data: dict, filter_keys: list = None) -> str:
 
 
 def table_section(
-        level: int,
-        header_data: list | tuple,
-        data: dict,
-        text: str = None,
-        filter_keys: list = None
-        ) -> str:
+    level: int,
+    header_data: list | tuple,
+    data: dict,
+    text: str = None,
+    filter_keys: list = None,
+) -> str:
     """Create a section containing some text and a 2-columns table
 
     Args:
@@ -461,7 +428,7 @@ def table_section(
         second element is None, it is not used.
         data (dict): Key/Value pairs to set in the table
         text (str, optional): Some text before the table
-        filter_keys (list, optional): List of keys from data to include. 
+        filter_keys (list, optional): List of keys from data to include.
         Defaults to None, meaning all keys are taken.
 
     Returns:
