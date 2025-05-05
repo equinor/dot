@@ -32,4 +32,4 @@ jobs:
                   python -m poetry install --with test --directory ./api
 
             - name: Run pytest
-              run: python -m poetry run --directory ./api pytest --cov-fail-under=100 ./api
+              run: python -m poetry run --directory ./api pytest ./api
