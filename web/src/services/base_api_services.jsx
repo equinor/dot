@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAccessToken } from "../auth";
+import { getAccessTokenMsal } from "../auth";
 
 export const API_BASEURL =
   window.injectEnv.NODE_ENV === "local" || process.env.NODE_ENV === "local"
@@ -7,23 +7,26 @@ export const API_BASEURL =
     : "/api";
 
 const API_VERSION = "/latest";
-
+const getAccessToken = async () => {
+  let accessToken;
+  if (
+    window.injectEnv.NODE_ENV === "local" ||
+    process.env.NODE_ENV === "local"
+  ) {
+    accessToken = "";
+  } else {
+    accessToken = await getAccessTokenMsal();
+  }
+  return accessToken;
+};
 class BaseApiServices {
   async test(path) {
     var array_def_projects;
     return array_def_projects;
   }
   async get(path, params) {
-    let accessToken;
     try {
-      if (
-        window.injectEnv.NODE_ENV === "local" ||
-        process.env.NODE_ENV === "local"
-      ) {
-        accessToken = "";
-      } else {
-        accessToken = await getAccessToken();
-      }
+      const accessToken = await getAccessToken();
       const response = await axios.get(API_BASEURL + API_VERSION + path, {
         method: "GET",
         params: params,
@@ -46,6 +49,7 @@ class BaseApiServices {
     var json_str = JSON.stringify(input);
     const params = { project_uuid: projectID, ...queryParams };
     const accessToken = await getAccessToken();
+
     return await axios
       .post(url_str, json_str, {
         params: params,
