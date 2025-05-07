@@ -15,7 +15,7 @@ const msalConfig = {
 
 export const msalInstance = new PublicClientApplication(msalConfig);
 
-export const getAccessToken = async () => {
+export const getAccessTokenMsal = async () => {
   const loginRequest = {
     scopes: [window.injectEnv.CLIENT_APP_SCOPE],
   };
