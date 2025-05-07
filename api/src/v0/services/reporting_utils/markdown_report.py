@@ -20,18 +20,20 @@ class MarkdownReport:
         self._md += data
         self._md += one_newline
         return self
+    
+    def convert(self, fmt):
+        if fmt in ["doc", "docx"]:
+            return pypandoc.convert_text(
+                self._md, "docx", "md"
+            )
+        print(f"Unknown output format {fmt}. Check pypandoc for help.")
 
-    def write(self, filepath: Path="-", doc: bool=False):
+    def write(self, filepath: Path="-", fmt="md"):
         if filepath == "-":
             sys.stdout.write(self._md)
-        else:
-            with open(filepath + ".md", "w") as f:
+            return None
+        with open(filepath, "w") as f:
                 f.write(self._md)
-            if doc:
-                pypandoc.convert_file(
-                    filepath + ".md", "docx", outputfile=filepath + ".docx"
-                )
-
         return None
 
     def __str__(self):
