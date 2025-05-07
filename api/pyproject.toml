@@ -22,6 +22,7 @@ pypandoc-binary = "^1.13"
 pypandoc = "^1.13"
 fastapi-versionizer = "^4.0.1"
 aiohttp = "3.11.15"
+authlib = "^1.5.2"
 
 [tool.poetry.group.docs]
 optional = true
@@ -52,7 +53,6 @@ pytest-asyncio = "^0.23.5"
 pre-commit = ">=3"
 isort = ">=5.13"
 black = ">=23.12"
-pygraphviz = ">=1.12"
 mypy = "^1.9.0"
 
 
