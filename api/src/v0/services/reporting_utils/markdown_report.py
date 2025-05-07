@@ -1,6 +1,9 @@
 """
 Module for making a markdown report
 """
+from pathlib import Path
+import sys
+import pypandoc
 
 from .markdown_elements import one_newline
 from .markdown_issue import generate_issue_data
@@ -18,29 +21,30 @@ class MarkdownReport:
         self._md += one_newline
         return self
 
-    # def write(self, filepath: Path, doc: bool):
-    #     if filepath == "-":
-    #         sys.stdout.write(self._md)
-    #     else:
-    #         with click.open_file(filepath + ".md", "w") as f:
-    #             f.write(self._md)
-    #         if doc:
-    #             pypandoc.convert_file(
-    #                 filepath + ".md", "docx", outputfile=filepath + ".docx"
-    #             )
+    def write(self, filepath: Path="-", doc: bool=False):
+        if filepath == "-":
+            sys.stdout.write(self._md)
+        else:
+            with open(filepath + ".md", "w") as f:
+                f.write(self._md)
+            if doc:
+                pypandoc.convert_file(
+                    filepath + ".md", "docx", outputfile=filepath + ".docx"
+                )
 
-    #     return None
+        return None
 
     def __str__(self):
-        return self._md
+        return f"{self._md}"
 
     def __repr__(self):
-        return self._md
+        return f"md is\n{self._md}"
 
 
-def generate_report(data: dict, level=1):
+def generate_report(data: dict, level=1, filepath="-", doc=True):
     md_document = MarkdownReport()
     md_document.update(generate_project_data(data["project"], level))
     md_document.update(generate_opportunity_data(data["opportunities"], level + 1))
     md_document.update(generate_objective_data(data["objectives"], level + 1))
     md_document.update(generate_issue_data(data["issues"], level + 1))
+    md_document.write(filepath, doc)
