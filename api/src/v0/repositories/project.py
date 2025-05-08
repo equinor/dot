@@ -334,3 +334,36 @@ class ProjectRepository:
             VertexRepository(self._client).delete(v.id)
         VertexRepository(self._client).delete(project_uuid)
         return
+
+    def report_project(self, project_uuid: str) -> dict:
+        """Reporting of the project as a static document
+
+            fetch relevant data from the DB
+
+        Args:
+            project_uuid (str): UUID of the project to report
+
+        Returns:
+            dict: project components as a dictionary
+        """
+        project = VertexRepository(self._client).read(project_uuid)
+        objectives_nodes = VertexRepository(self._client).read_out_vertex(
+            project_uuid,
+            original_vertex_label="objective",
+            edge_label="contains",
+        )
+        opportunities_nodes = VertexRepository(self._client).read_out_vertex(
+            project_uuid,
+            original_vertex_label="opportunity",
+            edge_label="contains",
+        )
+        issue_nodes = VertexRepository(self._client).read_out_vertex(
+            project_uuid, original_vertex_label="issue", edge_label="contains"
+        )
+
+        return {
+            "project": project.model_dump(),
+            "opportunities": [item.model_dump() for item in opportunities_nodes],
+            "objectives": [item.model_dump() for item in objectives_nodes],
+            "issues": [item.model_dump() for item in issue_nodes],
+        }

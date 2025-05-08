@@ -153,3 +153,18 @@ def delete(project_uuid: str, service: ProjectService = Depends(get_service)) ->
         None
     """
     return service.delete(project_uuid)
+
+
+@api_version(database_version)
+@router.get(
+    "/projects/{project_uuid}/report",
+    response_model=None,
+    summary="Create a report for a project",
+)
+def report_project(
+    project_uuid: str,
+    level: int = 1,
+    filepath: str = "-",
+    service: ProjectService = Depends(get_service),
+) -> None:
+    return service.report_project(project_uuid, level, filepath)

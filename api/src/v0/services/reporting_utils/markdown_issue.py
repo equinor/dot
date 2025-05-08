@@ -18,9 +18,10 @@ uncertainties = ["true", "false", "Unset"]
 
 
 def group_issues(data: list[dict]) -> list[dict]:
+    data_ = [{k: v if v != "None" else None for k, v in item.items()} for item in data]
     data_ = [
         {k: v if k != "category" or v else "Uncategorized" for k, v in item.items()}
-        for item in data
+        for item in data_
     ]
     data_ = [
         {k: v if k != "boundary" or v else "Unset" for k, v in item.items()}
@@ -42,6 +43,7 @@ def group_issues(data: list[dict]) -> list[dict]:
             uncertainties.index(x["keyUncertainty"]),
         )
     )
+
     return data_
 
 

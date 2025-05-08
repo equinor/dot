@@ -146,7 +146,7 @@ def uncertainty_data():
             "shortname": "U1",
             "boundary": "",
             "keyUncertainty": "",
-            "decisionType": "",
+            "decisionType": "None",
             "alternatives": [],
             "probabilities": {},
         },

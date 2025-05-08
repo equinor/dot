@@ -1,8 +1,10 @@
 """
 Module for making a markdown report
 """
-from pathlib import Path
+
 import sys
+from pathlib import Path
+
 import pypandoc
 
 from .markdown_elements import one_newline
@@ -13,28 +15,46 @@ from .markdown_project import generate_project_data
 
 
 class MarkdownReport:
+    """Class for generating a markdown file
+
+    There is only one attribute `_md` containing the current markdown as a string
+    """
+
     def __init__(self):
         self._md = ""
 
     def update(self, data: str):
+        """update the markdown content
+
+        Args:
+            data (str): data to add to the markdown
+        """
         self._md += data
         self._md += one_newline
         return self
-    
-    def convert(self, fmt):
-        if fmt in ["doc", "docx"]:
-            return pypandoc.convert_text(
-                self._md, "docx", "md"
-            )
-        print(f"Unknown output format {fmt}. Check pypandoc for help.")
 
-    def write(self, filepath: Path="-", fmt="md"):
+    def write(self, filepath: Path = "-"):
+        """Write markdown
+
+        Args:
+            filepath (Path, optional): file to write the markdown to. The extension
+            specifies the format of the output file. Defaults to "-", meaning print in
+            terminal.
+
+        Raises:
+            ValueError: when the markdown content cannot be converted into the required
+            format
+        """
         if filepath == "-":
             sys.stdout.write(self._md)
             return None
-        with open(filepath, "w") as f:
-                f.write(self._md)
-        return None
+        fmt = Path(filepath).suffix
+        try:
+            pypandoc.convert_text(
+                self._md, fmt[1:], "md", outputfile=Path(filepath).with_suffix(fmt)
+            )
+        except Exception as e:
+            raise ValueError(f"Cannot convert into {fmt[1:]} format: {e}")
 
     def __str__(self):
         return f"{self._md}"
@@ -43,10 +63,11 @@ class MarkdownReport:
         return f"md is\n{self._md}"
 
 
-def generate_report(data: dict, level=1, filepath="-", doc=True):
+def generate_report(data: dict, level=1, filepath="-"):
     md_document = MarkdownReport()
     md_document.update(generate_project_data(data["project"], level))
     md_document.update(generate_opportunity_data(data["opportunities"], level + 1))
     md_document.update(generate_objective_data(data["objectives"], level + 1))
     md_document.update(generate_issue_data(data["issues"], level + 1))
-    md_document.write(filepath, doc)
+    md_document.write(filepath)
+    return None
