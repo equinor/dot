@@ -115,4 +115,4 @@ def test_report_project_success(mock_report, mock_client):
 
     service.report_project(project_uuid="1")
     mock_repository.report_project.assert_called_once()
-    mock_report.assert_called_once_with(None, 1, "-")
+    mock_report.assert_called_once_with(None, 1, "-", None)

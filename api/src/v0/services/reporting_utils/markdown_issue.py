@@ -18,6 +18,16 @@ uncertainties = ["true", "false", "Unset"]
 
 
 def group_issues(data: list[dict]) -> list[dict]:
+    """Group data by category and sort them by category, boundary, decisionType and
+    keyUncertainty
+
+
+    Args:
+        data (list[dict]): issues list
+
+    Returns:
+        list[dict]: a grouped and sorted issue list
+    """
     data_ = [{k: v if v != "None" else None for k, v in item.items()} for item in data]
     data_ = [
         {k: v if k != "category" or v else "Uncategorized" for k, v in item.items()}
@@ -48,6 +58,19 @@ def group_issues(data: list[dict]) -> list[dict]:
 
 
 def clean_issues(data: list[dict], category: str, keys: list[str]) -> list[dict]:
+    """clean data for each category.
+
+        The cleaning consists of keeping data for only one category and within
+        this category, keeping only desired attributes having values
+
+    Args:
+        data (list[dict]): list of issues
+        category (str): category to clean
+        keys (list[str]): list of keys (attributes) to keep in the output
+
+    Returns:
+        list[dict]: subset of the input list of issues
+    """
     d = [item for item in data if item["category"] == category]
     d = [
         {k: item[k] for k in keys if k in item.keys() and item[k] != "Unset" and item[k]}
@@ -56,7 +79,16 @@ def clean_issues(data: list[dict], category: str, keys: list[str]) -> list[dict]
     return d
 
 
-def keyword_translation(d, translation) -> list[dict]:
+def keyword_translation(d: list[dict], translation: dict) -> list[dict]:
+    """rename keywords of a dictionary
+
+    Args:
+        d (list[dict]): input data 
+        translation (dict): mapping of the keywords
+
+    Returns:
+        list[dict]: data for which some keys have been renamed
+    """
     return [
         {k if k not in translation else translation[k]: v for k, v in item.items()}
         for item in d
@@ -64,6 +96,15 @@ def keyword_translation(d, translation) -> list[dict]:
 
 
 def add_facts(data: list[dict], level=1) -> str:
+    """add facts to report
+
+    Args:
+        data (list[dict]): list of facts
+        level (int, optional): level of main section. Defaults to 1.
+
+    Returns:
+        str: a markdown section listing facts
+    """
     keys = ["description", "boundary", "shortname"]
     d = clean_issues(data, "Fact", keys)
     md = ""
@@ -74,6 +115,15 @@ def add_facts(data: list[dict], level=1) -> str:
 
 
 def add_action_item(data: list[dict], level=1) -> str:
+    """add action items to report
+
+    Args:
+        data (list[dict]): list of facts
+        level (int, optional): level of main section. Defaults to 1.
+
+    Returns:
+        str: a markdown section listing action items
+    """
     keys = ["description", "boundary", "shortname"]
     d = clean_issues(data, "Action Item", keys)
     md = ""
@@ -84,6 +134,15 @@ def add_action_item(data: list[dict], level=1) -> str:
 
 
 def add_value_metric(data: list[dict], level=1) -> str:
+    """add Value metrics to report
+
+    Args:
+        data (list[dict]): list of facts
+        level (int, optional): level of main section. Defaults to 1.
+
+    Returns:
+        str: a markdown section listing Value metrics
+    """
     keys = ["description", "boundary", "shortname"]
     d = clean_issues(data, "Value Metric", keys)
     md = ""
@@ -94,6 +153,15 @@ def add_value_metric(data: list[dict], level=1) -> str:
 
 
 def add_uncategorized(data: list[dict], level=1) -> str:
+    """add uncategorized items to report
+
+    Args:
+        data (list[dict]): list of facts
+        level (int, optional): level of main section. Defaults to 1.
+
+    Returns:
+        str: a markdown section listing uncategorized items
+    """
     keys = ["description", "boundary", "shortname"]
     d = clean_issues(data, "Uncategorized", keys)
     md = ""
@@ -104,6 +172,15 @@ def add_uncategorized(data: list[dict], level=1) -> str:
 
 
 def add_decision(data: list[dict], level=1) -> str:
+    """add decisions to report
+
+    Args:
+        data (list[dict]): list of facts
+        level (int, optional): level of main section. Defaults to 1.
+
+    Returns:
+        str: a markdown section listing decisions
+    """
     keys = ["description", "boundary", "shortname", "decisionType", "alternatives"]
     d = clean_issues(data, "Decision", keys)
     translation = {"decisionType": "decision type"}
@@ -116,6 +193,15 @@ def add_decision(data: list[dict], level=1) -> str:
 
 
 def add_uncertainty(data: list[dict], level=1) -> str:
+    """add uncertainties to report
+
+    Args:
+        data (list[dict]): list of facts
+        level (int, optional): level of main section. Defaults to 1.
+
+    Returns:
+        str: a markdown section listing uncertainties
+    """
     keys = ["description", "boundary", "shortname", "keyUncertainty", "probabilities"]
     d = clean_issues(data, "Uncertainty", keys)
     translation = {"keyUncertainty": "key uncertainty"}

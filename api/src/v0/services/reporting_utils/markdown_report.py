@@ -33,13 +33,15 @@ class MarkdownReport:
         self._md += one_newline
         return self
 
-    def write(self, filepath: Path = "-"):
+    def write(self, filepath: Path = "-", template: Path = None):
         """Write markdown
 
         Args:
             filepath (Path, optional): file to write the markdown to. The extension
             specifies the format of the output file. Defaults to "-", meaning print in
             terminal.
+            template (Path, optional): template file to use for conversion.
+            Defaults to None, meaning no specific template is used.
 
         Raises:
             ValueError: when the markdown content cannot be converted into the required
@@ -50,8 +52,20 @@ class MarkdownReport:
             return None
         fmt = Path(filepath).suffix
         try:
+            conversion_args = [
+                self._md,
+                fmt[1:],
+                "md",
+            ]
+            conversion_kwargs = {
+                "outputfile": Path(filepath).with_suffix(fmt)
+                }
+            if template:
+                conversion_kwargs["extra_args"] = [f"--template={template}"]
             pypandoc.convert_text(
-                self._md, fmt[1:], "md", outputfile=Path(filepath).with_suffix(fmt)
+                *conversion_args,
+                **conversion_kwargs,
+
             )
         except Exception as e:
             raise ValueError(f"Cannot convert into {fmt[1:]} format: {e}")
@@ -63,11 +77,24 @@ class MarkdownReport:
         return f"md is\n{self._md}"
 
 
-def generate_report(data: dict, level=1, filepath="-"):
+def generate_report(data: dict, level=1, filepath="-", template: str = None):
+    """Generate the report given a dictionary represneting the project
+
+    Args:
+        data (dict): project data
+        level (int, optional): level of the main section. Defaults to 1.
+        filepath (str, optional): output filepath. Defaults to "-", meaning
+        display in terminal only.
+        template (str, optional): template for output file (e.g. MS office files).
+        Defaults to None, meaning no template.
+
+    Returns:
+        _type_: _description_
+    """
     md_document = MarkdownReport()
     md_document.update(generate_project_data(data["project"], level))
     md_document.update(generate_opportunity_data(data["opportunities"], level + 1))
     md_document.update(generate_objective_data(data["objectives"], level + 1))
     md_document.update(generate_issue_data(data["issues"], level + 1))
-    md_document.write(filepath)
+    md_document.write(filepath, template)
     return None

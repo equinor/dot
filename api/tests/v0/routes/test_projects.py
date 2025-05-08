@@ -128,5 +128,5 @@ def test_report_project_success(mock_service, project, metadata):
     )
     assert response.status_code == 200
     mock_service.return_value.report_project.assert_called_once_with(
-        project_uuid, 1, "-"
+        project_uuid, 1, "-", None
     )

@@ -36,6 +36,20 @@ def test_write_to_docx(mocker):
     )
 
 
+@patch("src.v0.services.reporting_utils.markdown_report.pypandoc.convert_text")
+def test_write_to_docx_with_template(mocker):
+    mdr = MarkdownReport()
+    mdr.update("junk")
+    mdr.write("junk.docx", template="my_teamplte.docx")
+    mocker.assert_called_once_with(
+        "junk\n",
+        "docx",
+        "md",
+        outputfile=PosixPath("junk.docx"),
+        extra_args=['--template=my_teamplte.docx'],
+    )
+
+
 def test_write_fail():
     mdr = MarkdownReport()
     mdr.update("junk")

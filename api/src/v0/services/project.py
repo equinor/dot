@@ -94,7 +94,7 @@ class ProjectService:
         """
         return self.repository.delete(project_uuid)
 
-    def report_project(self, project_uuid: str, level=1, filepath="-") -> None:
+    def report_project(self, project_uuid: str, level=1, filepath="-", template:str = None) -> None:
         """Reporting of the project as a static document
 
         Args
@@ -103,7 +103,8 @@ class ProjectService:
             filepath (Path| str, optional): file path to write the document. The
             extension of the filepath indicates the desired format. Default = "-"
             meaning display in the terminal.
-
+            template (str, optional): template for output file (e.g. MS office files).
+            Defaults to None, meaning no template.
         Remarks
             - The code uses pypandoc and the file extension should be compatible.
             - The level can be useful when planning to merge several projects into
@@ -111,4 +112,4 @@ class ProjectService:
             later a level one section manually
         """
         project_data = self.repository.report_project(project_uuid)
-        return generate_report(project_data, level, filepath)
+        return generate_report(project_data, level, filepath, template)

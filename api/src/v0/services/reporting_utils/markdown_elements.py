@@ -52,7 +52,7 @@ def text_line(data: str) -> str:
     Returns:
         str: Input text with an addiciotnal new line
     """
-    return f"{data.strip()} {one_newline}"
+    return f"{data.strip()} {two_newlines}"
 
 
 def _list_symbol(mode: str) -> str:
@@ -399,16 +399,18 @@ def two_columns_table(data: dict, filter_keys: list = None) -> str:
     md += f"|||{one_newline}"
     md += f"|:---|---:|{one_newline}"
     if filter_keys is None:
-        md += "".join([two_columns_table_row(key, value) for key, value in data.items()])
+        md += "".join([two_columns_table_row(key, value if value else "-") for key, value in data.items()])
     else:
         md += "".join(
             [
-                two_columns_table_row(key, value)
+                two_columns_table_row(key, value if value else "-")
                 for key, value in data.items()
                 if key in filter_keys
             ]
         )
     md += one_newline
+    with open("junk.txt", "w+") as f:
+        f.write(f"{md}")
     return md
 
 
