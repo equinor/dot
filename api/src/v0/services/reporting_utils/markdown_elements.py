@@ -409,8 +409,6 @@ def two_columns_table(data: dict, filter_keys: list = None) -> str:
             ]
         )
     md += one_newline
-    with open("junk.txt", "w+") as f:
-        f.write(f"{md}")
     return md
 
 

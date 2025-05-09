@@ -60,8 +60,8 @@ class MarkdownReport:
             conversion_kwargs = {
                 "outputfile": Path(filepath).with_suffix(fmt)
                 }
-            if template:
-                conversion_kwargs["extra_args"] = [f"--template={template}"]
+            if template and fmt[1:] in ["docx", "odt", "pptx"]:
+                conversion_kwargs["extra_args"] = [f"--reference-doc={template}"]
             pypandoc.convert_text(
                 *conversion_args,
                 **conversion_kwargs,
