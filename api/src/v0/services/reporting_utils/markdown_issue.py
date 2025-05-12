@@ -83,7 +83,7 @@ def keyword_translation(d: list[dict], translation: dict) -> list[dict]:
     """rename keywords of a dictionary
 
     Args:
-        d (list[dict]): input data 
+        d (list[dict]): input data
         translation (dict): mapping of the keywords
 
     Returns:

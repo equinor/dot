@@ -57,15 +57,12 @@ class MarkdownReport:
                 fmt[1:],
                 "md",
             ]
-            conversion_kwargs = {
-                "outputfile": Path(filepath).with_suffix(fmt)
-                }
+            conversion_kwargs = {"outputfile": Path(filepath).with_suffix(fmt)}
             if template and fmt[1:] in ["docx", "odt", "pptx"]:
                 conversion_kwargs["extra_args"] = [f"--reference-doc={template}"]
             pypandoc.convert_text(
                 *conversion_args,
                 **conversion_kwargs,
-
             )
         except Exception as e:
             raise ValueError(f"Cannot convert into {fmt[1:]} format: {e}")
@@ -78,7 +75,7 @@ class MarkdownReport:
 
 
 def generate_report(data: dict, level=1, filepath="-", template: str = None):
-    """Generate the report given a dictionary represneting the project
+    """Generate the report given a dictionary representing the project
 
     Args:
         data (dict): project data
@@ -87,9 +84,6 @@ def generate_report(data: dict, level=1, filepath="-", template: str = None):
         display in terminal only.
         template (str, optional): template for output file (e.g. MS office files).
         Defaults to None, meaning no template.
-
-    Returns:
-        _type_: _description_
     """
     md_document = MarkdownReport()
     md_document.update(generate_project_data(data["project"], level))

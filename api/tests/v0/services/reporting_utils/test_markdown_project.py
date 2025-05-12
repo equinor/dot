@@ -58,7 +58,7 @@ def test_generate_incomplete_project_data():
         "sensitivity_label": "Open",
         "index": "",
         "id": "72ba27a5-2e9c-4551-aa1a-6ad9d676d67b",
-        "label": "project"
+        "label": "project",
     }
     assert markdown_project.generate_project_data(project_data).startswith(
         "# Project: The Used Car Buyer Problem \n\n"

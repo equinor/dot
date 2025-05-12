@@ -175,7 +175,7 @@ def report_project(
         level (int, optional): level of main section of the report. Defaults to 1.
         It can be used when planned to merge several reports together and say start
         at level=2. A level one can then be manually added.
-        filepath (str, optional): path of the created report. Defaults to "-" meaning 
+        filepath (str, optional): path of the created report. Defaults to "-" meaning
         display in the terminal.
         template (str, optional): path of an eventual (say MS office template) for the
         output file. Defaults to None, meaning no template is used

@@ -94,7 +94,9 @@ class ProjectService:
         """
         return self.repository.delete(project_uuid)
 
-    def report_project(self, project_uuid: str, level=1, filepath="-", template:str = None) -> None:
+    def report_project(
+        self, project_uuid: str, level=1, filepath="-", template: str = None
+    ) -> None:
         """Reporting of the project as a static document
 
         Args

@@ -399,7 +399,12 @@ def two_columns_table(data: dict, filter_keys: list = None) -> str:
     md += f"|||{one_newline}"
     md += f"|:---|---:|{one_newline}"
     if filter_keys is None:
-        md += "".join([two_columns_table_row(key, value if value else "-") for key, value in data.items()])
+        md += "".join(
+            [
+                two_columns_table_row(key, value if value else "-")
+                for key, value in data.items()
+            ]
+        )
     else:
         md += "".join(
             [

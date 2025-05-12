@@ -23,7 +23,8 @@ def test_header_prefix_and_data():
 
 def test_text_line():
     assert (
-        markdown_elements.text_line("A text to be written") == "A text to be written \n\n"
+        markdown_elements.text_line("A text to be written")
+        == "A text to be written \n\n"
     )
 
 
@@ -230,7 +231,10 @@ def test_two_columns_table_with_filter():
 
 def test_table_section():
     assert markdown_elements.table_section(
-        2, ("Title", None), {"a": 1, "b": 2, "c": None, "d": 4}, "The table below is nice"
+        2,
+        ("Title", None),
+        {"a": 1, "b": 2, "c": None, "d": 4},
+        "The table below is nice",
     ) == (
         "## Title\n\n"
         "The table below is nice \n\n"

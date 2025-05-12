@@ -46,7 +46,7 @@ def test_write_to_docx_with_template(mocker):
         "docx",
         "md",
         outputfile=PosixPath("junk.docx"),
-        extra_args=['--reference-doc=my_teamplte.docx'],
+        extra_args=["--reference-doc=my_teamplte.docx"],
     )
 
 
