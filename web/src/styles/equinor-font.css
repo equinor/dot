@@ -15,8 +15,7 @@
 
 @font-face {
   font-family: Equinor;
-  src:
-    url(//cdn.eds.equinor.com/font/Equinor-Light.woff2) format("woff2"),
+  src: url(//cdn.eds.equinor.com/font/Equinor-Light.woff2) format("woff2"),
     url(//cdn.eds.equinor.com/font/Equinor-Light.woff) format("woff");
   font-style: normal;
   font-weight: 300;
@@ -24,8 +23,7 @@
 
 @font-face {
   font-family: Equinor;
-  src:
-    url(//cdn.eds.equinor.com/font/Equinor-Regular.woff2) format("woff2"),
+  src: url(//cdn.eds.equinor.com/font/Equinor-Regular.woff2) format("woff2"),
     url(//cdn.eds.equinor.com/font/Equinor-Regular.woff) format("woff");
   font-style: normal;
   font-weight: 400;
@@ -33,8 +31,7 @@
 
 @font-face {
   font-family: Equinor;
-  src:
-    url(//cdn.eds.equinor.com/font/Equinor-Medium.woff2) format("woff2"),
+  src: url(//cdn.eds.equinor.com/font/Equinor-Medium.woff2) format("woff2"),
     url(//cdn.eds.equinor.com/font/Equinor-Medium.woff) format("woff");
   font-style: normal;
   font-weight: 500;
@@ -42,8 +39,7 @@
 
 @font-face {
   font-family: Equinor;
-  src:
-    url(//cdn.eds.equinor.com/font/Equinor-Bold.woff2) format("woff2"),
+  src: url(//cdn.eds.equinor.com/font/Equinor-Bold.woff2) format("woff2"),
     url(//cdn.eds.equinor.com/font/Equinor-Bold.woff) format("woff");
   font-style: normal;
   font-weight: 700;
@@ -51,8 +47,7 @@
 
 @font-face {
   font-family: Equinor;
-  src:
-    url(//cdn.eds.equinor.com/font/Equinor-LightItalic.woff2) format("woff2"),
+  src: url(//cdn.eds.equinor.com/font/Equinor-LightItalic.woff2) format("woff2"),
     url(//cdn.eds.equinor.com/font/Equinor-LightItalic.woff) format("woff");
   font-style: italic;
   font-weight: 300;
@@ -60,8 +55,7 @@
 
 @font-face {
   font-family: Equinor;
-  src:
-    url(//cdn.eds.equinor.com/font/Equinor-Italic.woff2) format("woff2"),
+  src: url(//cdn.eds.equinor.com/font/Equinor-Italic.woff2) format("woff2"),
     url(//cdn.eds.equinor.com/font/Equinor-Italic.woff) format("woff");
   font-style: italic;
   font-weight: 400;
@@ -69,8 +63,8 @@
 
 @font-face {
   font-family: Equinor;
-  src:
-    url(//cdn.eds.equinor.com/font/Equinor-MediumItalic.woff2) format("woff2"),
+  src: url(//cdn.eds.equinor.com/font/Equinor-MediumItalic.woff2)
+      format("woff2"),
     url(//cdn.eds.equinor.com/font/Equinor-MediumItalic.woff) format("woff");
   font-style: italic;
   font-weight: 500;
@@ -78,8 +72,7 @@
 
 @font-face {
   font-family: Equinor;
-  src:
-    url(//cdn.eds.equinor.com/font/Equinor-BoldItalic.woff2) format("woff2"),
+  src: url(//cdn.eds.equinor.com/font/Equinor-BoldItalic.woff2) format("woff2"),
     url(//cdn.eds.equinor.com/font/Equinor-BoldItalic.woff) format("woff");
   font-style: italic;
   font-weight: 700;
