@@ -69,7 +69,7 @@ repos:
         files: ^api/.*\.py$
 
   - repo: https://github.com/PyCQA/bandit
-    rev: 1.8.3
+    rev: 1.7.4
     hooks:
       - id: bandit
         args: [-l, --recursive, -x, tests]
