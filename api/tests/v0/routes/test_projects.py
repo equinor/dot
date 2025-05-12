@@ -116,3 +116,17 @@ def test_export_project_success(mock_service, project, metadata):
     response = client.get(f"/v{database_version}/projects/{project_uuid}/export")
     assert response.status_code == 200
     mock_service.return_value.export_project.assert_called_once_with(project_uuid)
+
+
+def test_report_project_success(mock_service, project, metadata):
+    body = {**project, **metadata}
+    mock_service.return_value.report_project.return_value = body
+    project_uuid = "1"
+    response = client.get(
+        f"/v{database_version}/projects/{project_uuid}/report",
+        params={"level": 1, "filepath": "-"},
+    )
+    assert response.status_code == 200
+    mock_service.return_value.report_project.assert_called_once_with(
+        project_uuid, 1, "-", None
+    )

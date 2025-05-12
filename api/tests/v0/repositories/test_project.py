@@ -448,3 +448,25 @@ def test_import_project(mock_client):
             out_vertex_uuid="new_uuid_2",
             in_vertex_uuid="new_uuid_3",
         )
+
+
+def test_report_project_success(mock_client, project, metadata, vertex, edge):
+    body = [{**project, **metadata}]
+    mock_client.execute_query.side_effect = [
+        body,
+        [vertex],
+        [vertex],
+        [vertex],
+        [vertex],
+        [edge],
+        [edge],
+        [edge],
+        [edge],
+    ]
+    repository = ProjectRepository(mock_client)
+    repository.report_project(project_uuid="1")
+    call_count = 1  # read project
+    call_count += 1  # read issue list
+    call_count += 1  # read opportunity list
+    call_count += 1  # read objective list
+    assert mock_client.execute_query.call_count == call_count

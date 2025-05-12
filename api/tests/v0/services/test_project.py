@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -103,3 +103,16 @@ def test_update_success(mock_client):
 
     service.update(project_uuid="1", modified_fields=ProjectUpdate(name="New"))
     mock_repository.update.assert_called_once()
+
+
+@patch("src.v0.services.project.generate_report")
+def test_report_project_success(mock_report, mock_client):
+    mock_repository = MagicMock(spec=ProjectRepository)
+    mock_repository._client = mock_client
+    service = ProjectService(mock_client)
+    service.repository = mock_repository
+    mock_repository.report_project.return_value = None
+
+    service.report_project(project_uuid="1")
+    mock_repository.report_project.assert_called_once()
+    mock_report.assert_called_once_with(None, 1, "-", None)
