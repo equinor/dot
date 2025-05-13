@@ -2,33 +2,30 @@
 
 ## Description
 
-The *Decision Optimization Tool (DOT)* is a **prototype** of a web application to guide users and teams through complex decision making processes.
-The prototype utilizes the concepts of *Decision Quality* and *Structured Decision Making*.
+The _Decision Optimization Tool (DOT)_ is a **prototype** of a web application to guide users and teams through complex decision making processes.
+The prototype utilizes the concepts of _Decision Quality_ and _Structured Decision Making_.
 The web application contains features for documented framing exercises (issue list, objectives, decision hierarchy, strategy table, etc.) and a graphical interface for the creation of Influence Diagrams and the visualization of a resulting Decision Trees.
 Below is some information on how to run the web application locally on any machine using different technologies including a local database.
-
 
 ## Installation Instructions
 
 The code is built on
 
-- **TinkerPop** Graph database
-- **FastAPI** - Python backend (>=3.10)
-- **React** - JavaScript frontend (>=20.1.0)
-
+-   **TinkerPop** Graph database
+-   **FastAPI** - Python backend (>=3.10)
+-   **React** - JavaScript frontend (>=20.1.0)
 
 and the used ports are
 
-- port 8182: local database
-- port 8000: API hosted
-- port 3000: web application
+-   port 8182: local database
+-   port 8000: API hosted
+-   port 3000: web application
 
 ### Command Line
 
 ```bash
 git clone https://github.com/equinor/dot.git
 ```
-
 
 #### Backend - API
 
@@ -70,7 +67,7 @@ npm start --prefix web
 ### Docker
 
 ```bash
-docker-compose up --build
+docker-compose -f .\docker-compose.dev.yaml up --build
 ```
 
 The suffix ` -d` can be added to run the containers in detached mode.
@@ -78,7 +75,6 @@ The suffix ` -d` can be added to run the containers in detached mode.
 ### Codespace
 
 Github codespace is set up for the project. Be aware the database is available only if running the codespace locally and not from vscode browser version.
-
 
 ### Docs
 
@@ -95,13 +91,10 @@ uvicorn main:app --reload
 curl -X GET "http://127.0.0.1:8000/openapi.json" -o docs/src/developers/apiopenapi.json
 ```
 
-
 ## Usage
-
 
 The frontend application is available on port 3000 and the API documentation on port 8000. Once the local database is running, they respectively can be started from a browser at addresses
 http://localhost:3000 and http://localhost:8000/docs#/default.
-
 
 ## Contributing
 
@@ -113,14 +106,12 @@ http://localhost:3000 and http://localhost:8000/docs#/default.
 
 [Licence file](./LICENSE)
 
-
 ## Contact Information
 
 ## Acknowledgments
 
 The project has been greatly influenced by the concepts and work shared by Reidar B. Bratvold (https://reidar-bratvold.com/) from the University in Stavanger.
 
+**Reference:**
 
-__Reference:__
-
-Making Good Decisions by Reidar B Bratvold and Steve H Begg. _Society of Petroleum Engineers_, vol. 207,  2010. ISBN 9781555632588.
+Making Good Decisions by Reidar B Bratvold and Steve H Begg. _Society of Petroleum Engineers_, vol. 207, 2010. ISBN 9781555632588.
