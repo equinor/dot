@@ -20,8 +20,7 @@ def test_CommentData_fail():
         )
     assert (
         "1 validation error for CommentData\nauthor\n  Field required [type=missing, "
-        "input_value={'comment': 'a comment'}, input_type=dict]\n    For further "
-        "information visit https://errors.pydantic.dev/2.10/v/missing" in str(exc.value)
+        "input_value={'comment': 'a comment'}, input_type=dict]\n" in str(exc.value)
     )
 
 

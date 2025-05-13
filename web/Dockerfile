@@ -1,31 +1,43 @@
-FROM node:20-alpine AS build
+# Use an official Node.js runtime as a parent image
+FROM node:19-bullseye-slim as builder
 
-RUN mkdir -p /home/node/app/node_modules \
-    && chown -R node:node /home/node/app
-WORKDIR /home/node/app
-COPY package*.json ./
+# Set the working directory to /app
+WORKDIR /app
 
+# Copy package.json and package-lock.json to the working directory
+COPY package.json package-lock.json ./
+
+# Install dependencies
 RUN npm ci
 
-COPY . .
+# Copy the rest of the application code to the working directory
+COPY . /app
+
+# Build the application for production
 RUN npm run build
 
-FROM node:20-alpine AS deployment
+# Use an official Nginx runtime as a parent image
+FROM nginxinc/nginx-unprivileged:1.23.3-alpine-slim
 
-RUN deluser --remove-home node \
-    && addgroup -S node -g 1001 \
-    && adduser -S -G node -u 1001 node
+WORKDIR /app
+# Copy the build output from the previous step to Nginx's default public directory
+COPY --from=builder /app/build  ./www
+COPY nginx/nginx.conf.template /etc/nginx/nginx.conf.template
+COPY nginx/run_nginx.sh ./server/run_nginx.sh
+COPY inject-env-template.js /app/www/inject-env-template.js
+# Copy Nginx configuration file
 
-WORKDIR /home/node/app
+USER 0
+# Ensure nginx user has required permissions
+RUN chown -R nginx /etc/nginx \
+    && chown -R nginx /app \
+    && chown -R nginx /var/run/ \
+    # Ensure run script is executable and have correct format
+    && chmod +x ./server/run_nginx.sh \
+    && dos2unix ./server/run_nginx.sh
 
-COPY deployment .
-RUN npm install
-
-COPY --from=build /home/node/app/build ./build
-RUN chown -R node:node /home/node/app/*
-RUN chmod -R 755 /home/node/app/*
-
-USER 1001
 EXPOSE 3000
+# Run start script as nginx user (UID=101)
+USER 101
 
-CMD ["node","app.js"]
+CMD /bin/sh -c "./server/run_nginx.sh"
