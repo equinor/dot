@@ -1,0 +1,58 @@
+services:
+    frontend:
+        build:
+            context: .
+            dockerfile: frontend.dev.Dockerfile
+        depends_on:
+            - backend
+        environment:
+            - REACT_APP_API_BASE_URL=http://localhost:8000
+            - NODE_ENV=local
+            - WATCHPACK_POLLING=true
+        volumes:
+            - ./web/src:/home/web/src
+        ports:
+            - "3000:3000"
+        expose:
+            - 3000
+        networks:
+            - app-network
+
+    backend:
+        build:
+            context: .
+            dockerfile: backend.dev.Dockerfile
+        depends_on:
+            - database
+        environment:
+            - UVICORN_PORT=8000
+            - REACT_APP_WEB_HOST=localhost
+            - REACT_APP_WEB_PORT=3000
+            - DATABASE_HOST=database
+            - DATABASE_PORT=8182
+        volumes:
+            - ./api:/home/api
+        ports:
+            - "8000:8000"
+        expose:
+            - 8000
+        networks:
+            - app-network
+
+    database:
+        build:
+            context: .
+            dockerfile: database.dev.Dockerfile
+        command: conf/gremlin-dot.yaml
+        volumes:
+            - ./db/data:/opt/gremlin-server/data
+        ports:
+            - "8182:8182"
+        expose:
+            - 8182
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge
