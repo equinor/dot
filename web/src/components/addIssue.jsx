@@ -17,8 +17,8 @@ function AddIssue({ onSave }) {
     let formatedTags = Array.isArray(issueLabelText)
       ? issueLabelText.map((item) => item.trim()).filter((item) => item !== "")
       : issueLabelText === ""
-        ? []
-        : [issueLabelText];
+      ? []
+      : [issueLabelText];
     Issue.tag = formatedTags;
     Issue.category = issueCategoryText;
     Issue.description = issueDescriptionText;
