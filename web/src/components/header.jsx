@@ -15,11 +15,13 @@ import {
   help_outline,
   file_description,
   download,
+  file,
 } from "@equinor/eds-icons";
 import { Link, Outlet } from "react-router-dom";
 import { useProjectContext } from "./context";
 import { readProject } from "../services/project_api";
 import { handleExport } from "./handleExport";
+import { handleReport } from "./handleReport";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -97,6 +99,19 @@ function Header() {
                       }}
                     >
                       <Icon data={download} />
+                    </Button>
+                    <Button
+                      className="reportButton"
+                      variant="ghost_icon"
+                      onClick={async () => {
+                        try {
+                          await handleReport(project_data.uuid);
+                        } catch (error) {
+                          console.error("Error exporting project:", error);
+                        }
+                      }}
+                    >
+                      <Icon data={file} />
                     </Button>
                   </div>
                 ) : null}

@@ -7,7 +7,7 @@ import {
   Typography,
   Chip,
 } from "@equinor/eds-core-react";
-import { add, lock, lock_open, download } from "@equinor/eds-icons";
+import { add, lock, lock_open, download, file } from "@equinor/eds-icons";
 import { Link, Outlet } from "react-router-dom";
 import { allProjects, removeProject } from "../services/project_api";
 import "../styles/home.css";
@@ -16,6 +16,7 @@ import { ProjectContext } from "../components/context";
 import ProjectDeleteCheck from "../components/deleteCheck";
 import ImportDialog from "../components/importDialog";
 import { handleExport } from "../components/handleExport";
+import { handleReport } from "../components/handleReport";
 
 function HomeScreen() {
   const [projects, setProjects] = useState(null);
@@ -125,6 +126,19 @@ function HomeScreen() {
                     }}
                   >
                     <Icon data={download}></Icon>
+                  </Button>
+                  <Button
+                    data-tag={project.uuid}
+                    id="reportButton"
+                    variant="ghost"
+                    aria-label="report action"
+                    onClick={async (event) => {
+                      event.preventDefault();
+                      const uuid = event.target.getAttribute("data-tag");
+                      await handleReport(uuid);
+                    }}
+                  >
+                    <Icon data={file}></Icon>
                   </Button>
                 </Card.Actions>
                 <Card.Content style={{ display: "flex" }}>
