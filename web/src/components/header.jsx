@@ -145,7 +145,7 @@ function Header() {
               variant="ghost_icon"
               as={Link}
               target="_blank"
-              to="https://fictional-adventure-eyq51g5.pages.github.io/"
+              to="https://equinor.github.io/dot/"
             >
               <Icon data={help_outline} />
             </Button>
