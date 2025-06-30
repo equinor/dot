@@ -32,7 +32,7 @@ abstract class ProbabilisticNetwork {
     agents: Agents [0..1]
     properties: [0..1]
     variables
-    links
+    links: Link [0..*]
 }
 
 abstract class StaticProbabilisticNetwork {
@@ -155,7 +155,13 @@ class Property {
 class Variables {
 }
 
-class Links {
+
+class Link {
+    directed: bool
+    variables: Variable [2]
+    properties: AdditionalProperties [0..1]
+    potential: Potential [0..1]
+    RevelationConditions [0..1]
 }
 
 
