@@ -155,16 +155,6 @@ class Property {
 class Variables {
 }
 
-
-class Link {
-    directed: bool
-    variables: Variable [2]
-    properties: AdditionalProperties [0..1]
-    potential: Potential [0..1]
-    RevelationConditions [0..1]
-}
-
-
 abstract class Variable {
     name: str
     role: enumNodeRole
