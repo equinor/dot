@@ -1,0 +1,489 @@
+@startuml Class Diagram: ProbModel.xml
+
+hide empty members
+left to right direction
+
+
+title Representation of the ProbModel.xml format as a class diagram
+
+footer
+    Names used in the present diagram are similar and
+    refer to the ones used in [[https://www.cisiad.uned.es/techreports/ProbModelXML.pdf ProbModelXML technical report]]
+    but are not necessarily the same. Only parts of the
+    format which seems to be of interest for DOT is kept.
+end footer
+
+class ProbabilisticModel {
+    network: ProbabilisticNetwork [0..1]
+    inference_options: InferenceOption [0..*]
+    policies: Policy [0..*]
+    evidences: EvidenceCase [0..*]
+}
+note right of ProbabilisticModel::policies
+    Each policy is associated with a decision;
+    it may be an optimal policy obtained by an
+    algorithm or a sub-optimal policy imposed
+    by the user.
+end note
+
+abstract class ProbabilisticNetwork {
+    constraints: Constraint [0..*]
+    decision_criteria: DecisionCriteria [0..1]
+    agents: Agents [0..1]
+    properties: [0..1]
+    variables
+    links
+}
+
+abstract class StaticProbabilisticNetwork {
+    potentials: StaticPotential [0..*]
+}
+abstract class DynamicProbabilisticNetwork {
+    time_unit: str [0..1]
+    cycle_length: float [0..1]
+    potentials: StaticPotential | DynamicPotential [0..*]
+}
+
+
+class BayesianNetwork
+class MarkovNetwork
+class InfluenceDiagram
+class LIMID
+class DecisionAnalysisNetwork
+class DynamicBayesianNetwork
+note right
+    Not explained here as it requires
+    better understanding.
+end note
+class SimpleMarkovModel
+class MDP
+class POMDP
+class Dec_POMDP
+class DynamicLIMID
+
+class InferenceOption {
+    elimination_order: EliminationOrder [0..*]
+    algorithm: InferenceAlgorithm [0..*]
+}
+note right
+    Inference options are to indicate how
+    to evaluate the probabilistic network.
+end note
+
+class EliminationOrder {
+    variables: Variable [1..*]
+}
+
+class InferenceAlgorithm {
+    name: str
+    elimination_order: EliminationOrder [0..*]
+    arguments: Argument [0..*]
+}
+
+class DynamicInferenceOption {
+    horizon: float [0..1]
+    discount_rate: DiscountRate [0..1]
+}
+
+class DiscountRate {
+    periode_of_time: float
+    rate: float
+}
+
+class Policy {
+    type: enumPotentialType
+    role: Policy
+}
+
+class Strategy {
+    policy: Policy [1..*]
+}
+
+class EvidenceCase {
+    findings: Finding [0..*]
+}
+
+class Finding {
+    variable: str
+    state: str
+    state_index: int
+    numeric_value: float
+}
+
+
+class AdditionalConstraints {
+    constraints: Constraint [1..*]
+}
+
+class Constraint {
+    name: str
+    arguments: Argument [0..*]
+}
+
+class Argument {
+    name: str
+    value: str
+}
+
+class DecisionCriteria {
+    criteria: Criterion [2..*]
+}
+
+class Criterion {
+    name: str
+    properties: Property [0..*]
+}
+
+class Agents {
+    agents: Agent [2..*]
+}
+
+class Agent {
+    name: str
+    properties: Property [0..*]
+}
+
+class AdditionalProperties {
+    properties: Property [1..*]
+}
+
+class Property {
+    name: str
+    value: str
+}
+
+class Variables {
+}
+
+class Links {
+}
+
+
+abstract class Variable {
+    name: str
+    role: enumNodeRole
+    properties: Property [0..*]
+    criterion: Criterion [0..1]
+    agent: Agent [0..1]
+    always_observed: AlwaysObserved [0..1]
+}
+
+abstract class DynamicVariable {
+    time_slice: int >=0
+}
+
+class FiniteStatesVariable{
+    states: State [2..*]
+}
+
+class NumericVariable {
+    unit: str [0..1]
+    precision: float
+    thresholds: Threshold [2]
+}
+note right of NumericVariable::unit
+    Should it be in an enum?
+end note
+
+class DiscretizedVariable {
+    unit: str [0..1]
+    precision: float
+    thresholds: Threshold [3..*]
+    states: State [2..*]
+}
+note right of DiscretizedVariable::unit
+    Should it be in an enum?
+end note
+
+class AlwaysObserved {
+}
+
+class State {
+    name: str
+    properties: Property [0..*]
+}
+
+class Threshold {
+    Value: float
+    belongsTo: enumSide
+}
+
+
+class Link {
+    directed: bool
+    variables: Variable [2]
+    properties: Property[0..*]
+    potential: Potential [0..1]
+    revelation_condition: RelevationConditions [0..1]
+}
+
+class RevelationConditions {
+}
+
+
+abstract class StaticPotential {
+    role: enumPotentialRole
+    properties: property [0..*]
+}
+
+abstract class DynamicPotential {
+    role: enumPotentialRole
+    properties: property [0..*]
+}
+
+class UncertainValue {
+    distribution: enumDistributionType
+    name: str [0..1]
+    arguments: float [0..*]
+}
+
+
+class UniformPotential {
+    utility_variable: UtilityVariable [0..1]
+    variables: Variable [1..*]
+}
+
+class TablePotential {
+    utility_variable: UtilityVariable [0..1]
+    variables: Variable [0..*]
+    values: float [0..*]
+    {field} uncertain_values: UncertainValue [0..*] (second order probabilities)
+}
+
+class DeltaPotential {
+    variable: Variable [1]
+    state: State [0..1]
+    state_index: int >=0 [0..1]
+    numeric_value: float [0..1]
+}
+
+class TreeADDPotential {
+    utility_variable: UtilityVariable [0..1]
+    variables: Variable [0..*]
+    top_variable_name: str
+    branch: Branch [1..*]
+}
+
+abstract class Branch {
+    potential: Potential
+}
+
+class FiniteStatesVariableTreeBranch {
+    states: State [0..*]
+}
+class DiscretizedVariableTreeBranch {
+    threshold: Threshold [2]
+}
+
+class FiniteStatesVariableADDBranch {
+    states: State [0..*]
+    label: str [0..1]
+    reference: str [0..1]
+}
+
+class DiscretizedVariableADDBranch {
+    threshold: Threshold [2]
+    label: str [0..1]
+    reference: str [0..1]
+    sub_potential: TablePotential | TreeADDPotential | UniformPotential | DeltaPotential [1..*]
+}
+
+class ICIModelPotential {
+    role: ConditionalProbability | Policy
+    model: enumICIModel
+    variables: Variable [2..*]
+}
+
+class SumPotential {
+    utility_variable: UtilityVariable
+    variables: Variable [2..*]
+}
+
+class ProductPotential {
+    utility_variable: UtilityVariable
+    variables: Variable [2..*]
+}
+
+class LinearCombinationPotential {
+    utility_variable: UtilityVariable
+    variables: Variable [1..*]
+    sub_potential: TablePotential | TreeADDPotential | UniformPotential | DeltaPotential [2..*]
+}
+
+class LogisticRegressionPotential {
+    variables: LogisticRegressionVariable [1..*]
+    mean_values: float [1..*]
+    covariance_matrix: float [1..*]
+}
+
+
+class ConditionalGaussianPotential {
+    variables: Variable [1..*]
+    sub_potential: TablePotential | TreeADDPotential | UniformPotential | DeltaPotential [3..*]
+}
+note right of ConditionalGaussianPotential
+    Both the LinearCombinationPotential and the ConditionalGaussianPotential
+    are similar. The LinearCombinationPotential is used for utilities and the
+    ConditionalGaussianPotential for conditional probabilities.
+end note
+
+class ExponentialPotential {
+    potential: TablePotential | TreeADDPotential | UniformPotential | DeltaPotential
+    variable: NumericVariable [0..*]
+    coefficients: float [0..*]
+}
+
+class MixtureOfExponentialsPotential {
+    variables: Variable
+    sub_potential: ExponentialPotential [1..*]
+}
+
+class MixtureOfTruncatedExponentialsPotential {
+}
+note right of MixtureOfTruncatedExponentialsPotential
+    In ProbModelXML, a mixture of truncated exponentials
+    can be encoded as a tree whose leaf nodes are all
+    MixtureOfExponential potentials.
+end note
+
+class SameAsPreviousPotential {
+    variables: DynamicVariable [1..*]
+}
+
+class CycleLengthShiftPotential {
+    variables: DynamicVariable [2]
+}
+
+class WeibullDistributionPotential {
+    role: ConditionalProbability
+    time_variable: str [0..1]
+    variables: DynamicVariable [1..*]
+    mean_values: float [1..*]
+    covariance_matrix_ float [1..*]
+}
+
+
+class UtilityVariable{
+    name: str
+}
+
+class LogisticRegressionVariable {
+    base: float
+}
+
+enum enumNodeRole {
+    Chance
+    Decision
+    Utility
+}
+
+enum enumSide {
+    Left
+    Right
+}
+
+enum enumPotentialRole {
+    JointProbability
+    ConditionalProbability
+    Utility
+    Policy
+    Restrictions
+}
+note right of enumPotentialRole::ConditionalProbability
+    The first variable is the conditioned one,
+    the others the conditioning ones.
+end note
+note right of enumPotentialRole::Policy
+    The specification of a policy potential is very
+    similar to that of a conditional probability potential,
+    with the decision D playing the role of the
+    conditioned variable.
+end note
+
+enum enumDistributionType {
+    Exact
+    Range
+    Triangular
+    Normal
+    LogNormal
+    Gamma
+    Gamma_mv
+    Beta
+    Dirichlet
+    Complement
+}
+
+enum enumICIModel {
+    Or
+    CausalMax
+    GeneralizedMax
+    And
+    CausalMin
+    GeneralizedMin
+    Tuning
+}
+
+
+together {
+    enum enumNodeRole
+    enum enumSide
+    enum enumPotentialRole
+    enum enumDistributionType
+    enum enumICIModel
+}
+
+ProbabilisticNetwork <|-- StaticProbabilisticNetwork
+ProbabilisticNetwork <|-- DynamicProbabilisticNetwork
+
+StaticProbabilisticNetwork <|-- BayesianNetwork
+StaticProbabilisticNetwork <|-- MarkovNetwork
+StaticProbabilisticNetwork <|-- InfluenceDiagram
+StaticProbabilisticNetwork <|-- LIMID
+StaticProbabilisticNetwork <|-- DecisionAnalysisNetwork
+
+DynamicProbabilisticNetwork <|-- DynamicBayesianNetwork
+DynamicProbabilisticNetwork <|-- SimpleMarkovModel
+DynamicProbabilisticNetwork <|-- MDP
+DynamicProbabilisticNetwork <|-- POMDP
+DynamicProbabilisticNetwork <|-- Dec_POMDP
+DynamicProbabilisticNetwork <|-- DynamicLIMID
+
+InferenceAlgorithm <|-- DynamicInferenceOption
+
+
+Variable <|-- DynamicVariable
+
+Variable <|-- FiniteStatesVariable
+Variable <|-- NumericVariable
+Variable <|-- DiscretizedVariable
+
+DynamicVariable <|-- FiniteStatesVariable
+DynamicVariable <|-- NumericVariable
+DynamicVariable <|-- DiscretizedVariable
+
+StaticPotential "1" <|-- "1" UniformPotential
+StaticPotential "1" <|-- "1" TablePotential
+StaticPotential "1" <|-- "1" DeltaPotential
+StaticPotential "1" <|-- "1" TreeADDPotential
+StaticPotential "1" <|-- "1" ICIModelPotential
+StaticPotential "1" <|-- "1" SumPotential
+StaticPotential "1" <|-- "1" ProductPotential
+StaticPotential "1" <|-- "1" LinearCombinationPotential
+StaticPotential "1" <|-- "1" LogisticRegressionPotential
+StaticPotential "1" <|-- "1" ConditionalGaussianPotential
+StaticPotential "1" <|-- "1" ExponentialPotential
+StaticPotential "1" <|-- "1" MixtureOfExponentialsPotential
+StaticPotential "1" <|-- "1" MixtureOfTruncatedExponentialsPotential
+DynamicPotential "1" <|-- "1" SameAsPreviousPotential
+DynamicPotential "1" <|-- "1" CycleLengthShiftPotential
+DynamicPotential "1" <|-- "1" WeibullDistributionPotential
+
+Branch <|-- FiniteStatesVariableTreeBranch
+Branch <|-- DiscretizedVariableTreeBranch
+Branch <|-- FiniteStatesVariableADDBranch
+Branch <|-- DiscretizedVariableADDBranch
+
+Variable <|-- LogisticRegressionVariable
+
+
+@enduml
