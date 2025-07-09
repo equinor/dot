@@ -11,6 +11,7 @@ footer
     refer to the ones used in [[https://www.cisiad.uned.es/techreports/ProbModelXML.pdf ProbModelXML technical report]]
     but are not necessarily the same. Only parts of the
     format which seems to be of interest for DOT is kept.
+    Examples can be found in [[https://www.probmodelxml.org/networks/]]
 end footer
 
 class ProbabilisticModel {
@@ -221,6 +222,12 @@ abstract class StaticPotential {
     role: enumPotentialRole
     properties: property [0..*]
 }
+note right
+    One optional attribute is function, whose value
+    is a String with the function name and only exists
+    when type=function.
+    This is not further documented!
+end note
 
 abstract class DynamicPotential {
     role: enumPotentialRole

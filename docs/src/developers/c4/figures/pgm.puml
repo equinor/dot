@@ -1,0 +1,298 @@
+@startuml Class Diagram: PGM
+
+hide empty members
+left to right direction
+
+
+title Representation of database elements from issues to PGM
+
+
+class Issue {
+    uuid: uuid
+    description: str
+    category: EnumIssueCategory [0..1]
+}
+
+
+class UncertaintyInformation {
+    source: str [0..1]
+}
+note right
+    It is possible to have 2 potentials: the conditional
+    probability and the restriction
+end note
+
+class DecisionInformation {
+    rational: str [0..1]
+}
+note right
+    It is possible to have 2 potentials: the decision
+    and the restriction
+end note
+
+class UtilityInformation
+
+
+class ProbabilisticGraphModel
+
+class Policy
+note right
+    Each policy is associated with a decision;
+    it may be an optimal policy obtained by an
+    algorithm or a sub-optimal policy imposed
+    by the user.
+    It among others may contain the evaluation of
+    the decision model.
+end note
+class ObjectiveHierarchy
+note right
+    This is just a placeholder and needs to be reconsidered
+end note
+class Agent
+
+abstract class ProbabilisticNetworkABC
+abstract class StaticProbabilisticNetwork {
+    potentials: StaticPotential [0..*]
+}
+abstract class DynamicProbabilisticNetwork {
+    time_unit: str [0..1]
+    cycle_length: float [0..1]
+    potentials: StaticPotentialTypeABC | DynamicPotentialTypeABC [0..*]
+}
+note right of DynamicProbabilisticNetwork::time_unit
+    Should it be an enum?
+end note
+
+
+class Graph {
+    vertices: Vertex [0..*]
+    edges: Edge [0..*]
+}
+
+
+abstract class VariableABC {
+    name: str
+    uuid: uuid
+}
+
+abstract class StaticVariableABC
+abstract class DynamicVariableABC {
+    time_slice: int >=0
+}
+
+together {
+    abstract class VariableABC
+    abstract class StaticVariableABC
+    abstract class DynamicVariableABC
+}
+
+
+abstract class FiniteStateVariableABC {
+    states: str [2..*]
+}
+abstract class NumericVariableABC {
+    unit: str [0..1]
+    precision: float
+    thresholds: Threshold [2]
+}
+note right of NumericVariableABC::unit
+    Should it be in an enum?
+end note
+abstract class DiscretizedVariableABC {
+    unit: str [0..1]
+    precision: float
+    thresholds: Threshold [3..*]
+    states: State [2..*]
+}
+note right of DiscretizedVariableABC::unit
+    Should it be in an enum?
+end note
+class Threshold {
+    Value: float
+    belongs_to: EnumSide
+}
+
+together {
+    abstract class FiniteStateVariableABC
+    abstract class NumericVariableABC
+    abstract class DiscretizedVariableABC
+}
+
+class StaticFiniteStateVariable
+class StaticNumericVariable
+class StaticDiscretizedVariable
+class DynamicFiniteStateVariable
+class DynamicNumericVariable
+class DynamicDiscretizedVariable
+
+together {
+    class StaticFiniteStateVariable
+    class StaticNumericVariable
+    class StaticDiscretizedVariable
+}
+
+together {
+    class DynamicFiniteStateVariable
+    class DynamicNumericVariable
+    class DynamicDiscretizedVariable
+}
+
+class Vertex {
+    uuid: uuid
+    ranked_parents: uuid [0..*]
+}
+
+abstract class EdgeABC {
+    uuid: uuid
+}
+class Line {
+    endpoints: uuid [2]
+}
+class Arc {
+    tail: uuid
+    head: uuid
+    role: EnumEdgeRole
+}
+
+abstract class PotentialABC
+note right
+    A potential psi defined on a set of variables V is
+    a function that assigns a real number to each
+    configuration v of V.
+end note
+' abstract class PotentialTypeABC
+' abstract class StaticPotentialTypeABC
+' abstract class DynamicPotentialTypeABC
+
+' abstract class PotentialRoleABC
+' class JointProbabilityPotentialRole {
+'     variables: uuid [1..*]
+' }
+' class ConditionalProbabilityPotentialRole {
+'     conditioned_variables: uuid [1..*]
+'     conditioning_variables: uuid [1..*]
+' }
+' class UtilityPotentialRole {
+'     parent_variables: uuid [1..*]
+' }
+' class PolicyPotentialRole
+' class RestrictionPotentialRole {
+'     conditioned_variables: uuid [1..*]
+'     conditioning_variables: uuid [1..*]
+' }
+
+' class TablePotentialType {
+
+' }
+
+' class Distribution {
+'     name: EnumDistribution
+'     arguments: Distribution [0..*]
+' }
+
+enum EnumIssueCategory {
+    Uncertainty
+    Decision
+    Utility
+    Fact
+    ActionItem
+    ValueMeasure
+    Other
+}
+
+enum EnumThresholdSide {
+    Left
+    Right
+}
+
+enum EnumArcRole {
+    informational
+    conditional
+}
+
+' enum EnumDistribution {
+'     Dirac
+'     Normal
+'     Lognormal
+'     Uniform
+'     Beta
+'     Cauchy
+'     Pareto
+' }
+' note right
+'     see for example [[https://qiangbo-workspace.oss-cn-shanghai.aliyuncs.com/2018-11-11-common-probability-distributions/distab.pdf]]
+' end note
+
+
+ProbabilisticGraphModel "1" --> "1..*" ProbabilisticNetworkABC: uses
+ProbabilisticGraphModel "1" --> "1" ObjectiveHierarchy: uses
+ProbabilisticGraphModel "1" --> "1..*" Agent: has
+ProbabilisticGraphModel "1" --> "1..*" Policy: Estimates
+
+
+ProbabilisticNetworkABC <|-- StaticProbabilisticNetwork
+ProbabilisticNetworkABC <|-- DynamicProbabilisticNetwork
+
+ProbabilisticNetworkABC "1" --> "0..*" VariableABC: has
+ProbabilisticNetworkABC "1" --> "0..1" Graph: has
+ProbabilisticNetworkABC "1" --> "0..*" PotentialABC: has
+
+' PotentialABC "1" *-- "1" PotentialTypeABC: has
+' PotentialABC "1" *-- "1" PotentialRoleABC: has
+
+' PotentialTypeABC <|-- StaticPotentialTypeABC
+' PotentialTypeABC <|-- DynamicPotentialTypeABC
+
+' PotentialRoleABC <|-- JointProbabilityPotentialRole
+' PotentialRoleABC <|-- ConditionalProbabilityPotentialRole
+' PotentialRoleABC <|-- UtilityPotentialRole
+' PotentialRoleABC <|-- PolicyPotentialRole
+' PotentialRoleABC <|-- RestrictionPotentialRole
+
+' TablePotentialType <|-- StaticPotentialTypeABC
+' TablePotentialType <|-- PotentialRoleABC
+
+' Distribution *-- EnumDistribution
+
+Issue *-- EnumIssueCategory
+Issue "1" <--> "0..1" VariableABC: is related to
+Issue "1" --> "0..1" UncertaintyInformation: has
+Issue "1" --> "0..1" DecisionInformation: has
+Issue "1" --> "0..1" UtilityInformation: has
+
+VariableABC "1" <--> "1" Vertex: is associated to
+VariableABC <|-- StaticVariableABC
+VariableABC <|-- DynamicVariableABC
+
+NumericVariableABC *-- Threshold
+DiscretizedVariableABC *-- Threshold
+Threshold *-- EnumThresholdSide
+
+StaticVariableABC <|-- StaticFiniteStateVariable
+StaticVariableABC <|-- StaticNumericVariable
+StaticVariableABC <|-- StaticDiscretizedVariable
+
+FiniteStateVariableABC <|-- StaticFiniteStateVariable
+NumericVariableABC <|-- StaticNumericVariable
+DiscretizedVariableABC <|-- StaticDiscretizedVariable
+
+DynamicVariableABC <|-- DynamicFiniteStateVariable
+DynamicVariableABC <|-- DynamicNumericVariable
+DynamicVariableABC <|-- DynamicDiscretizedVariable
+
+FiniteStateVariableABC <|-- DynamicFiniteStateVariable
+NumericVariableABC <|-- DynamicNumericVariable
+DiscretizedVariableABC <|-- DynamicDiscretizedVariable
+
+UncertaintyInformation "1" --> "0..2" PotentialABC: has
+DecisionInformation "1" --> "0..2" PotentialABC: has
+UtilityInformation "1" --> "0..1" PotentialABC: has
+
+Graph "1" *-- "0..*" Vertex: contains
+Graph "1" *-- "0..*" Edge: contains
+
+EdgeABC <|-- Line
+EdgeABC <|-- Arc
+Arc *-- EnumArcRole
+
+@enduml
