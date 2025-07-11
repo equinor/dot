@@ -1,0 +1,175 @@
+@startuml Class Diagram: PGM - Variables and Potentials (High level)
+
+hide empty members
+left to right direction
+
+
+title Representation of PGM variables and potentials in database
+
+
+
+
+class Graph {
+    vertices: Vertex [0..*]
+    edges: Edge [0..*]
+}
+
+class Vertex {
+    uuid: uuid
+    ranked_parents: uuid [0..*]
+}
+
+abstract class EdgeABC {
+    uuid: uuid
+}
+
+
+abstract class VariableABC {
+    name: str
+    uuid: uuid
+}
+
+abstract class StaticVariableABC
+abstract class DynamicVariableABC {
+    time_slice: int >=0
+}
+
+together {
+    abstract class StaticVariableABC
+    abstract class DynamicVariableABC
+}
+
+abstract class FiniteStateVariableABC {
+    states: str [2..*]
+}
+abstract class RangeVariableABC {
+    unit: str [0..1]
+    range: Range [1..*]
+}
+note right of RangeVariableABC::unit
+    Should it be in an enum?
+end note
+
+class Range {
+    start: float
+    end: float
+    precision: float
+    include_start: bool
+    include_end: bool
+}
+
+
+together {
+    abstract class FiniteStateVariableABC
+    abstract class RangeVariableABC
+}
+
+class StaticFiniteStateVariable
+class StaticRangeVariable
+class DynamicFiniteStateVariable
+class DynamicRangeVariable
+
+together {
+    class StaticFiniteStateVariable
+    class StaticRangeVariable
+}
+
+together {
+    class DynamicFiniteStateVariable
+    class DynamicRangeVariable
+}
+
+
+abstract class PotentialABC {
+    role: EnumPotentialRole
+}
+note right
+    A potential psi defined on a set of variables V is
+    a function that assigns a real number to each
+    configuration v of V.
+    According to probModel.xml, the role of a potential
+    can be: joint probability, conditional probability,
+    restriction, utility or policy. (Remark that the policy
+    role is not sufficiently documented.)
+end note
+
+enum EnumPotentialRole {
+    PROBABILITY
+    UTILITY
+    RESTRICTION
+    POLICY
+}
+note right of EnumPotentialRole::POLICY
+    The meaning of this role needs to
+    be explained
+end note
+
+
+class TablePotential
+note right
+    Most useful potential representation:
+    a table a values for finite states cases.
+end note
+class LibraryPotential
+note right
+    We can define a set of potentials each one with
+    its own parser and own exposure to the frontend.
+    Notice the TablePotential is one case of this
+    library.
+end note
+class UserDefinedPotential
+note right
+    A very general case where the user defined the
+    potential as a mathematical function.
+end note
+class SampledPotential
+note right
+    When the potential depends on a probability,
+    we may sample this one by Monte Carlo sampling.
+    Do we want to keep the realizations?
+end note
+class APIPotential
+note right
+    The potential is available on external systems. For example,
+    we may want to get it from a database (typically probabilities)
+    or a spread sheet (typically an economics model).
+end note
+
+ProbabilisticNetworkABC "1" --> "0..*" VariableABC: has
+ProbabilisticNetworkABC "1" --> "0..1" Graph: has
+ProbabilisticNetworkABC "1" --> "0..*" PotentialABC: has
+
+Graph "1" *-- "0..*" Vertex: contains
+Graph "1" *-- "0..*" EdgeABC: contains
+
+VariableABC "1" <--> "1" Vertex: is associated to
+VariableABC <|-- StaticVariableABC
+VariableABC <|-- DynamicVariableABC
+VariableABC <|-- RangeVariableABC
+VariableABC <|-- FiniteStateVariableABC
+
+RangeVariableABC *-- Range
+
+StaticVariableABC <|-- StaticFiniteStateVariable
+StaticVariableABC <|-- StaticRangeVariable
+
+FiniteStateVariableABC <|-- StaticFiniteStateVariable
+RangeVariableABC <|-- StaticRangeVariable
+
+DynamicVariableABC <|-- DynamicFiniteStateVariable
+DynamicVariableABC <|-- DynamicRangeVariable
+
+FiniteStateVariableABC <|-- DynamicFiniteStateVariable
+RangeVariableABC <|-- DynamicRangeVariable
+
+PotentialABC "1" <--> "1" Vertex: is associated to
+PotentialABC *-- EnumPotentialRole
+PotentialABC "1" <|-- TablePotential
+PotentialABC "1" <|-- LibraryPotential
+PotentialABC "1" <|-- UserDefinedPotential
+PotentialABC "1" <|-- SampledPotential
+PotentialABC "1" <|-- APIPotential
+
+
+
+@enduml

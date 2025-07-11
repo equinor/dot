@@ -81,60 +81,48 @@ abstract class DynamicVariableABC {
 }
 
 together {
-    abstract class VariableABC
     abstract class StaticVariableABC
     abstract class DynamicVariableABC
 }
 
-
 abstract class FiniteStateVariableABC {
     states: str [2..*]
 }
-abstract class NumericVariableABC {
+abstract class RangeVariableABC {
     unit: str [0..1]
-    precision: float
-    thresholds: Threshold [2]
+    range: Range [1..*]
 }
-note right of NumericVariableABC::unit
+note right of RangeVariableABC::unit
     Should it be in an enum?
 end note
-abstract class DiscretizedVariableABC {
-    unit: str [0..1]
+
+class Range {
+    start: float
+    end: float
     precision: float
-    thresholds: Threshold [3..*]
-    states: State [2..*]
+    include_start: bool
+    include_end: bool
 }
-note right of DiscretizedVariableABC::unit
-    Should it be in an enum?
-end note
-class Threshold {
-    Value: float
-    belongs_to: EnumSide
-}
+
 
 together {
     abstract class FiniteStateVariableABC
-    abstract class NumericVariableABC
-    abstract class DiscretizedVariableABC
+    abstract class RangeVariableABC
 }
 
 class StaticFiniteStateVariable
-class StaticNumericVariable
-class StaticDiscretizedVariable
+class StaticRangeVariable
 class DynamicFiniteStateVariable
-class DynamicNumericVariable
-class DynamicDiscretizedVariable
+class DynamicRangeVariable
 
 together {
     class StaticFiniteStateVariable
-    class StaticNumericVariable
-    class StaticDiscretizedVariable
+    class StaticRangeVariable
 }
 
 together {
     class DynamicFiniteStateVariable
-    class DynamicNumericVariable
-    class DynamicDiscretizedVariable
+    class DynamicRangeVariable
 }
 
 class Vertex {
@@ -200,15 +188,20 @@ enum EnumIssueCategory {
     Other
 }
 
-enum EnumThresholdSide {
-    Left
-    Right
-}
-
 enum EnumArcRole {
     informational
     conditional
+    causal_influence
+    functional_dependence
+    temporal_order
+    revelation
+    partial_restriction
+    total_restriction
 }
+note right
+    The 2 first roles are for IDs
+    and the 6 last ones for DANs.
+end note
 
 ' enum EnumDistribution {
 '     Dirac
@@ -263,33 +256,29 @@ Issue "1" --> "0..1" UtilityInformation: has
 VariableABC "1" <--> "1" Vertex: is associated to
 VariableABC <|-- StaticVariableABC
 VariableABC <|-- DynamicVariableABC
+VariableABC <|-- RangeVariableABC
+VariableABC <|-- FiniteStateVariableABC
 
-NumericVariableABC *-- Threshold
-DiscretizedVariableABC *-- Threshold
-Threshold *-- EnumThresholdSide
+RangeVariableABC *-- Range
 
 StaticVariableABC <|-- StaticFiniteStateVariable
-StaticVariableABC <|-- StaticNumericVariable
-StaticVariableABC <|-- StaticDiscretizedVariable
+StaticVariableABC <|-- StaticRangeVariable
 
 FiniteStateVariableABC <|-- StaticFiniteStateVariable
-NumericVariableABC <|-- StaticNumericVariable
-DiscretizedVariableABC <|-- StaticDiscretizedVariable
+RangeVariableABC <|-- StaticRangeVariable
 
 DynamicVariableABC <|-- DynamicFiniteStateVariable
-DynamicVariableABC <|-- DynamicNumericVariable
-DynamicVariableABC <|-- DynamicDiscretizedVariable
+DynamicVariableABC <|-- DynamicRangeVariable
 
 FiniteStateVariableABC <|-- DynamicFiniteStateVariable
-NumericVariableABC <|-- DynamicNumericVariable
-DiscretizedVariableABC <|-- DynamicDiscretizedVariable
+RangeVariableABC <|-- DynamicRangeVariable
 
 UncertaintyInformation "1" --> "0..2" PotentialABC: has
 DecisionInformation "1" --> "0..2" PotentialABC: has
 UtilityInformation "1" --> "0..1" PotentialABC: has
 
 Graph "1" *-- "0..*" Vertex: contains
-Graph "1" *-- "0..*" Edge: contains
+Graph "1" *-- "0..*" EdgeABC: contains
 
 EdgeABC <|-- Line
 EdgeABC <|-- Arc
