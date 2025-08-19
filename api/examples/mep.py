@@ -85,6 +85,40 @@ def cli(config: Path | dict):
 
     Example
         ```python mep.py --file <config.json>```
+
+    The configuration file is a json file with fields
+
+    - joint_distributions: it is a list of the probabilities to estimate.
+    The probabilities are noted `Pxxx` where xxx are the indices (starting at 0)
+    of the possible outcomes. E.g. P21 is the probability that the first variable
+    has its 3rd outcome and the second variable has its 2nd outcomes
+
+    - assessments: it is a dictionary of marginalization of the distributions.
+    It uses the dot notation introduced by Abbas (2006). For example, P.0
+    represents the marginalization over the first variable and the distribution
+    when the second variable has its 1st outcomes.
+
+    - equality: it is a list of strings representing the equality constraints
+    for the optimization problem. E.g. P01 = P10
+
+    - inequality: it is a list of strings representing the inequaility constraints
+    for the optimization problem. E.g. P01 >= P10 (Be aware the strict inequality is not
+    accepted)
+
+    - conditioned_variables: it is a list of indices (starting at 0) of variables
+    representing the conditioned variables when a conditional probability is
+    desired. E.g. [0] for a 2 variables case means the script returns the
+    probability of the first variable given the other variables
+
+    - minimization: it is a dictionary with 2 keys
+
+        - bounds: a dictionary giving for each desired probilities a 2 values list
+    for the bounds. E.g. {"P00": [0.5, 1]} means the probability for the
+    1st outcomes of both variables will be between 0.5 and 1. If the dictionary
+    is empty, it assumes [0, 1] as bounds for all probabilities
+
+        - initial_guess: a dictionary giving the initial guess for each
+    probability an initial guess to start the optimization process with.
     """
     common.logger.info("Start of probability estimation by MEP")
     common.logger.debug(f" ---  {config}")
