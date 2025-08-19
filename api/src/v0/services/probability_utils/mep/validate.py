@@ -254,8 +254,8 @@ def _validate_conditioned_variables(config: namedtuple) -> bool:
     return True
 
 
-def _validate_minimization(config: namedtuple) -> bool:
-    """validate the format of the minimization
+def _validate_minimization_bounds(config: namedtuple) -> bool:
+    """validate the format of the minimization (bounds)
 
     Args:
         config (namedtuple): configuration
@@ -263,18 +263,10 @@ def _validate_minimization(config: namedtuple) -> bool:
     Returns:
         bool: True if configuration is valid
     """
+    valid = False
     if not config.minimization.bounds:
         return True
-    if not config.minimization.initial_guess:
-        return True
-    valid = False
     if set(config.minimization.bounds.keys()) != set(config.joint_distributions):
-        logger.critical(
-            "Keys defining the optimization bounds are not consistent with "
-            "the joint_distribution"
-        )
-        return valid
-    if set(config.minimization.initial_guess.keys()) != set(config.joint_distributions):
         logger.critical(
             "Keys defining the optimization bounds are not consistent with "
             "the joint_distribution"
@@ -286,9 +278,46 @@ def _validate_minimization(config: namedtuple) -> bool:
     ):
         logger.critical("Some optimization bounds not in 0..1 interval")
         return valid
+    return True
+
+
+def _validate_minimization_initial_guess(config: namedtuple) -> bool:
+    """validate the format of the minimization (initial_guess)
+
+    Args:
+        config (namedtuple): configuration
+
+    Returns:
+        bool: True if configuration is valid
+    """
+    valid = False
+    if not config.minimization.initial_guess:
+        return True
+    if set(config.minimization.initial_guess.keys()) != set(config.joint_distributions):
+        logger.critical(
+            "Keys defining the optimization initial_guess are not consistent with "
+            "the joint_distribution"
+        )
+        return valid
     if any(np.abs(item) > 1 for item in config.minimization.initial_guess.values()):
         logger.critical("Some optimization initial guess not in 0..1 interval")
         return valid
+    return True
+
+
+def _validate_minimization(config: namedtuple) -> bool:
+    """validate the format of the minimization
+
+    Args:
+        config (namedtuple): configuration
+
+    Returns:
+        bool: True if configuration is valid
+    """
+    if not _validate_minimization_initial_guess(config):
+        return False
+    if not _validate_minimization_bounds(config):
+        return False
     return True
 
 

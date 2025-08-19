@@ -144,8 +144,30 @@ def test_replace_pijk_with_x_indexed():
         ),
     ],
 )
-def test_parse_constraint(cstring, distributions, target):
+def test_parse_constraint_success(cstring, distributions, target):
     assert mep._parse_constraint(cstring, distributions) == target
+
+
+def test_parse_constraint_fail_wrong_operator():
+    cstring = "A wrong string"
+    distributions = ["P000", "P001"]
+    with pytest.raises(Exception) as exc:
+        mep._parse_constraint(cstring, distributions)
+    assert str(exc.value) == (
+        "Constraints A wrong string should have one of the "
+        "relations ['=', '>=', '<='], and only once."
+    )
+
+
+def test_parse_constraint_fail_duplicate_operator():
+    cstring = "A = wrong =string"
+    distributions = ["P000", "P001"]
+    with pytest.raises(Exception) as exc:
+        mep._parse_constraint(cstring, distributions)
+    assert str(exc.value) == (
+        "Constraints A = wrong =string should have one of the "
+        "relations ['=', '>=', '<='], and only once."
+    )
 
 
 def test_equality_constraints():
@@ -159,6 +181,14 @@ def test_equality_constraints():
     assert all(callable(item["fun"]) for item in result)
 
 
+def test_equality_constraints_none():
+    result = mep.equality_constraints(
+        [],
+        ["P000", "P001"],
+    )
+    assert result == []
+
+
 def test_inequality_constraints():
     result = mep.inequality_constraints(
         ["P000 <= P001", "P011 - P010 >= 0"],
@@ -168,6 +198,14 @@ def test_inequality_constraints():
     assert all(list(item.keys()) == ["type", "fun"] for item in result)
     assert all(item["type"] == "ineq" for item in result)
     assert all(callable(item["fun"]) for item in result)
+
+
+def test_inequality_constraints_none():
+    result = mep.inequality_constraints(
+        [],
+        ["P000", "P001"],
+    )
+    assert result == []
 
 
 def test_all_constraints(config):
@@ -334,7 +372,7 @@ def test_mep_success(mocker):
     mocker.assert_called_once_with(parse_config(config))
 
 
-def test_mep_fail():
+def test_mep_fail_wrong_dict():
     config = {
         "joint_distributions": [
             "P000",
@@ -346,6 +384,33 @@ def test_mep_fail():
             "P110",
             "P111",
         ],
+    }
+    with pytest.raises(Exception) as exc:
+        mep.mep(config)
+    assert isinstance(exc.value, ValueError)
+
+
+def test_mep_fail_wrong_conf():
+    config = {
+        "joint_distributions": [
+            "P00",
+            "P01",
+            "P10",
+            "P11",
+        ],
+        "assessments": {
+            "P.0": 0.4643,
+            "P.1": 0.2411,
+            "P0.": 0.2463,
+            "P1.": 0.3017,
+        },
+        "equality": [],
+        "inequality": [],
+        "conditioned_variables": [1, 2],
+        "minimization": {
+            "bounds": {},
+            "initial_guess": {},
+        },
     }
     with pytest.raises(Exception) as exc:
         mep.mep(config)

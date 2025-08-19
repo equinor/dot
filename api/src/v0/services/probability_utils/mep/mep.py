@@ -171,11 +171,11 @@ def _parse_constraint(cstring: str, distributions: list[float]) -> str:
     if not any(used_filter):
         logger.critical(
             f"Constraints {cstring} should have one of the relations {relations}, "
-            "and only once"
+            "and only once."
         )
         raise ValueError(
             f"Constraints {cstring} should have one of the relations {relations}, "
-            "and only once"
+            "and only once."
         )
 
     logger.debug(f" Relation: {relations} {used_filter}")
@@ -183,11 +183,11 @@ def _parse_constraint(cstring: str, distributions: list[float]) -> str:
     if cstring.count(relation) != 1:
         logger.critical(
             f"Constraints {cstring} should have one of the relations {relations}, "
-            "and only once"
+            "and only once."
         )
         raise ValueError(
             f"Constraints {cstring} should have one of the relations {relations}, "
-            "and only once"
+            "and only once."
         )
     logger.debug(f" Relation: {relation}")
     substrings = cstring.partition(relation)
@@ -212,7 +212,7 @@ def equality_constraints(constraints: list[str], distributions: list[float]) -> 
         list[dict]: the equality constraints in a format interpretable by the
         minimization
     """
-    if constraints is None:
+    if not constraints:
         return []
     return [
         {
@@ -236,7 +236,7 @@ def inequality_constraints(constraints, distributions) -> list:
         list[dict]: the inequality constraints in a format interpretable by the
         minimization
     """
-    if constraints is None:
+    if not constraints:
         return []
     return [
         {

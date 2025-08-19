@@ -136,9 +136,67 @@ def test_parse_config_no_initial_guess(config_conditional_probability):
     assert list(result.minimization.initial_guess.values()) == [1.0 / 8] * 8
 
 
-def test_validate_config(config_conditional_probability):
+def test_validate_config_success(config_conditional_probability):
     config = validate.parse_config(config_conditional_probability)
     assert validate.validate_config(config)
+
+
+def test_validate_config_fail_joint_distribution():
+    Config = namedtuple(
+        "Config",
+        [
+            "joint_distributions",
+        ],
+    )
+    config = Config(
+        ["Pijk", "P001"],
+    )
+    assert not validate.validate_config(config)
+
+
+def test_validate_config_fail_assessments():
+    Config = namedtuple(
+        "Config",
+        [
+            "joint_distributions",
+            "assessments",
+        ],
+    )
+    config = Config(["P000"], {"P.1": 0.4643})
+    assert not validate.validate_config(config)
+
+
+def test_validate_config_fail_conditioned_variables():
+    Config = namedtuple(
+        "Config",
+        [
+            "joint_distributions",
+            "assessments",
+            "conditioned_variables",
+        ],
+    )
+    config = Config(
+        ["P000"],
+        {"P.00": 0.0},
+        [500],
+    )
+    assert not validate.validate_config(config)
+
+
+def test_validate_config_fail_minimization():
+    Config = namedtuple(
+        "Config",
+        [
+            "joint_distributions",
+            "assessments",
+            "conditioned_variables",
+            "minimization",
+        ],
+    )
+    Minimization = namedtuple("minimization", ["initial_guess", "bounds"])
+    minimization = Minimization(None, {"P000": [-5, 5]})
+    config = Config(["P000"], {"P.00": 0.0}, [], minimization)
+    assert not validate.validate_config(config)
 
 
 def test_validate_joint_distributions_success():
@@ -321,6 +379,20 @@ def test_validate_assessments_fail_wrong_state():
     assert not validate._validate_assessments(config)
 
 
+def test_validate_assessments_fail_number_of_variables():
+    Config = namedtuple(
+        "Config",
+        [
+            "joint_distributions",
+            "assessments",
+        ],
+    )
+    config = Config(
+        ["P000", "P001", "P010", "P011", "P100", "P101", "P110", "P111"], {"P.1": 0.4643}
+    )
+    assert not validate._validate_assessments(config)
+
+
 def test_number_of_variables_success():
     Config = namedtuple(
         "Config",
@@ -421,6 +493,34 @@ def test_validate_minimization_success():
     )
     minimization = Minimization(
         None,
+        {
+            "P000": [0.015, 1.0],
+            "P001": [0.03, 1],
+            "P010": [0, 1],
+            "P011": [0, 1],
+            "P100": [0, 0.021],
+            "P101": [0, 1],
+            "P110": [0, 1],
+            "P111": [0, 1],
+        },
+    )
+    config = Config(
+        joint_distribution,
+        minimization,
+    )
+    assert validate._validate_minimization(config)
+
+    minimization = Minimization(
+        {
+            "P000": 0.015,
+            "P001": 0.04,
+            "P010": 0.01,
+            "P011": 0.2,
+            "P100": 0.02,
+            "P101": 0.3,
+            "P110": 0.2,
+            "P111": 0.05,
+        },
         None,
     )
     config = Config(
