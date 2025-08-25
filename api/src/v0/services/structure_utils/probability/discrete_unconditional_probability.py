@@ -30,7 +30,7 @@ class CPTTypeError(Exception):
 
 class AgrumConversionError(Exception):
     def __init__(self):
-        error_message = "pyAgrum only takes 1D variables in UncertaintyNode"
+        error_message = "pyagrum only takes 1D variables in UncertaintyNode"
         super().__init__(error_message)
         logger.critical(error_message)
 

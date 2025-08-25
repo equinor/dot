@@ -198,7 +198,7 @@ def test_to_pyagrum_1d(cpt_1d):
 def test_to_pyagrum_1d_failed(cpt_2d):
     with pytest.raises(Exception) as exc:
         cpt_2d.to_pyagrum()
-    assert str(exc.value) == "pyAgrum only takes 1D variables in UncertaintyNode"
+    assert str(exc.value) == "pyagrum only takes 1D variables in UncertaintyNode"
 
 
 def test_to_pycid(cpt_2d):

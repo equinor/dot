@@ -14,7 +14,7 @@ import logging
 from typing import TYPE_CHECKING
 
 import networkx as nx
-import pyAgrum as gum
+import pyagrum as gum
 
 from ..decision_diagrams.decision_tree import DecisionTree
 from ..decision_diagrams.edge import Edge

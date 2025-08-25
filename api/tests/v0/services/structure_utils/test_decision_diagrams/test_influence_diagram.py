@@ -1,7 +1,7 @@
 import json
 
 import networkx as nx
-import pyAgrum as gum
+import pyagrum as gum
 import pytest
 
 from src.v0.models.issue import ProbabilityData
@@ -806,7 +806,7 @@ def test_to_pyagrum_used_car_buyer_success(copy_testdata_tmpdir, tmp_path):
     assert result.decisionNodeSize() == 2
     assert result.utilityNodeSize() == 1
 
-    # import pyAgrum.lib.image as gimg
+    # import pyagrum.lib.image as gimg
     # from shutil import copyfile
     # gimg.export(result, "test2.png")
     # result.saveBIFXML("test.bifxml")
@@ -858,7 +858,7 @@ def test_to_pyagrum_used_car_buyer_uncertainty_fail(
 
     error = (
         "[pyAgrum] Invalid argument: Empty variable State:Labelized({}) "
-        "cannot be added in a Potential"
+        "cannot be added in a Tensor"
     )
     with pytest.raises(Exception) as exc_info:
         ID.to_pyagrum()
@@ -888,7 +888,7 @@ def test_to_pyagrum_used_car_buyer_decision_fail(caplog, copy_testdata_tmpdir, t
 
     error = (
         "[pyAgrum] Invalid argument: Empty variable Buy:Labelized({}) "
-        "cannot be added in a Potential"
+        "cannot be added in a Tensor"
     )
     with pytest.raises(Exception) as exc_info:
         ID.to_pyagrum()
