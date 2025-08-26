@@ -24,6 +24,7 @@ fastapi-versionizer = "^4.0.1"
 authlib = "^1.5.2"
 pgmpy = "^1.0.0"
 pygraphviz = "^1.14"
+pbr = "^7.0.1"
 
 [tool.poetry.group.docs]
 optional = true
