@@ -7,7 +7,7 @@ import {
   Typography,
   Chip,
 } from "@equinor/eds-core-react";
-import { add, lock, lock_open, download } from "@equinor/eds-icons";
+import { add, lock, lock_open, download, file } from "@equinor/eds-icons";
 import { Link, Outlet } from "react-router-dom";
 import { allProjects, removeProject } from "../services/project_api";
 import "../styles/home.css";
@@ -16,6 +16,7 @@ import { ProjectContext } from "../components/context";
 import ProjectDeleteCheck from "../components/deleteCheck";
 import ImportDialog from "../components/importDialog";
 import { handleExport } from "../components/handleExport";
+import ReportDialog from "../components/reportDialog";
 
 function HomeScreen() {
   const [projects, setProjects] = useState(null);
@@ -36,12 +37,26 @@ function HomeScreen() {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
+
   const itemsPerPage = 12;
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const visibleProjects = Array.isArray(projects)
     ? projects.slice(startIndex, endIndex)
     : [];
+
+  const [isReportDialogOpen, setIsReportDialogOpen] = useState(false); // State to control dialog visibility
+  const [reportDialogArgs, setReportDialogArgs] = useState({}); // State to store dialog arguments
+
+  const openReportDialog = (args) => {
+    setReportDialogArgs(args); // Store the arguments in state
+    setIsReportDialogOpen(true); // Open the dialog with the UUID
+  };
+
+  const closeReportDialog = () => {
+    setIsReportDialogOpen(false); // Close the dialog
+    setReportDialogArgs({}); // Clear the arguments
+  };
 
   return (
     <>
@@ -126,6 +141,25 @@ function HomeScreen() {
                   >
                     <Icon data={download}></Icon>
                   </Button>
+                  <Button
+                    data-tag={project.uuid}
+                    id="reportButton"
+                    variant="ghost"
+                    aria-label="report action"
+                    onClick={async (event) => {
+                      event.preventDefault();
+                      const uuid = event.target.getAttribute("data-tag");
+                      openReportDialog({ uuid: uuid });
+                    }}
+                  >
+                    <Icon data={file}></Icon>
+                  </Button>
+                  {isReportDialogOpen && (
+                    <ReportDialog
+                      uuid={reportDialogArgs.uuid}
+                      onClose={closeReportDialog}
+                    />
+                  )}
                 </Card.Actions>
                 <Card.Content style={{ display: "flex" }}>
                   <div

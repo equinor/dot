@@ -15,11 +15,13 @@ import {
   help_outline,
   file_description,
   download,
+  file,
 } from "@equinor/eds-icons";
 import { Link, Outlet } from "react-router-dom";
 import { useProjectContext } from "./context";
 import { readProject } from "../services/project_api";
 import { handleExport } from "./handleExport";
+import ReportDialog from "../components/reportDialog";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,6 +30,19 @@ function Header() {
   const openPopover = () => setIsOpen(true);
   const closePopover = () => setIsOpen(false);
   const [project, setProjectContext] = useProjectContext();
+
+  const [isReportDialogOpen, setIsReportDialogOpen] = useState(false); // State to control dialog visibility
+  const [reportDialogArgs, setReportDialogArgs] = useState({}); // State to store dialog arguments
+
+  const openReportDialog = (args) => {
+    setReportDialogArgs(args); // Store the arguments in state
+    setIsReportDialogOpen(true); // Open the dialog with the UUID
+  };
+
+  const closeReportDialog = () => {
+    setIsReportDialogOpen(false); // Close the dialog
+    setReportDialogArgs({}); // Clear the arguments
+  };
 
   const fetchData = async () => {
     if (project) {
@@ -98,6 +113,22 @@ function Header() {
                     >
                       <Icon data={download} />
                     </Button>
+                    <Button
+                      className="reportButton"
+                      variant="ghost_icon"
+                      onClick={async (event) => {
+                        event.preventDefault();
+                        openReportDialog({ uuid: project_data.uuid });
+                      }}
+                    >
+                      <Icon data={file} />
+                    </Button>
+                    {isReportDialogOpen && (
+                      <ReportDialog
+                        uuid={reportDialogArgs.uuid}
+                        onClose={closeReportDialog}
+                      />
+                    )}
                   </div>
                 ) : null}
               </div>
@@ -130,7 +161,7 @@ function Header() {
               variant="ghost_icon"
               as={Link}
               target="_blank"
-              to="https://fictional-adventure-eyq51g5.pages.github.io/"
+              to="https://equinor.github.io/dot/"
             >
               <Icon data={help_outline} />
             </Button>

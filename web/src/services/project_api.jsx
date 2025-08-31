@@ -86,3 +86,14 @@ export const updateProject = async (project_uuid, project) => {
     console.error(error.response);
   }
 };
+
+//report project
+export const reportProject = async (projectID) => {
+  try {
+    const result = await BaseAPIServices.get("/projects/" + projectID); // BaseAPIServices.get("/projects/" + projectID + "/report");
+    return result;
+  } catch (error) {
+    console.log("Failed Exporting");
+    console.error(error);
+  }
+};
