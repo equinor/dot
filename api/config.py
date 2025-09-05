@@ -5,7 +5,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    default_database_address: str = "database:8182"
+    # default_database_address: str = "database:8182"
+    default_database_address: str = "localhost:8182"
     APP_ENVIRONMENT: str = os.getenv("APP_ENVIRONMENT", "local")
     DB_PRIMARY_KEY: str = os.getenv("DB_PRIMARY_KEY", "key")
     DATABASE_ADDRESS: str = os.getenv("DATABASE_ADDRESS", default_database_address)
