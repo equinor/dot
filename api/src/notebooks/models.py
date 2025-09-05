@@ -4,16 +4,14 @@ import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from src.notebooks import classes
+from src.notebooks import bn
+from src.notebooks import id
 
 
 class Model:
     def __init__(self):
-        self.Variable = classes.Variable
-        self.Arc = classes.Arc
-        self.CPD = classes.CPD
-        self.PGM = classes.PGM
-        self.GUM = classes.GUM
-
+        self.BNPGM = bn.BNPGM
+        self.BNGUM = bn.BNGUM
+        self.IDGUM = id.IDGUM
 
 models = Model()

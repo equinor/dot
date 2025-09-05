@@ -1,6 +1,7 @@
-from abc import ABC, abstractmethod
-from collections import namedtuple
 from itertools import product
+
+import os
+import sys
 
 import numpy as np
 import pyagrum as gum
@@ -10,84 +11,27 @@ from pgmpy.inference import VariableElimination
 from pgmpy.models import DiscreteBayesianNetwork
 from pyagrum.lib import image as gumimage
 
-Variable = namedtuple("Variable", ["name", "states", "type"])
-Arc = namedtuple("Arc", ["tail", "head"])
-CPD = namedtuple(
-    "CPD",
-    [
-        "variable",
-        "parents",
-        "table",
-    ],
-)
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from src.notebooks import probabilistic_graph_models as pgm
 
 
-class ModelABC(ABC):
-    def __init__(
-        self,
-        *,
-        name: str,
-        variables: Variable,
-        arcs: tuple[Arc],
-        cdps: tuple[CPD],
-    ):
-        self.name = name
-        self.model = None
-        self.variables = variables
-        self.arcs = arcs
-        self.cpds = cdps
 
-    @abstractmethod
-    def get_cpd(self, variable: str):
-        raise NotImplementedError
+class BNPGM(pgm.ModelABC):
+    def __init__(self, *,network: pgm.ProbGraphModel):
+        super().__init__(network=network)
+        self.modelling()
 
-    @abstractmethod
-    def draw_graph(self):
-        raise NotImplementedError
-
-    def print_variables(self):
-        print("Variables:")
-        print(self.variables)
-        print("\n")
-
-    @abstractmethod
-    def print_nodes(self):
-        raise NotImplementedError
-
-    def print_arcs(self):
-        print("Arcs:")
-        print([(tail.name, head.name) for (tail, head) in self.arcs])
-        print("\n")
-
-    @abstractmethod
-    def print_potentials(self):
-        raise NotImplementedError
-
-    @abstractmethod
-    def inference(self, variable: str):
-        raise NotImplementedError
-
-
-class PGM(ModelABC):
-    def __init__(
-        self,
-        *,
-        name: str,
-        variables: Variable,
-        arcs: tuple[Arc],
-        cdps: tuple[CPD],
-    ):
-        super().__init__(name=name, variables=variables, arcs=arcs, cdps=cdps)
+    def modelling(self):
         self.model = DiscreteBayesianNetwork()
         self._add_arcs()
         self._add_cpds()
 
     def _add_arcs(self):
-        for item in self.arcs:
-            self.model.add_edge(item.tail.name, item.head.name)
+        for item in self.graph.arcs:
+            self.model.add_edge(item.tail.id, item.head.id)
 
     @staticmethod
-    def _add_cpd(cpd: CPD):
+    def _add_cpd(cpd: pgm.CPD):
         if not cpd:
             return
         description = {
@@ -103,28 +47,17 @@ class PGM(ModelABC):
         return TabularCPD(**description)
 
     def _add_cpds(self):
-        cpds = [PGM._add_cpd(item) for item in self.cpds]
+        cpds = [BNPGM._add_cpd(item) for item in self.potentials]
         self.model.add_cpds(*cpds)
 
-    def get_cpd(self, variable):
+    def get_potentials(self, variable):
         found = False
-        for cpd in self.cdps:
+        for cpd in self.potentials:
             if cpd.variable == variable:
                 found = True
                 print(cpd)
         if not found:
             print("cpd not found in model")
-
-    def print_nodes(self):
-        print("Nodes:")
-        print(list(self.model.nodes()))
-        print("\n")
-
-    def print_potentials(self):
-        print("Potentials:")
-        for cpd in self.model.get_cpds():
-            print(f"cpd for {cpd.variable}:\n{cpd}\n")
-        print("\n")
 
     def draw_graph(self):
         filename = f"{self.name}.png"
@@ -137,16 +70,12 @@ class PGM(ModelABC):
         return ie.query(variables=[variable])
 
 
-class GUM(ModelABC):
-    def __init__(
-        self,
-        *,
-        name: str,
-        variables: Variable,
-        arcs: tuple[Arc],
-        cdps: tuple[CPD],
-    ):
-        super().__init__(name=name, variables=variables, arcs=arcs, cdps=cdps)
+class BNGUM(pgm.ModelABC):
+    def __init__(self, *,network: pgm.ProbGraphModel):
+        super().__init__(network=network)
+        self.modelling()
+
+    def modelling(self):
         self.model = gum.BayesNet()
         self._add_variables()
         self._add_arcs()
@@ -159,8 +88,8 @@ class GUM(ModelABC):
             )
 
     def _add_arcs(self):
-        for arc in self.arcs:
-            self.model.addArc(arc.tail.name, arc.head.name)
+        for arc in self.graph.arcs:
+            self.model.addArc(arc.tail.id, arc.head.id)
 
     def _add_cpd(self, cpd):
         if not cpd:
@@ -203,24 +132,13 @@ class GUM(ModelABC):
                 ind = combination[1][3::2]
 
                 variable_name = d.pop("name")
-                self.model.cpt(variable_name)[d] = cpt[*ind].tolist()
+                self.model.cpt(variable_name)[d] = cpt[:, *ind].tolist()
 
     def _add_cpds(self):
-        for cpd in self.cpds:
+        for cpd in self.potentials:
             self._add_cpd(cpd)
 
-    def print_nodes(self):
-        print("Nodes:")
-        print(list(self.model.names()))
-        print("\n")
-
-    def print_potentials(self):
-        print("Potentials:")
-        for variable in [item.name for item in self.variables]:
-            print(f"cpd for {variable}:\n{self.model.cpt(variable)}\n")
-        print("\n")
-
-    def get_cpd(self, variable):
+    def get_potentials(self, variable):
         if variable not in [item.name for item in self.variables]:
             print("cpd not found in model")
             return
