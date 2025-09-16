@@ -1,6 +1,6 @@
 import os
 import sys
-from itertools import product
+from itertools import product, chain
 
 import pyagrum as gum
 from IPython.display import Image, display
@@ -42,10 +42,13 @@ class IDGUM(pgm.ModelABC):
 
     def _add_potential(self, potential):
         if isinstance(potential, pgm.CPD):
+            print("CPD")
             print(potential.variable.name)
             self._add_cpd(potential)
         if isinstance(potential, pgm.Utility):
             print("Utility")
+            print(potential.variable.name)
+            self._add_utility_table(potential)
         if not isinstance(potential, pgm.CPD) and not isinstance(potential, pgm.Utility):
             print("Unknonw")
 
@@ -80,6 +83,25 @@ class IDGUM(pgm.ModelABC):
                 variable_name = d.pop("name")
                 d_ = {self._to_valid(k): self._to_valid(v) for k,v in d.items()}
                 self.model.cpt(variable_name)[d] = xarr.sel(d_).data.tolist()
+
+    def _add_utility_table(self, utility):
+        if not utility:
+            return
+
+        xarr = self.potential_to_xarray(utility.variable.name)
+        all_variables = [{parent.name: parent.states} for parent in utility.parents]
+        key_combinations = []
+        for d in all_variables:
+            key = list(d.keys())[0]
+            values = list(d.values())[0]
+            key_combinations.append([key])
+            key_combinations.append(values)
+        key_combinations = list(product(*key_combinations))
+
+        for combination in key_combinations:
+            d = dict(zip(combination[0::2], combination[1::2], strict=False))
+            d_ = {self._to_valid(k): self._to_valid(v) for k,v in d.items()}
+            self.model.utility(utility.variable.name)[d] = xarr.sel(d_).data.tolist()
 
     def _add_potentials(self):
         for potential in self.potentials:
