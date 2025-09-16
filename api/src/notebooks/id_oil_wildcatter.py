@@ -4,7 +4,6 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from src.notebooks import probabilistic_graph_models as pgm
 
-
 var_oil_content = pgm.Variable("Oil content", ["dry", "wet", "soaking"], "chance")
 var_test_decision = pgm.Variable("Test decision", ["yes", "no"], "decision")
 var_test_result = pgm.Variable("Test result", ["closed", "open", "diffuse"], "chance")
@@ -75,8 +74,8 @@ utility_testing_costs = pgm.Utility(
     )
 utility_reward = pgm.Utility(
     variable=var_reward,
-    parents=[var_oil_content, var_drilling],
-    table=[[0, 0, 0, -70, 50, 200]],
+    parents=[var_drilling, var_oil_content],
+    table=[[-70, 50, 200, 0, 0, 0]],
     )
 
 

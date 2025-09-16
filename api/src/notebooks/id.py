@@ -1,16 +1,13 @@
-from itertools import product
-
 import os
 import sys
+from itertools import product
 
-import numpy as np
 import pyagrum as gum
 from IPython.display import Image, display
 from pyagrum.lib import image as gumimage
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from src.notebooks import probabilistic_graph_models as pgm
-
 
 
 class IDGUM(pgm.ModelABC):
@@ -56,41 +53,33 @@ class IDGUM(pgm.ModelABC):
         if not cpd:
             return
 
+        dims = [cpd.variable.name]
+        xarr = self.potential_to_xarray(dims[0])
         if not cpd.parents:
-            shape = (len(cpd.variable.states),)
-            cpt = np.array(cpd.table).T.reshape(shape)
-            self.model.cpt(cpd.variable.name).fillWith(cpt.tolist())
+            self.model.cpt(dims[0]).fillWith(xarr.data.tolist())
         else:
-            shape = (
-                len(cpd.variable.states),
-                *tuple(len(item.states) for item in cpd.parents),
-            )
-            cpt = np.array(cpd.table).reshape(shape)
+            dims += cpd.parents
             all_variables = [{cpd.variable.name: cpd.variable.states}]
             for parent in cpd.parents:
                 all_variables.append({parent.name: parent.states})
-            key_combinations = []
-            ind_combinations = []
 
-            for k, d in enumerate(all_variables):
+            key_combinations = []
+            for d in all_variables:
                 key = list(d.keys())[0]
                 values = list(d.values())[0]
                 key_combinations.append([key])
                 key_combinations.append(values)
-                ind_combinations.append([k])
-                ind_combinations.append(list(range(len(values))))
             key_combinations = list(product(*key_combinations))
-            ind_combinations = list(product(*ind_combinations))
 
-            for combination in zip(key_combinations, ind_combinations, strict=False):
-                d = {"name": combination[0][0]}
+            for combination in key_combinations:
+                d = {"name": combination[0]}
                 d.update(
-                    dict(zip(combination[0][2::2], combination[0][3::2], strict=False))
+                    dict(zip(combination[2::2], combination[3::2], strict=False))
                 )
-                ind = combination[1][3::2]
 
                 variable_name = d.pop("name")
-                self.model.cpt(variable_name)[d] = cpt[:, *ind].tolist()
+                d_ = {self._to_valid(k): self._to_valid(v) for k,v in d.items()}
+                self.model.cpt(variable_name)[d] = xarr.sel(d_).data.tolist()
 
     def _add_potentials(self):
         for potential in self.potentials:

@@ -1,8 +1,9 @@
+import re
 from abc import ABC, abstractmethod
 from collections import namedtuple
 
 import numpy as np
-
+import xarray as xr
 
 Variable = namedtuple("Variable", ["name", "states", "type"])
 Node = namedtuple("Node", ["id"])
@@ -23,7 +24,7 @@ Utility = namedtuple(
         "parents",
         "table"
     ],
-)   
+)
 
 
 class ProbGraphModel:
@@ -41,7 +42,7 @@ class ProbGraphModel:
 
     def print_variables(self):
         print("Variables:")
-        print(*[item for item in self.variables], sep="\n")
+        print(*self.variables, sep="\n")
         print("\n")
 
     def print_nodes(self):
@@ -65,14 +66,32 @@ class ProbGraphModel:
             return potential[0]
         else:
             return
-        
+
     def get_variable_by_name(self, name: str):
         variable = [v for v in self.variables if v.name == name]
         if variable:
             return variable[0]
         else:
             return None
-    
+
+    @staticmethod
+    def _to_valid(s: str):
+        return re.sub(r'\W+|^(?=\d)','_', s)
+
+    def potential_to_xarray(self, name):
+        potential = self.get_potential_by_name(name)
+        variables = []
+        if potential.variable.states:
+            variables += [potential.variable]
+        if potential.parents:
+            variables += potential.parents
+        dims = [self._to_valid(item.name) for item in variables if item]
+        coords = {self._to_valid(item.name): [self._to_valid(s) for s in item.states] \
+                  for item in variables if item}
+        shape = tuple(len(item) for item in coords.values())
+        table = np.array(potential.table).reshape(shape)
+        return xr.DataArray(table, dims=dims, coords=coords)
+
 
 class ModelABC(ABC, ProbGraphModel):
     def __init__(self, *,network: ProbGraphModel):
@@ -88,7 +107,7 @@ class ModelABC(ABC, ProbGraphModel):
     @abstractmethod
     def modelling(self):
         raise NotImplementedError
-    
+
     @abstractmethod
     def get_potentials(self, variable: str):
         raise NotImplementedError
@@ -119,8 +138,8 @@ class ModelABC(ABC, ProbGraphModel):
 #         name=name,
 #         vcariables=bn_variables,
 #         graph=bn_graph,
-#         potentials=bn_potentials)    
-    
+#         potentials=bn_potentials)
+
 
 #     return bn_variables, bn_arcs, bn_potentials
 
@@ -142,7 +161,7 @@ class ModelABC(ABC, ProbGraphModel):
 #         Variable(item.name, ["true", "false"], "chance") \
 #             if item.type == "value" else \
 #                 Variable(item.name, item.states, "chance") \
-#                     for item in variables                
+#                     for item in variables
 #                 )
 #     return bn_variables
 
@@ -150,7 +169,7 @@ class ModelABC(ABC, ProbGraphModel):
 # def _id_to_bn_arcs(bn_variables, arcs):
 #     return tuple(
 #         Arc(
-#             get_variable_by_name(tail.name, bn_variables), 
+#             get_variable_by_name(tail.name, bn_variables),
 #             get_variable_by_name(head.name, bn_variables)
 #             ) \
 #                 for (tail, head) in arcs
