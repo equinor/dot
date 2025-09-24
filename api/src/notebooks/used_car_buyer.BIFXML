@@ -1,0 +1,102 @@
+<?xml version="1.0" ?>
+
+<BIF VERSION="0.3">
+<NETWORK>
+
+<!-- Variables -->
+<VARIABLE TYPE="nature">
+	<NAME>O</NAME>
+	<PROPERTY>description = O</PROPERTY>
+	<PROPERTY>fast = O{peach|lemon}</PROPERTY>
+<!- OUTCOME are not used in pyAgrum BIFXML (see fast property) but are kept for compatibility->
+	<OUTCOME>peach</OUTCOME>
+	<OUTCOME>lemon</OUTCOME>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>R</NAME>
+	<PROPERTY>description = R</PROPERTY>
+	<PROPERTY>fast = R{peach|lemon|NA}</PROPERTY>
+<!- OUTCOME are not used in pyAgrum BIFXML (see fast property) but are kept for compatibility->
+	<OUTCOME>peach</OUTCOME>
+	<OUTCOME>lemon</OUTCOME>
+	<OUTCOME>NA</OUTCOME>
+</VARIABLE>
+
+<VARIABLE TYPE="decision">
+	<NAME>T</NAME>
+	<PROPERTY>description = T</PROPERTY>
+	<PROPERTY>fast = T{yes|no}</PROPERTY>
+<!- OUTCOME are not used in pyAgrum BIFXML (see fast property) but are kept for compatibility->
+	<OUTCOME>yes</OUTCOME>
+	<OUTCOME>no</OUTCOME>
+</VARIABLE>
+
+<VARIABLE TYPE="decision">
+	<NAME>A</NAME>
+	<PROPERTY>description = A</PROPERTY>
+	<PROPERTY>fast = A{buy without guarantee|buy with guarantee|do not buy}</PROPERTY>
+<!- OUTCOME are not used in pyAgrum BIFXML (see fast property) but are kept for compatibility->
+	<OUTCOME>buy without guarantee</OUTCOME>
+	<OUTCOME>buy with guarantee</OUTCOME>
+	<OUTCOME>do not buy</OUTCOME>
+</VARIABLE>
+
+<VARIABLE TYPE="utility">
+	<NAME>V1</NAME>
+	<PROPERTY>description = V1</PROPERTY>
+	<PROPERTY>fast = V1{0}</PROPERTY>
+<!- OUTCOME are not used in pyAgrum BIFXML (see fast property) but are kept for compatibility->
+	<OUTCOME>0</OUTCOME>
+</VARIABLE>
+
+<VARIABLE TYPE="utility">
+	<NAME>V2</NAME>
+	<PROPERTY>description = V2</PROPERTY>
+	<PROPERTY>fast = V2{0}</PROPERTY>
+<!- OUTCOME are not used in pyAgrum BIFXML (see fast property) but are kept for compatibility->
+	<OUTCOME>0</OUTCOME>
+</VARIABLE>
+
+<VARIABLE TYPE="utility">
+	<NAME>V3</NAME>
+	<PROPERTY>description = V3</PROPERTY>
+	<PROPERTY>fast = V3{0}</PROPERTY>
+<!- OUTCOME are not used in pyAgrum BIFXML (see fast property) but are kept for compatibility->
+	<OUTCOME>0</OUTCOME>
+</VARIABLE>
+
+<!-- Probability distributions -->
+<DEFINITION>
+	<FOR>O</FOR><!--O | -->
+	<TABLE>0.8 0.2 </TABLE>
+</DEFINITION>
+<DEFINITION>
+	<FOR>R</FOR><!--R | T,O,-->
+	<GIVEN>O</GIVEN>
+	<GIVEN>T</GIVEN>
+	<TABLE>1 0 0 0 0 1 0 1 0 0 0 1 </TABLE>
+</DEFINITION>
+<DEFINITION>
+	<FOR>A</FOR><!--A | R,-->
+	<GIVEN>R</GIVEN>
+</DEFINITION>
+<DEFINITION>
+	<FOR>V1</FOR><!--V1 | T,-->
+	<GIVEN>T</GIVEN>
+	<TABLE>-25 0 </TABLE>
+</DEFINITION>
+<DEFINITION>
+	<FOR>V2</FOR><!--V2 | A,-->
+	<GIVEN>A</GIVEN>
+	<TABLE>100 40 0 </TABLE>
+</DEFINITION>
+<DEFINITION>
+	<FOR>V3</FOR><!--V3 | A,O,-->
+	<GIVEN>O</GIVEN>
+	<GIVEN>A</GIVEN>
+	<TABLE>-40 -20 0 -200 0 0 </TABLE>
+</DEFINITION>
+
+</NETWORK>
+</BIF>
