@@ -6,5 +6,7 @@
     "python.testing.pytestEnabled": true,
     "autoDocstring.docstringFormat": "google",
     "autoDocstring.generateDocstringOnEnter": true,
-    "autoDocstring.guessTypes": true
+    "autoDocstring.guessTypes": true,
+    "python-envs.defaultEnvManager": "ms-python.python:system",
+    "python-envs.pythonProjects": []
 }
