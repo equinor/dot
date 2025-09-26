@@ -1,6 +1,7 @@
 import re
 from abc import ABC, abstractmethod
 from collections import namedtuple
+import yaml
 
 import numpy as np
 import xarray as xr
@@ -25,6 +26,10 @@ Utility = namedtuple(
         "table"
     ],
 )
+
+
+
+
 
 
 class ProbGraphModel:
@@ -73,6 +78,68 @@ class ProbGraphModel:
             return variable[0]
         else:
             return None
+        
+    @staticmethod
+    def _dict_to_variables(data):
+        return tuple(Variable(item["name"], item["states"], item["type"]) for item in data)
+        
+    @staticmethod
+    def _dict_to_nodes(data):
+        return tuple(Node(item) for item in data)
+        
+    @staticmethod
+    def _dict_to_arcs(nodes, data):
+        def node_from_id(nodes, name):
+            for n in nodes:
+                if n.id == name:
+                    return n
+        return tuple(Arc(node_from_id(nodes, item[0]), node_from_id(nodes, item[1])) for item in data)
+
+    @staticmethod
+    def _dict_to_potentials(variables, data):
+        def variable_from_name(variables, name):
+            for v in variables:
+                if v.name == name:
+                    return v
+                
+        potentials = list()
+        for item in data:
+            parents = None
+            if item["parents"]:
+                parents = [variable_from_name(variables, p) for p in item["parents"]]
+            if item["type"] == "cpd":
+                potential = CPD(
+                    variable_from_name(variables, item["variable"]),
+                    parents,
+                    item["table"]
+                    )
+            if item["type"] == "utility":
+                potential = Utility(
+                    variable_from_name(variables, item["variable"]),
+                    parents,
+                    item["table"]
+                    )
+            potentials.append(potential)
+        
+        return tuple(potentials)
+
+    @classmethod
+    def read_model(cls, filepath):
+        with open(filepath, "r") as file:
+            parsed_data = yaml.safe_load(file)
+
+        name = parsed_data["name"]
+        variables = cls._dict_to_variables(parsed_data["variables"])
+        nodes = cls._dict_to_nodes(parsed_data["nodes"])
+        arcs = cls._dict_to_arcs(nodes, parsed_data["arcs"])
+        potentials = cls._dict_to_potentials(variables, parsed_data["potentials"])
+        graph = Graph(nodes, arcs)
+
+        return cls(
+            name=name,
+            variables=variables,
+            graph=graph,
+            potentials=potentials)            
 
     @staticmethod
     def _to_valid(s: str):
@@ -82,8 +149,10 @@ class ProbGraphModel:
         potential = self.get_potential_by_name(name)
         variables = []
         if potential.variable.states:
+            print(potential.variable, type(potential.variable))
             variables += [potential.variable]
         if potential.parents:
+            print(potential.parents, type(potential.parents))
             variables += potential.parents
         dims = [self._to_valid(item.name) for item in variables if item]
         coords = {self._to_valid(item.name): [self._to_valid(s) for s in item.states] \

@@ -1,0 +1,76 @@
+name: "Oil wildcatter"
+
+
+variables:
+  - name: "Oil content"
+    states: ["dry", "wet", "soaking"]
+    type: chance
+
+  - name: "Test result"
+    states: ["closed", "open", "diffuse"]
+    type: chance
+
+  - name: "Test decision"
+    states: ["yes", "no"]
+    type: decision
+
+  - name: "Drilling"
+    states: ["yes", "no"]
+    type: decision
+
+  - name: "Testing costs"
+    states: []
+    type: value
+
+  - name: "Reward"
+    states: []
+    type: value
+
+
+nodes:
+  - "Oil content"
+  - "Test result"
+  - "Test decision"
+  - "Drilling"
+  - "Testing costs"
+  - "Reward"
+
+
+arcs:
+  - ["Test decision", "Testing costs"]
+  - ["Test decision", "Test result"]
+  - ["Test decision", "Drilling"]
+  - ["Oil content", "Test result"]
+  - ["Oil content", "Reward"]
+  - ["Test result", "Drilling"]
+  - ["Drilling", "Reward"]
+
+
+potentials:
+  - variable: "Oil content"
+    parents: null
+    table: 
+      - [0.5]
+      - [0.3]
+      - [0.2]
+    type: cpd
+
+  - variable: "Test result"
+    parents: ["Test decision", "Oil content"]
+    table: 
+      - [0.1, 0.3, 0.5, 0.333333, 0.333333, 0.333333]
+      - [0.3, 0.4, 0.4, 0.333333, 0.333333, 0.333333]
+      - [0.6, 0.3, 0.1, 0.333333, 0.333333, 0.333333]
+    type: cpd
+
+  - variable: "Testing costs"
+    parents: ["Test decision"]
+    table: 
+      - [-10, 0]
+    type: utility
+
+  - variable: "Reward"
+    parents: ["Drilling", "Oil content"]
+    table: 
+      - [-70, 50, 200, 0, 0, 0]
+    type: utility

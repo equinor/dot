@@ -1,0 +1,76 @@
+name: "Cancer model"
+
+
+variables:
+  - name: Pollution
+    states: ["yes", "no"]
+    type: chance
+
+  - name: Smoker
+    states: ["yes", "no"]
+    type: chance
+
+  - name: Cancer
+    states: ["yes", "no"]
+    type: chance
+
+  - name: Xray
+    states: ["yes", "no"]
+    type: chance
+
+  - name: Dyspnoea
+    states: ["yes", "no"]
+    type: chance
+
+
+nodes:
+  - Pollution
+  - Smoker
+  - Cancer
+  - Xray
+  - Dyspnoea
+
+
+arcs:
+  - ["Pollution", "Cancer"]
+  - ["Smoker", "Cancer"]
+  - ["Cancer", "Xray"]
+  - ["Cancer", "Dyspnoea"]
+
+
+potentials:
+  - variable: Pollution
+    parents: null
+    table: 
+      - [0.9]
+      - [0.1]
+    type: cpd
+
+  - variable: Smoker
+    parents: null
+    table: 
+      - [0.3]
+      - [0.7]
+    type: cpd
+
+  - variable: Cancer
+    parents: ["Smoker", "Pollution"]
+    table: 
+      - [0.03, 0.05, 0.001, 0.02]
+      - [0.97, 0.95, 0.999, 0.98]
+    type: cpd
+
+  - variable: Xray
+    parents: ["Cancer"]
+    table: 
+      - [0.9, 0.2]
+      - [0.1, 0.8]
+    type: cpd
+
+  - variable: Dyspnoea
+    parents: ["Cancer"]
+    table: 
+      - [0.65, 0.3]
+      - [0.35, 0.7]
+    type: cpd
+

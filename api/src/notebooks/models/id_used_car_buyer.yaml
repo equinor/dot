@@ -1,0 +1,87 @@
+name: "Used car buyer"
+
+
+variables:
+  - name: "Car state"
+    states: ["lemon", "peach"]
+    type: chance
+
+  - name: "Test result"
+    states: ["no test", "lemon", "peach"]
+    type: chance
+
+  - name: "Test decision"
+    states: ["yes", "no"]
+    type: decision
+
+  - name: "Purchase"
+    states: ["buy without guarantee", "buy with guarantee", "don't buy"]
+    type: decision
+
+  - name: "Testing costs"
+    states: []
+    type: value
+
+  - name: "Base profit"
+    states: []
+    type: value
+
+  - name: "Repair costs"
+    states: []
+    type: value
+
+
+nodes:
+  - "Car state"
+  - "Test result"
+  - "Test decision"
+  - "Purchase"
+  - "Testing costs"
+  - "Base profit"
+  - "Repair costs"
+
+
+arcs:
+  - ["Test decision", "Testing costs"]
+  - ["Test decision", "Test result"]
+  - ["Car state", "Test result"]
+  - ["Test result", "Purchase"]
+  - ["Purchase", "Base profit"]
+  - ["Car state", "Repair costs"]
+  - ["Purchase", "Repair costs"]
+
+
+potentials:
+  - variable: "Car state"
+    parents: null
+    table: 
+      - [0.8]
+      - [0.2]
+    type: cpd
+
+  - variable: "Test result"
+    parents: ["Car state", "Test decision"]
+    table: 
+      - [1.0, 1.0, 0.0, 0.0]
+      - [0.0, 0.0, 1.0, 0.0]
+      - [0.0, 0.0, 0.0, 1.0]
+    type: cpd
+
+  - variable: "Testing costs"
+    parents: ["Test decision"]
+    table: 
+      - [-25, 0]
+    type: utility
+
+  - variable: "Base profit"
+    parents: ["Purchase"]
+    table: 
+      - [100, 40, 0]
+    type: utility
+
+  - variable: "Repair costs"
+    parents: ["Car state", "Purchase"]
+    table: 
+      - [-200, 0, 0]
+      - [-40, -20, 0]
+    type: utility
