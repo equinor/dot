@@ -7,7 +7,7 @@ from IPython.display import Image, display
 from pyagrum.lib import image as gumimage
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from src.notebooks import probabilistic_graph_models as pgm
+from src.pgm import probabilistic_graph_models as pgm
 
 
 class IDGUM(pgm.ModelABC):

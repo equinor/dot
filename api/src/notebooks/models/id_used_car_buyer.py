@@ -2,7 +2,7 @@ import os
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from src.notebooks import probabilistic_graph_models as pgm
+from src.pgm import probabilistic_graph_models as pgm
 
 
 var_car_state = pgm.Variable("Car state", ["lemon", "peach"], "chance")
@@ -13,16 +13,6 @@ var_testing_costs = pgm.Variable("Testing costs", [], "value")
 var_base_profit = pgm.Variable("Base profit", [], "value")
 var_repair_costs = pgm.Variable("Repair costs", [], "value")
 
-variables = (
-    var_car_state,
-    var_test_decision,
-    var_test_result,
-    var_purchase,
-    var_testing_costs,
-    var_base_profit,
-    var_repair_costs,
-)
-
 node_car_state = pgm.Node("Car state")
 node_test_decision = pgm.Node("Test decision")
 node_test_result = pgm.Node("Test result")
@@ -30,31 +20,6 @@ node_purchase = pgm.Node("Purchase")
 node_testing_costs = pgm.Node("Testing costs")
 node_base_profit = pgm.Node("Base profit")
 node_repair_costs = pgm.Node("Repair costs")
-
-nodes = (
-    node_car_state,
-    node_test_decision,
-    node_test_result,
-    node_purchase,
-    node_testing_costs,
-    node_base_profit,
-    node_repair_costs,
-)
-
-arcs = (
-    pgm.Arc(node_test_decision, node_testing_costs),
-    pgm.Arc(node_test_decision, node_test_result),
-    pgm.Arc(node_car_state, node_test_result),
-    pgm.Arc(node_test_result, node_purchase),
-    pgm.Arc(node_purchase, node_base_profit),
-    pgm.Arc(node_car_state, node_repair_costs),
-    pgm.Arc(node_purchase, node_repair_costs),
-)
-
-graph = pgm.Graph(
-    nodes,
-    arcs
-)
 
 cpd_car_state = pgm.CPD(
     variable=var_car_state,
@@ -87,6 +52,40 @@ utility_repair_costs = pgm.Utility(
     table=[[-200, 0, 0], [-40, -20, 0]],
     )
 
+variables = (
+    var_car_state,
+    var_test_decision,
+    var_test_result,
+    var_purchase,
+    var_testing_costs,
+    var_base_profit,
+    var_repair_costs,
+)
+
+nodes = (
+    node_car_state,
+    node_test_decision,
+    node_test_result,
+    node_purchase,
+    node_testing_costs,
+    node_base_profit,
+    node_repair_costs,
+)
+
+arcs = (
+    pgm.Arc(node_test_decision, node_testing_costs),
+    pgm.Arc(node_test_decision, node_test_result),
+    pgm.Arc(node_car_state, node_test_result),
+    pgm.Arc(node_test_result, node_purchase),
+    pgm.Arc(node_purchase, node_base_profit),
+    pgm.Arc(node_car_state, node_repair_costs),
+    pgm.Arc(node_purchase, node_repair_costs),
+)
+
+graph = pgm.Graph(
+    nodes,
+    arcs
+)
 
 potentials = (
     cpd_car_state,

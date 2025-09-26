@@ -2,7 +2,7 @@ import os
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from src.notebooks import probabilistic_graph_models as pgm
+from src.pgm import probabilistic_graph_models as pgm
 
 var_pollution = pgm.Variable("Pollution", ["yes", "no"], "chance")
 var_smoker = pgm.Variable("Smoker", ["yes", "no"], "chance")
@@ -10,37 +10,11 @@ var_cancer = pgm.Variable("Cancer", ["yes", "no"], "chance")
 var_xray = pgm.Variable("Xray", ["yes", "no"], "chance")
 var_dyspnoea = pgm.Variable("Dyspnoea", ["yes", "no"], "chance")
 
-variables = (
-    var_pollution,
-    var_smoker,
-    var_cancer,
-    var_xray,
-    var_dyspnoea,
-)
-
 node_pollution = pgm.Node("Pollution")
 node_smoker = pgm.Node("Smoker")
 node_cancer = pgm.Node("Cancer")
 node_xray = pgm.Node("Xray")
 node_dyspnoea = pgm.Node("Dyspnoea")
-
-
-nodes = (
-    node_pollution,
-    node_smoker,
-    node_cancer,
-    node_xray,
-    node_dyspnoea,
-)
-
-arcs = (
-    pgm.Arc(node_pollution, node_cancer),
-    pgm.Arc(node_smoker, node_cancer),
-    pgm.Arc(node_cancer, node_xray),
-    pgm.Arc(node_cancer, node_dyspnoea),
-)
-
-graph = pgm.Graph(nodes, arcs)
 
 cpd_pollution = pgm.CPD(
     variable=var_pollution,
@@ -72,6 +46,31 @@ cpd_dyspnoea = pgm.CPD(
     table=[[0.65, 0.3],
            [0.35, 0.7]],
 )
+
+variables = (
+    var_pollution,
+    var_smoker,
+    var_cancer,
+    var_xray,
+    var_dyspnoea,
+)
+
+nodes = (
+    node_pollution,
+    node_smoker,
+    node_cancer,
+    node_xray,
+    node_dyspnoea,
+)
+
+arcs = (
+    pgm.Arc(node_pollution, node_cancer),
+    pgm.Arc(node_smoker, node_cancer),
+    pgm.Arc(node_cancer, node_xray),
+    pgm.Arc(node_cancer, node_dyspnoea),
+)
+
+graph = pgm.Graph(nodes, arcs)
 
 cpds = (
     cpd_pollution,

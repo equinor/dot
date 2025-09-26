@@ -2,7 +2,7 @@ import os
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from src.notebooks import probabilistic_graph_models as pgm
+from src.pgm import probabilistic_graph_models as pgm
 
 var_oil_content = pgm.Variable("Oil content", ["dry", "wet", "soaking"], "chance")
 var_test_decision = pgm.Variable("Test decision", ["yes", "no"], "decision")
@@ -26,30 +26,6 @@ node_test_result = pgm.Node("Test result")
 node_drilling = pgm.Node("Drilling")
 node_testing_costs = pgm.Node("Testing costs")
 node_reward = pgm.Node("Reward")
-
-nodes = (
-    node_oil_content,
-    node_test_decision,
-    node_test_result,
-    node_drilling,
-    node_testing_costs,
-    node_reward,
-)
-
-arcs = (
-    pgm.Arc(node_test_decision, node_testing_costs),
-    pgm.Arc(node_test_decision, node_test_result),
-    pgm.Arc(node_test_decision, node_drilling),
-    pgm.Arc(node_oil_content, node_test_result),
-    pgm.Arc(node_oil_content, node_reward),
-    pgm.Arc(node_test_result, node_drilling),
-    pgm.Arc(node_drilling, node_reward),
-)
-
-graph = pgm.Graph(
-    nodes,
-    arcs
-)
 
 cpd_oil_content = pgm.CPD(
     variable=var_oil_content,
@@ -78,6 +54,29 @@ utility_reward = pgm.Utility(
     table=[[-70, 50, 200, 0, 0, 0]],
     )
 
+nodes = (
+    node_oil_content,
+    node_test_decision,
+    node_test_result,
+    node_drilling,
+    node_testing_costs,
+    node_reward,
+)
+
+arcs = (
+    pgm.Arc(node_test_decision, node_testing_costs),
+    pgm.Arc(node_test_decision, node_test_result),
+    pgm.Arc(node_test_decision, node_drilling),
+    pgm.Arc(node_oil_content, node_test_result),
+    pgm.Arc(node_oil_content, node_reward),
+    pgm.Arc(node_test_result, node_drilling),
+    pgm.Arc(node_drilling, node_reward),
+)
+
+graph = pgm.Graph(
+    nodes,
+    arcs
+)
 
 potentials = (
     cpd_oil_content,
