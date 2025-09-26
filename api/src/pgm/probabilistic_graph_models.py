@@ -109,6 +109,10 @@ class ModelABC(ABC, ProbGraphModel):
         raise NotImplementedError
 
     @abstractmethod
+    def copy(self, dst):
+        raise NotImplementedError
+
+    @abstractmethod
     def get_potentials(self, variable: str):
         raise NotImplementedError
 
