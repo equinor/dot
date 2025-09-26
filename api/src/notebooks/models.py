@@ -4,7 +4,7 @@ import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from src.notebooks import bn
+from tests.test_pgm import bn
 from src.notebooks import id
 
 

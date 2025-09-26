@@ -1,5 +1,3 @@
-import os
-import sys
 from itertools import product
 
 import pyagrum as gum
@@ -9,7 +7,6 @@ from pgmpy.inference import VariableElimination
 from pgmpy.models import DiscreteBayesianNetwork
 from pyagrum.lib import image as gumimage
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from src.pgm import probabilistic_graph_models as pgm
 
 

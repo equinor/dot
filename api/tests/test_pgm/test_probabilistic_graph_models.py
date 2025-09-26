@@ -1,109 +1,133 @@
+from unittest.mock import patch, mock_open
+import json
+
 import pytest
 import numpy as np
 
-from src.pgm.probabilistic_graph_models import (Variable,
-                                                Node,
-                                                Arc,
-                                                Graph,
-                                                CPD,
-                                                ProbGraphModel,
-                                                ModelABC,
-                                                )
+from src.pgm.probabilistic_graph_models import ProbGraphModel, ModelABC
 
 
 @pytest.fixture
 def network():
-    var_pollution = Variable("Pollution", ["yes", "no"], "chance")
-    var_smoker = Variable("Smoker", ["yes", "no"], "chance")
-    var_cancer = Variable("Cancer", ["yes", "no"], "chance")
-    var_xray = Variable("Xray", ["yes", "no"], "chance")
-    var_dyspnoea = Variable("Dyspnoea", ["yes", "no"], "chance")
+    data = {
+       "name": "Cancer model",
+       "variables": [
+           {
+               "name": "Pollution",
+                "states": ["yes", "no"],
+                "type": "chance"
+                },
+           {
+               "name": "Smoker",
+                "states": ["yes", "no"],
+                "type": "chance"
+                },
+           {
+               "name": "Cancer",
+                "states": ["yes", "no"],
+                "type": "chance"
+                },
+           {
+               "name": "Xray",
+                "states": ["yes", "no"],
+                "type": "chance"
+                },
+           {
+               "name": "Dyspnoea",
+                "states": ["yes", "no"],
+                "type": "chance"
+                },
+       ],
+       "nodes": ["Pollution", "Smoker", "Cancer", "Xray", "Dyspnoea"],
+       "arcs": [
+          ["Pollution", "Cancer"],
+          ["Smoker", "Cancer"],
+          ["Cancer", "Xray"],
+          ["Cancer", "Dyspnoea"]
+       ],
+       "potentials": [
+          {
+             "variable": "Pollution",
+             "parents": None,
+             "table": [[0.9], [0.1]],
+             "type": "cpd"
+             },
+          {
+             "variable": "Smoker",
+             "parents": None,
+             "table": [[0.3], [0.7]],
+             "type": "cpd"
+             },
+          {
+             "variable": "Cancer",
+             "parents": ["Smoker", "Pollution"],
+             "table": [[0.03, 0.05, 0.001, 0.02], [0.97, 0.95, 0.999, 0.98]],
+             "type": "cpd"
+             },
+          {
+             "variable": "Xray",
+             "parents": ["Cancer"],
+             "table": [[0.9, 0.2], [0.1, 0.8]],
+             "type": "cpd"
+             },
+          {
+             "variable": "Dyspnoea",
+             "parents": ["Cancer"],
+             "table": [[0.65, 0.3], [0.35, 0.7]],
+             "type": "cpd"
+             },
+       ]
+    }
+    return data
 
-    node_pollution = Node("Pollution")
-    node_smoker = Node("Smoker")
-    node_cancer = Node("Cancer")
-    node_xray = Node("Xray")
-    node_dyspnoea = Node("Dyspnoea")
-
-    cpd_pollution = CPD(
-        variable=var_pollution,
-        parents=None,
-        table=[[0.9],
-            [0.1]],
-        )
-    cpd_smoker = CPD(
-        variable=var_smoker,
-        parents=None,
-        table=[[0.3],
-            [0.7]],
-        )
-    cpd_cancer = CPD(
-        variable=var_cancer,
-        parents=[var_smoker, var_pollution],
-        table=[[0.03, 0.05, 0.001, 0.02],
-            [0.97, 0.95, 0.999, 0.98]],
-    )
-    cpd_xray = CPD(
-        variable=var_xray,
-        parents=[var_cancer],
-        table=[[0.9, 0.2],
-            [0.1, 0.8]],
-    )
-    cpd_dyspnoea = CPD(
-        variable=var_dyspnoea,
-        parents=[var_cancer],
-        table=[[0.65, 0.3],
-            [0.35, 0.7]],
-    )
-
-    variables = (
-        var_pollution,
-        var_smoker,
-        var_cancer,
-        var_xray,
-        var_dyspnoea,
-    )
-
-    nodes = (
-        node_pollution,
-        node_smoker,
-        node_cancer,
-        node_xray,
-        node_dyspnoea,
-    )
-
-    arcs = (
-        Arc(node_pollution, node_cancer),
-        Arc(node_smoker, node_cancer),
-        Arc(node_cancer, node_xray),
-        Arc(node_cancer, node_dyspnoea),
-    )
-
-    graph = Graph(nodes, arcs)
-
-    cpds = (
-        cpd_pollution,
-        cpd_smoker,
-        cpd_cancer,
-        cpd_xray,
-        cpd_dyspnoea,
-    )
-
-    return ProbGraphModel(
-        name="cancer model",
-        variables=variables,
-        graph=graph,
-        potentials=cpds
-    )
 
 
 def test_class_ProbGraphModel(network):
-    assert network.name == "cancer model"
-    assert len(network.variables) == 5
+    model = ProbGraphModel.read_model(network)
+    assert model.name == "Cancer model"
+    assert len(model.variables) == 5
+
+
+def test_class_ProbGraphModel_dict_to_potentials():
+    variables = [
+        {
+            "name": "Car state",
+            "states": ["lemon", "peach"],
+            "type": "chance"
+            },
+        {
+            "name": "Purchase",
+            "states": ["buy without guarantee", "buy with guarantee", "don't buy"],
+            "type": "decision"
+            },
+        {
+            "name": "Repair costs",
+            "states": [],
+            "type": "value"
+            }
+            ]
+    potentials = [
+        {
+            "variable": "Repair costs",
+            "parents": ["Car state", "Purchase"],
+            "table": [[-200, 0, 0], [-40, -20, 0]],
+            "type": "utility"
+        }
+        ]
+    variables = ProbGraphModel._dict_to_variables(variables)
+    results = ProbGraphModel._dict_to_potentials(variables, potentials)
+    assert results[0].table == [[-200, 0, 0], [-40, -20, 0]]
+
+
+def test_class_ProbGraphModel_read_model_from_file(network):
+    with patch("builtins.open", mock_open(read_data=json.dumps(network))) as mock_file:
+        ProbGraphModel.read_model("junk.yaml")
+    mock_file.assert_called_once_with("junk.yaml", "r")
 
 
 def test_class_ProbGraphModel_print_variables(network, capsys):
-    network.print_variables()
+    model = ProbGraphModel.read_model(network)
+    model.print_variables()
     captured = capsys.readouterr()
     assert captured.out == (
         "Variables:\n"
@@ -116,7 +140,8 @@ def test_class_ProbGraphModel_print_variables(network, capsys):
 
 
 def test_class_ProbGraphModel_print_nodes(network, capsys):
-    network.print_nodes()
+    model = ProbGraphModel.read_model(network)
+    model.print_nodes()
     captured = capsys.readouterr()
     assert captured.out == (
         "Nodes:\n"
@@ -129,7 +154,8 @@ def test_class_ProbGraphModel_print_nodes(network, capsys):
 
 
 def test_class_ProbGraphModel_print_arcs(network, capsys):
-    network.print_arcs()
+    model = ProbGraphModel.read_model(network)
+    model.print_arcs()
     captured = capsys.readouterr()
     assert captured.out == (
         "Arcs:\n"
@@ -141,7 +167,8 @@ def test_class_ProbGraphModel_print_arcs(network, capsys):
 
 
 def test_class_ProbGraphModel_print_potentials(network, capsys):
-    network.print_potentials()
+    model = ProbGraphModel.read_model(network)
+    model.print_potentials()
     captured = capsys.readouterr()
     assert captured.out == (
         "Potentials:\n"
@@ -171,9 +198,10 @@ def test_class_ProbGraphModel_print_potentials(network, capsys):
     
 
 def test_class_ProbGraphModel_get_potential_by_name(network):
-    assert network.get_potential_by_name("junk") is None
+    model = ProbGraphModel.read_model(network)
+    assert model.get_potential_by_name("junk") is None
 
-    potential = network.get_potential_by_name("Cancer")
+    potential = model.get_potential_by_name("Cancer")
     assert potential.variable.name == "Cancer"
     assert potential.variable.states == ['yes', 'no']
     assert potential.variable.type == "chance"
@@ -184,20 +212,23 @@ def test_class_ProbGraphModel_get_potential_by_name(network):
 
 
 def test_class_ProbGraphModel_get_variable_by_name(network):
-    assert network.get_variable_by_name("junk") is None
+    model = ProbGraphModel.read_model(network)
+    assert model.get_variable_by_name("junk") is None
 
-    variable = network.get_variable_by_name("Smoker") 
+    variable = model.get_variable_by_name("Smoker") 
     assert variable.name == "Smoker"
     assert variable.states == ["yes", "no"]
     assert variable.type == "chance"
 
 
 def test_class_ProbGraphModel_to_valid(network):
-    assert network._to_valid("  90sd as%/'qq21  ") == "_90sd_as_qq21_"
+    model = ProbGraphModel.read_model(network)
+    assert model._to_valid("  90sd as%/'qq21  ") == "_90sd_as_qq21_"
 
 
 def test_class_ProbGraphModel_potential_to_xarray(network):
-    xarr = network.potential_to_xarray("Cancer")
+    model = ProbGraphModel.read_model(network)
+    xarr = model.potential_to_xarray("Cancer")
     np.testing.assert_allclose(xarr.data, [[[0.03, 0.05], [0.001, 0.02]],
                                            [[0.97, 0.95], [0.999, 0.98]]])
     assert xarr.sel(Cancer="yes", Smoker="no", Pollution="yes") == 0.001
@@ -209,7 +240,8 @@ def test_class_ModelABC(monkeypatch, network):
         "__abstractmethods__",
         set(),
     )
-    model = ModelABC(network=network)
+    graph_model = ProbGraphModel.read_model(network)
+    model = ModelABC(network=graph_model)
     with pytest.raises(NotImplementedError):
         model.modelling()
     with pytest.raises(NotImplementedError):

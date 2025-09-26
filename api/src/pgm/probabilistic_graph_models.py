@@ -125,8 +125,11 @@ class ProbGraphModel:
 
     @classmethod
     def read_model(cls, filepath):
-        with open(filepath, "r") as file:
-            parsed_data = yaml.safe_load(file)
+        if isinstance(filepath, dict):
+            parsed_data = filepath
+        else:
+            with open(filepath, "r") as file:
+                parsed_data = yaml.safe_load(file)
 
         name = parsed_data["name"]
         variables = cls._dict_to_variables(parsed_data["variables"])
