@@ -181,7 +181,7 @@ class ModelABC(ABC, ProbGraphModel):
         raise NotImplementedError
 
     @abstractmethod
-    def copy(self, dst):
+    def copy(self):
         raise NotImplementedError
 
     @abstractmethod

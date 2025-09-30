@@ -81,7 +81,6 @@ def network():
     return data
 
 
-
 def test_class_ProbGraphModel(network):
     model = ProbGraphModel.read_model(network)
     assert model.name == "Cancer model"
@@ -245,7 +244,7 @@ def test_class_ModelABC(monkeypatch, network):
     with pytest.raises(NotImplementedError):
         model.modelling()
     with pytest.raises(NotImplementedError):
-        model.copy(None)
+        model.copy()
     with pytest.raises(NotImplementedError):
         model.get_potentials("junk")
     with pytest.raises(NotImplementedError):

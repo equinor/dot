@@ -44,6 +44,15 @@ class BNPGM(pgm.ModelABC):
         cpds = [BNPGM._add_cpd(item) for item in self.potentials]
         self.model.add_cpds(*cpds)
 
+    def copy(self):
+        network = pgm.ProbGraphModel(
+            name=self.name,
+            variables=self.variables,
+            graph=self.graph,
+            potentials=self.potentials)
+        return BNPGM(network=network)
+
+
     def get_potentials(self, variable):
         found = False
         for cpd in self.potentials:
