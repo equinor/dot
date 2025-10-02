@@ -246,7 +246,7 @@ def test_class_ModelABC(monkeypatch, network):
     with pytest.raises(NotImplementedError):
         model.copy()
     with pytest.raises(NotImplementedError):
-        model.get_potentials("junk")
+        model.get_potential("junk")
     with pytest.raises(NotImplementedError):
         model.draw_graph()
     with pytest.raises(NotImplementedError):

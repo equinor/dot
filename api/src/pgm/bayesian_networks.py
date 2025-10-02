@@ -53,17 +53,15 @@ class BNPGM(pgm.ModelABC):
         return BNPGM(network=network)
 
 
-    def get_potentials(self, variable):
-        found = False
+    def get_potential(self, variable):
         for cpd in self.potentials:
-            if cpd.variable == variable:
-                found = True
-                print(cpd)
-        if not found:
-            print("cpd not found in model")
+            if cpd.variable.name == variable:
+                return self.model.get_cpds(variable)
+        print("cpd not found in model")
+        return None
 
     def draw_graph(self):
-        filename = f"{self.name}.png"
+        filename = f"figures/{self.name}.png"
         viz = self.model.to_graphviz()
         viz.draw(filename, prog="dot")
         display(Image(filename))
@@ -130,14 +128,22 @@ class BNGUM(pgm.ModelABC):
         for cpd in self.potentials:
             self._add_cpd(cpd)
 
-    def get_potentials(self, variable):
+    def copy(self):
+        network = pgm.ProbGraphModel(
+            name=self.name,
+            variables=self.variables,
+            graph=self.graph,
+            potentials=self.potentials)
+        return BNGUM(network=network)
+    
+    def get_potential(self, variable):
         if variable not in [item.name for item in self.variables]:
             print("cpd not found in model")
             return
-        print(self.model.cpt(variable))
+        return self.model.cpt(variable)
 
     def draw_graph(self):
-        filename = f"{self.name}.png"
+        filename = f"figures/{self.name}.png"
         gumimage.export(self.model, filename)
         display(Image(filename))
 

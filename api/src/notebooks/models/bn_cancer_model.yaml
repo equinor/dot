@@ -39,7 +39,7 @@ arcs:
 
 
 potentials:
-  - variable: 2
+  - variable: "Pollution"
     parents: null
     table: 
       - [0.9]

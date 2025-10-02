@@ -185,7 +185,7 @@ class ModelABC(ABC, ProbGraphModel):
         raise NotImplementedError
 
     @abstractmethod
-    def get_potentials(self, variable: str):
+    def get_potential(self, variable: str):
         raise NotImplementedError
 
     @abstractmethod
