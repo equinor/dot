@@ -66,9 +66,11 @@ class BNPGM(pgm.ModelABC):
         viz.draw(filename, prog="dot")
         display(Image(filename))
 
-    def inference(self, variable: str):
-        ie = VariableElimination(self.model)
-        return ie.query(variables=[variable])
+    def inference(self):
+        self.ie = VariableElimination(self.model)
+    
+    def posterior(self, variable: str):
+        return self.ie.query(variables=[variable])
 
 
 class BNGUM(pgm.ModelABC):
@@ -147,7 +149,10 @@ class BNGUM(pgm.ModelABC):
         gumimage.export(self.model, filename)
         display(Image(filename))
 
-    def inference(self, variable: str):
+    def inference(self):
         ie = gum.LazyPropagation(self.model)
         ie.makeInference()
-        return ie.posterior(variable)
+        self.ie = ie
+
+    def posterior(self, variable: str):
+        return self.ie.posterior(variable)

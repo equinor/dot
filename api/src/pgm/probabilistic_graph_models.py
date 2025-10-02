@@ -28,10 +28,6 @@ Utility = namedtuple(
 )
 
 
-
-
-
-
 class ProbGraphModel:
     def __init__(self,
                  *,
@@ -175,6 +171,7 @@ class ModelABC(ABC, ProbGraphModel):
             potentials=network.potentials
         )
         self.model = None
+        self.ie = None
 
     @abstractmethod
     def modelling(self):
@@ -193,9 +190,12 @@ class ModelABC(ABC, ProbGraphModel):
         raise NotImplementedError
 
     @abstractmethod
-    def inference(self, variable: str):
+    def inference(self):
         raise NotImplementedError
 
+    @abstractmethod
+    def posterior(self, variable: str):
+        raise NotImplementedError
 
 
 # def id_to_bn(id, name):

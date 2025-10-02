@@ -147,11 +147,12 @@ def test_class_BNPGM_draw(mock_display, mock_image, mock_DiscreteBayesianNetwork
    mock_display.assert_called_once_with(mock_image.return_value)
 
 
-def test_class_BNPGM_inference(network):
+def test_class_BNPGM_posterior(network):
    model = ProbGraphModel.read_model(network)
    model = BNPGM(network=model)
 
-   result = model.inference("Xray")
+   model.inference()
+   result = model.posterior("Xray")
    assert result.variables == ["Xray"]
    np.testing.assert_almost_equal(result.values, [0.208141, 0.791859], decimal=5)
    assert result.cardinality == 2
@@ -213,11 +214,12 @@ def test_class_BNGUM_draw(mock_display, mock_image, mock_gumimage, network):
    mock_display.assert_called_once_with(mock_image.return_value)
 
 
-def test_class_BNGUM_inference(network):
+def test_class_BNGUM_posterior(network):
    model = ProbGraphModel.read_model(network)
    model = BNGUM(network=model)
 
-   result = model.inference("Xray")
+   model.inference()
+   result = model.posterior("Xray")
    assert result.names[0] == "Xray"
    np.testing.assert_almost_equal(result.toarray(), [0.208141, 0.791859], decimal=5)
    assert result.shape == (2, )

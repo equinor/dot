@@ -250,6 +250,7 @@ def test_class_ModelABC(monkeypatch, network):
     with pytest.raises(NotImplementedError):
         model.draw_graph()
     with pytest.raises(NotImplementedError):
-        model.inference(None)
-
+        model.inference()
+    with pytest.raises(NotImplementedError):
+        model.posterior(None)
 

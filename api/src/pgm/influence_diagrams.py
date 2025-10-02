@@ -1,12 +1,9 @@
-import os
-import sys
-from itertools import product, chain
+from itertools import product
 
 import pyagrum as gum
 from IPython.display import Image, display
 from pyagrum.lib import image as gumimage
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from src.pgm import probabilistic_graph_models as pgm
 
 
@@ -40,6 +37,14 @@ class IDGUM(pgm.ModelABC):
         for arc in self.graph.arcs:
             self.model.addArc(arc.tail.id, arc.head.id)
 
+    def copy(self):
+        network = pgm.ProbGraphModel(
+            name=self.name,
+            variables=self.variables,
+            graph=self.graph,
+            potentials=self.potentials)
+        return IDGUM(network=network)
+    
     def _add_potential(self, potential):
         if isinstance(potential, pgm.CPD):
             print("CPD")
@@ -49,8 +54,6 @@ class IDGUM(pgm.ModelABC):
             print("Utility")
             print(potential.variable.name)
             self._add_utility_table(potential)
-        if not isinstance(potential, pgm.CPD) and not isinstance(potential, pgm.Utility):
-            print("Unknonw")
 
     def _add_cpd(self, cpd):
         if not cpd:
@@ -107,18 +110,23 @@ class IDGUM(pgm.ModelABC):
         for potential in self.potentials:
             self._add_potential(potential)
 
-    def get_potentials(self, variable):
+    def get_potential(self, variable):
         if variable not in [item.name for item in self.variables]:
-            print("cpd not found in model")
+            print("potential not found in model")
             return
-        print(self.model.cpt(variable))
+        var = self.get_variable_by_name(variable)
+        potential_type = "cpt" if var.type == "chance" else "utility"
+        return getattr(self.model, potential_type)(variable)
 
     def draw_graph(self):
-        filename = f"{self.name}.png"
+        filename = f"figures/{self.name}.png"
         gumimage.export(self.model, filename)
         display(Image(filename))
 
-    def inference(self, variable: str):
-        ie = gum.LazyPropagation(self.model)
+    def inference(self):
+        ie = gum.ShaferShenoyLIMIDInference(self.model)
         ie.makeInference()
-        return ie.posterior(variable)
+        self.ie = ie
+    
+    def posterior(self, variable: str):
+        return self.ie.posterior(variable)
