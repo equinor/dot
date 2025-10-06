@@ -4,11 +4,11 @@ import pyagrum as gum
 from IPython.display import Image, display
 from pyagrum.lib import image as gumimage
 
-from src.pgm import probabilistic_graph_models as pgm
+from src.pgm.probabilistic_graph_models import (ModelABC, ProbGraphModel, CPD, Utility,)
 
 
-class IDGUM(pgm.ModelABC):
-    def __init__(self, *,network: pgm.ProbGraphModel):
+class IDGUM(ModelABC):
+    def __init__(self, *,network: ProbGraphModel):
         super().__init__(network=network)
         self.modelling()
 
@@ -38,7 +38,7 @@ class IDGUM(pgm.ModelABC):
             self.model.addArc(arc.tail.id, arc.head.id)
 
     def copy(self):
-        network = pgm.ProbGraphModel(
+        network = ProbGraphModel(
             name=self.name,
             variables=self.variables,
             graph=self.graph,
@@ -46,11 +46,13 @@ class IDGUM(pgm.ModelABC):
         return IDGUM(network=network)
     
     def _add_potential(self, potential):
-        if isinstance(potential, pgm.CPD):
+        # if isinstance(potential, CPD):
+        if potential.__class__.__qualname__ == CPD.__qualname__:
             print("CPD")
             print(potential.variable.name)
             self._add_cpd(potential)
-        if isinstance(potential, pgm.Utility):
+        # if isinstance(potential, Utility):
+        if potential.__class__.__qualname__ == Utility.__qualname__:
             print("Utility")
             print(potential.variable.name)
             self._add_utility_table(potential)

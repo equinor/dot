@@ -1,0 +1,90 @@
+<?xml version="1.0" ?>
+
+<BIF VERSION="0.3">
+<NETWORK>
+
+<!-- Variables -->
+<VARIABLE TYPE="nature">
+	<NAME>Oil content</NAME>
+	<PROPERTY>description = Oil content</PROPERTY>
+	<PROPERTY>fast = Oil content{dry|wet|soaking}</PROPERTY>
+<!- OUTCOME are not used in pyAgrum BIFXML (see fast property) but are kept for compatibility->
+	<OUTCOME>dry</OUTCOME>
+	<OUTCOME>wet</OUTCOME>
+	<OUTCOME>soaking</OUTCOME>
+</VARIABLE>
+
+<VARIABLE TYPE="nature">
+	<NAME>Test result</NAME>
+	<PROPERTY>description = Test result</PROPERTY>
+	<PROPERTY>fast = Test result{closed|open|diffuse}</PROPERTY>
+<!- OUTCOME are not used in pyAgrum BIFXML (see fast property) but are kept for compatibility->
+	<OUTCOME>closed</OUTCOME>
+	<OUTCOME>open</OUTCOME>
+	<OUTCOME>diffuse</OUTCOME>
+</VARIABLE>
+
+<VARIABLE TYPE="decision">
+	<NAME>Test decision</NAME>
+	<PROPERTY>description = Test decision</PROPERTY>
+	<PROPERTY>fast = Test decision{yes|no}</PROPERTY>
+<!- OUTCOME are not used in pyAgrum BIFXML (see fast property) but are kept for compatibility->
+	<OUTCOME>yes</OUTCOME>
+	<OUTCOME>no</OUTCOME>
+</VARIABLE>
+
+<VARIABLE TYPE="decision">
+	<NAME>Drilling</NAME>
+	<PROPERTY>description = Drilling</PROPERTY>
+	<PROPERTY>fast = Drilling{yes|no}</PROPERTY>
+<!- OUTCOME are not used in pyAgrum BIFXML (see fast property) but are kept for compatibility->
+	<OUTCOME>yes</OUTCOME>
+	<OUTCOME>no</OUTCOME>
+</VARIABLE>
+
+<VARIABLE TYPE="utility">
+	<NAME>Testing costs</NAME>
+	<PROPERTY>description = Testing costs</PROPERTY>
+	<PROPERTY>fast = Testing costs{0}</PROPERTY>
+<!- OUTCOME are not used in pyAgrum BIFXML (see fast property) but are kept for compatibility->
+	<OUTCOME>0</OUTCOME>
+</VARIABLE>
+
+<VARIABLE TYPE="utility">
+	<NAME>Reward</NAME>
+	<PROPERTY>description = Reward</PROPERTY>
+	<PROPERTY>fast = Reward{0}</PROPERTY>
+<!- OUTCOME are not used in pyAgrum BIFXML (see fast property) but are kept for compatibility->
+	<OUTCOME>0</OUTCOME>
+</VARIABLE>
+
+<!-- Probability distributions -->
+<DEFINITION>
+	<FOR>Oil content</FOR><!--Oil content | -->
+	<TABLE>0.5 0.3 0.2 </TABLE>
+</DEFINITION>
+<DEFINITION>
+	<FOR>Test result</FOR><!--Test result | Test decision,Oil content,-->
+	<GIVEN>Oil content</GIVEN>
+	<GIVEN>Test decision</GIVEN>
+	<TABLE>0.1 0.3 0.6 0.333333 0.333333 0.333333 0.3 0.4 0.3 0.333333 0.333333 0.333333 0.5 0.4 0.1 0.333333 0.333333 0.333333 </TABLE>
+</DEFINITION>
+<DEFINITION>
+	<FOR>Drilling</FOR><!--Drilling | Test result,Test decision,-->
+	<GIVEN>Test decision</GIVEN>
+	<GIVEN>Test result</GIVEN>
+</DEFINITION>
+<DEFINITION>
+	<FOR>Testing costs</FOR><!--Testing costs | Test decision,-->
+	<GIVEN>Test decision</GIVEN>
+	<TABLE>-10 0 </TABLE>
+</DEFINITION>
+<DEFINITION>
+	<FOR>Reward</FOR><!--Reward | Drilling,Oil content,-->
+	<GIVEN>Drilling</GIVEN>
+	<GIVEN>Oil content</GIVEN>
+	<TABLE>-70 50 200 0 0 0 </TABLE>
+</DEFINITION>
+
+</NETWORK>
+</BIF>
