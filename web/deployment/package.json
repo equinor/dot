@@ -11,7 +11,7 @@
     "express"
   ],
   "dependencies": {
-    "express": "^4.21.2",
+    "express": "^4.22.1",
     "express-rate-limit": "^7.5.0"
   }
 }
