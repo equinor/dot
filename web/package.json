@@ -23,7 +23,7 @@
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.55.0",
-    "react-router-dom": "^6.29.0",
+    "react-router-dom": "^6.30.3",
     "react-scripts": "^5.0.1",
     "styled-components": "^5.3.10",
     "web-vitals": "^2.1.4"
@@ -70,7 +70,7 @@
     "node-polyfill-webpack-plugin": "^2.0.1",
     "vis-network": "^9.1.9",
     "vitest": "^3.0.5",
-    "webpack": "^5.94.0"
+    "webpack": "^5.105.2"
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.jsx",
